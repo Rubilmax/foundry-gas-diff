@@ -11,7 +11,7 @@ inputs:
   outReport:
     description: Report to save & upload for later
     required: false
-    default: ${{ github.ref_name }}.gasreport.ansi
+    default: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref_name }}.gasreport.ansi
   refReport:
     description: Report previously saved to use as reference
     required: false
@@ -37,7 +37,7 @@ runs:
       shell: bash
 
     - name: Rename report for upload
-      run: mv ${{ inputs.report }} ${{ inputs.outReport }}
+      run: OUT=${{ inputs.outReport }} && echo ${{ github.head_ref }} && echo ${{ github.ref_name }} && echo ${{ github.base_ref }} && mv ${{ inputs.report }} ${OUT//\//-}
       shell: bash
 
     - name: Save report
