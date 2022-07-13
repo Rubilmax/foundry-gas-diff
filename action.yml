@@ -37,12 +37,10 @@ runs:
       shell: bash
 
     - name: Rename report for upload
-      if: github.event_name != 'pull_request'
       run: mv ${{ inputs.report }} ${{ inputs.outReport }}
       shell: bash
 
     - name: Save report
-      if: github.event_name != 'pull_request'
       uses: actions/upload-artifact@v3
       with:
         name: gasreport
