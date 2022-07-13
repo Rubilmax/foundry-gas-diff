@@ -1,0 +1,19 @@
+{
+  "type": "module",
+  "scripts": {
+    "postinstall": "yarn build && chmod +x scripts/index.js",
+    "test": "yarn build && node scripts/index.js tests/gas_report.ansi tests/gas_report2.ansi",
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.3",
+    "prettier": "^2.7.1",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "chalk": "^5.0.1",
+    "command-line-args": "^5.2.1",
+    "command-line-usage": "^6.1.3",
+    "yargs": "^17.5.1"
+  }
+}
