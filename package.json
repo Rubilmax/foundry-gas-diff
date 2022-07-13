@@ -1,10 +1,31 @@
 {
+  "name": "foundry-gas-report",
+  "version": "0.1.0",
+  "description": "Github Action reporting gas diff from Foundry reports",
+  "author": "Romain Milon (Rubilmax) <rmilon@gmail.com>",
+  "license": "UNLICENSED",
+  "main": "scripts/index.js",
+  "directories": {
+    "lib": "scripts",
+    "test": "tests"
+  },
   "type": "module",
   "scripts": {
     "postinstall": "yarn build && chmod +x scripts/index.js",
     "test": "yarn build && node scripts/index.js tests/gas_report.ansi tests/gas_report2.ansi",
     "build": "tsc"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rubilmax/foundry-gas-report.git"
+  },
+  "keywords": [
+    "foundry",
+    "forge",
+    "gas",
+    "report",
+    "hardhat"
+  ],
   "devDependencies": {
     "@types/node": "^18.0.3",
     "prettier": "^2.7.1",
