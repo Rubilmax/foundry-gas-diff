@@ -5,15 +5,15 @@ inputs:
     description: github token
     required: true
   report:
-    description: report to read from
+    description: Report freshly generated to compare to reference
     required: false
-    default: gasReporterOutput.ansi
-  out_report:
-    description: report to read
+    default: gasreport.ansi
+  outReport:
+    description: Report to save & upload for later
     required: false
     default: ${{ github.ref_name }}.gasreport.ansi
-  ref_report:
-    description: report to read from
+  refReport:
+    description: Report previously saved to use as reference
     required: false
     default: ${{ github.base_ref }}.gasreport.ansi
 
@@ -33,14 +33,12 @@ runs:
 
     - name: Compare reports
       if: steps.reference.outcome == 'success' && github.event_name == 'pull_request'
-      run: |
-        node scripts/index.js -o markdown ${{ inputs.report }} ${{ inputs.ref_report }} >> $GITHUB_STEP_SUMMARY
+      run: node scripts/index.js -o markdown ${{ inputs.refReport }} ${{ inputs.report }} >> $GITHUB_STEP_SUMMARY
       shell: bash
 
     - name: Rename report for upload
       if: github.event_name != 'pull_request'
-      run: |
-        mv ${{ inputs.report }} ${{ inputs.out_report }}
+      run: mv ${{ inputs.report }} ${{ inputs.outReport }}
       shell: bash
 
     - name: Save report
@@ -48,4 +46,4 @@ runs:
       uses: actions/upload-artifact@v3
       with:
         name: gasreport
-        path: ${{ inputs.out_report }}
+        path: ${{ inputs.outReport }}
