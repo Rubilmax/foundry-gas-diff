@@ -22,24 +22,11 @@ async function run() {
     ? await createCheck(octokit, context)
     : (details: Object) => console.log(details);
 
+  const artifactClient = artifact.create();
+
+  core.startGroup("Upload new report");
+  const localReportPath = resolve(report);
   try {
-    core.startGroup("Download reference report");
-
-    const artifactClient = artifact.create();
-    core.info(`Starting download for ${refReport}`);
-    const downloadResponse = await artifactClient.downloadArtifact(refReport, resolve(""), {
-      createArtifactFolder: false,
-    });
-    core.info(
-      `Artifact ${downloadResponse.artifactName} was downloaded to ${downloadResponse.downloadPath}`
-    );
-    core.info("Artifact download has finished successfully");
-
-    core.endGroup();
-
-    core.startGroup("Upload new report");
-
-    const localReportPath = resolve(report);
     const uploadResponse = await artifactClient.uploadArtifact(
       outReport,
       [localReportPath],
@@ -49,14 +36,33 @@ async function run() {
       }
     );
 
-    if (uploadResponse.failedItems.length > 0) {
-      core.setFailed(
-        `An error was encountered when uploading ${uploadResponse.artifactName}. There were ${uploadResponse.failedItems.length} items that failed to upload.`
-      );
-    } else {
-      core.info(`Artifact ${uploadResponse.artifactName} has been successfully uploaded!`);
-    }
+    if (uploadResponse.failedItems.length > 0) throw Error("Failed to upload gas report.");
 
+    core.info(`Artifact ${uploadResponse.artifactName} has been successfully uploaded!`);
+  } catch (error: any) {
+    core.setFailed(error.message);
+
+    await finish({
+      conclusion: "failure",
+      output: {
+        title: "Gas diff failed",
+        summary: `Error: ${error.message}`,
+      },
+    });
+
+    return;
+  }
+  core.endGroup();
+
+  try {
+    core.startGroup("Download reference report");
+    const downloadResponse = await artifactClient.downloadArtifact(refReport, undefined, {
+      createArtifactFolder: false,
+    });
+
+    core.info(
+      `Artifact ${downloadResponse.artifactName} was downloaded to ${downloadResponse.downloadPath}`
+    );
     core.endGroup();
 
     core.startGroup("Load reports");
