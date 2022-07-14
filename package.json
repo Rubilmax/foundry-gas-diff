@@ -9,10 +9,10 @@
     "lib": "dist",
     "test": "tests"
   },
-  "type": "module",
   "scripts": {
     "build": "tsc",
-    "package": "ncc build --license licenses.txt"
+    "package": "ncc build --license licenses.txt",
+    "release": "yarn build && yarn package"
   },
   "repository": {
     "type": "git",
