@@ -7,11 +7,11 @@
     "strict": true,
     "moduleResolution": "node",
     "sourceMap": true,
-    "outDir": "scripts",
+    "outDir": "dist",
     "baseUrl": ".",
     "paths": {
       "*": ["node_modules/*", "src/types/*"]
     }
   },
-  "include": ["src/**/*"]
+  "include": ["src"]
 }
