@@ -2,8 +2,9 @@ name: Generate gas diff
 
 inputs:
   token:
-    description: github token
-    required: true
+    description: The repository's github token
+    required: false
+    default: ${{ github.token }}
   report:
     description: Report freshly generated to compare to reference
     required: false

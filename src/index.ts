@@ -1,27 +1,18 @@
-import { createCheck } from "./check";
-import { formatDiffMarkdown } from "./format";
+import { formatDiffMarkdown, formatDiffShell } from "./format";
 import { loadReports, computeDiff } from "./report";
 import * as artifact from "@actions/artifact";
 import * as core from "@actions/core";
-import { context, getOctokit } from "@actions/github";
+// import { context, getOctokit } from "@actions/github";
 import { dirname, resolve } from "path";
 
 const token = process.env.GITHUB_TOKEN || core.getInput("token");
-if (!token) throw Error("A GitHub token must be defined.");
-
 const report = core.getInput("report");
 const outReport = core.getInput("outReport").replace(/\//g, "-");
 const refReport = core.getInput("refReport").replace(/\//g, "-");
 
-const octokit = getOctokit(token);
+// const octokit = getOctokit(token);
 
 async function run() {
-  const isPullRequest = !!context.payload.pull_request;
-
-  const finish = isPullRequest
-    ? await createCheck(octokit, context)
-    : (details: Object) => console.log(details);
-
   const artifactClient = artifact.create();
 
   core.startGroup("Upload new report");
@@ -40,17 +31,7 @@ async function run() {
 
     core.info(`Artifact ${uploadResponse.artifactName} has been successfully uploaded!`);
   } catch (error: any) {
-    core.setFailed(error.message);
-
-    await finish({
-      conclusion: "failure",
-      output: {
-        title: "Gas diff failed",
-        summary: `Could not upload latest gas report: ${error.message}`,
-      },
-    });
-
-    return;
+    return core.setFailed(error.message);
   }
   core.endGroup();
 
@@ -67,14 +48,6 @@ async function run() {
     core.endGroup();
   } catch (error: any) {
     core.error(error.message);
-
-    await finish({
-      conclusion: "neutral",
-      output: {
-        title: "Gas diff incomplete",
-        summary: `Could not download reference gas report: ${error.message}`,
-      },
-    });
   }
 
   try {
@@ -85,28 +58,12 @@ async function run() {
 
     core.startGroup("Compute gas diff");
     const diffRows = computeDiff(sourceReports, compareReports);
-    const text = formatDiffMarkdown(diffRows);
+    const markdown = formatDiffMarkdown(diffRows);
     core.endGroup();
 
-    await finish({
-      //   details_url: url,
-      conclusion: "success",
-      output: {
-        title: `Gas diff successful`,
-        summary: `${diffRows.length} differences found`,
-        text,
-      },
-    });
+    core.setOutput("markdown", markdown);
   } catch (error: any) {
     core.setFailed(error.message);
-
-    await finish({
-      conclusion: "failure",
-      output: {
-        title: "Gas diff failed",
-        summary: `Error: ${error.message}`,
-      },
-    });
   }
 }
 
