@@ -13,7 +13,7 @@ inputs:
     required: false
     default: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref_name }}.gasreport.ansi
   refReport:
-    description: Report previously saved to use as reference
+    description: Report previously saved to download & use as reference
     required: false
     default: ${{ github.base_ref }}.gasreport.ansi
 

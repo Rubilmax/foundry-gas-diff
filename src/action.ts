@@ -60,8 +60,8 @@ async function run() {
     core.endGroup();
 
     core.startGroup("Load reports");
-    const sourceReports = loadReports(refReport);
-    const compareReports = loadReports(report);
+    const sourceReports = loadReports(downloadResponse.downloadPath);
+    const compareReports = loadReports(localReportPath);
     core.endGroup();
 
     core.startGroup("Compute gas diff");
