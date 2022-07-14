@@ -46,7 +46,7 @@ async function run() {
       conclusion: "failure",
       output: {
         title: "Gas diff failed",
-        summary: `Error: ${error.message}`,
+        summary: `Could not upload latest gas report: ${error.message}`,
       },
     });
 
@@ -54,9 +54,10 @@ async function run() {
   }
   core.endGroup();
 
+  let downloadResponse: artifact.DownloadResponse | undefined = undefined;
   try {
     core.startGroup("Download reference report");
-    const downloadResponse = await artifactClient.downloadArtifact(refReport, undefined, {
+    downloadResponse = await artifactClient.downloadArtifact(refReport, undefined, {
       createArtifactFolder: false,
     });
 
@@ -64,15 +65,27 @@ async function run() {
       `Artifact ${downloadResponse.artifactName} was downloaded to ${downloadResponse.downloadPath}`
     );
     core.endGroup();
+  } catch (error: any) {
+    core.error(error.message);
 
-    core.startGroup("Load reports");
-    const sourceReports = loadReports(downloadResponse.downloadPath);
+    await finish({
+      conclusion: "neutral",
+      output: {
+        title: "Gas diff incomplete",
+        summary: `Could not download reference gas report: ${error.message}`,
+      },
+    });
+  }
+
+  try {
+    core.startGroup("Load gas reports");
+    const sourceReports = loadReports(downloadResponse?.downloadPath || localReportPath);
     const compareReports = loadReports(localReportPath);
     core.endGroup();
 
     core.startGroup("Compute gas diff");
     const diffRows = computeDiff(sourceReports, compareReports);
-    const summary = formatDiffMarkdown(diffRows);
+    const text = formatDiffMarkdown(diffRows);
     core.endGroup();
 
     await finish({
@@ -80,7 +93,8 @@ async function run() {
       conclusion: "success",
       output: {
         title: `Gas diff successful`,
-        summary,
+        summary: `${diffRows.length} differences found`,
+        text,
       },
     });
   } catch (error: any) {
