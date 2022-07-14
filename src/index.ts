@@ -10,8 +10,8 @@ const token = process.env.GITHUB_TOKEN || core.getInput("token");
 if (!token) throw Error("A GitHub token must be defined.");
 
 const report = core.getInput("report");
-const outReport = core.getInput("outReport");
-const refReport = core.getInput("refReport");
+const outReport = core.getInput("outReport").replace(/\//g, "-");
+const refReport = core.getInput("refReport").replace(/\//g, "-");
 
 const octokit = getOctokit(token);
 
