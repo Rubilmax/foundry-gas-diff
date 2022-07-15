@@ -224,15 +224,16 @@ function run() {
         let artifactPath = undefined;
         if (github_1.context.eventName === "pull_request") {
             const { owner, repo } = github_1.context.repo;
+            const branch = github_1.context.payload.pull_request.base.ref;
             try {
-                core.startGroup(`Searching artifact "${refReport}" of workflow "${github_1.context.workflow}" on repository "${owner}/${repo}"`);
+                core.startGroup(`Searching artifact "${refReport}" of workflow with ID "${workflowId}" on repository "${owner}/${repo}" on branch "${branch}"`);
                 try {
                     // Note that the runs are returned in most recent first order.
                     for (var _b = __asyncValues(octokit.paginate.iterator(octokit.rest.actions.listWorkflowRuns, {
                         owner,
                         repo,
                         workflow_id: workflowId,
-                        branch: github_1.context.payload.pull_request.base.ref,
+                        branch,
                         status: "completed",
                     })), _c; _c = yield _b.next(), !_c.done;) {
                         const runs = _c.value;
@@ -275,7 +276,7 @@ function run() {
                     core.startGroup(`Unzipping artifact at ${artifactPath}.zip`);
                     // @ts-ignore
                     const adm = new adm_zip_1.default(Buffer.from(zip.data));
-                    adm.extractAllTo(cwd, true);
+                    adm.extractAllTo(artifactPath, true);
                     core.info(`Artifact ${refReport} was unzipped to ${artifactPath}`);
                     core.endGroup();
                 }

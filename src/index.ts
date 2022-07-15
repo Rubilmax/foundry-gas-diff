@@ -43,17 +43,18 @@ async function run() {
   let artifactPath: string | undefined = undefined;
   if (context.eventName === "pull_request") {
     const { owner, repo } = context.repo;
+    const branch = context.payload.pull_request!.base.ref;
 
     try {
       core.startGroup(
-        `Searching artifact "${refReport}" of workflow "${context.workflow}" on repository "${owner}/${repo}"`
+        `Searching artifact "${refReport}" of workflow with ID "${workflowId}" on repository "${owner}/${repo}" on branch "${branch}"`
       );
       // Note that the runs are returned in most recent first order.
       for await (const runs of octokit.paginate.iterator(octokit.rest.actions.listWorkflowRuns, {
         owner,
         repo,
         workflow_id: workflowId,
-        branch: context.payload.pull_request!.base.ref,
+        branch,
         status: "completed",
       })) {
         for (const run of runs.data) {
@@ -96,7 +97,7 @@ async function run() {
         core.startGroup(`Unzipping artifact at ${artifactPath}.zip`);
         // @ts-ignore
         const adm = new AdmZip(Buffer.from(zip.data));
-        adm.extractAllTo(cwd, true);
+        adm.extractAllTo(artifactPath, true);
         core.info(`Artifact ${refReport} was unzipped to ${artifactPath}`);
         core.endGroup();
       } else core.error(`No workflow run found with an artifact named "${refReport}"`);
