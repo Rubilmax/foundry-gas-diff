@@ -343,7 +343,7 @@ const loadReports = (content) => {
         if (!deploymentCost || !deploymentSize)
             throw Error("No depoyment cost or deployment size found. Is this a Foundry gas report?");
         return {
-            name: reportLines[0].split(" ")[1],
+            name: reportLines[0].split(" ")[1].split(":")[1],
             deploymentCost: parseFloat(deploymentCost),
             deploymentSize: parseFloat(deploymentSize),
             functions: Object.fromEntries(reportLines
