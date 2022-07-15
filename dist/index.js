@@ -1,7 +1,7 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 4219:
+/***/ 6610:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -187,23 +187,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const format_1 = __nccwpck_require__(4219);
-const report_1 = __nccwpck_require__(8269);
+const adm_zip_1 = __importDefault(__nccwpck_require__(6761));
+const fs = __importStar(__nccwpck_require__(7147));
+const path_1 = __nccwpck_require__(1017);
 const artifact = __importStar(__nccwpck_require__(2605));
 const core = __importStar(__nccwpck_require__(2186));
 const github_1 = __nccwpck_require__(5438);
-const adm_zip_1 = __importDefault(__nccwpck_require__(6761));
-const path_1 = __nccwpck_require__(1017);
+const format_1 = __nccwpck_require__(6610);
+const report_1 = __nccwpck_require__(8269);
 const workflowId = core.getInput("workflowId");
 const token = process.env.GITHUB_TOKEN || core.getInput("token");
 const report = core.getInput("report");
 const outReport = core.getInput("outReport").replace(/[\/\\]/g, "-");
 const refReport = core.getInput("refReport").replace(/[\/\\]/g, "-");
 const octokit = (0, github_1.getOctokit)(token);
+const artifactClient = artifact.create();
+let srcContent;
 function run() {
     var e_1, _a;
     return __awaiter(this, void 0, void 0, function* () {
-        const artifactClient = artifact.create();
         core.startGroup("Upload new report");
         const localReportPath = (0, path_1.resolve)(report);
         try {
@@ -221,7 +223,6 @@ function run() {
         // cannot use artifactClient because downloads are limited to uploads in the same workflow run
         // cf. https://docs.github.com/en/actions/using-workflows/storing-workflow-data-as-artifacts#downloading-or-deleting-artifacts
         let artifactId = null;
-        let artifactPath = undefined;
         if (github_1.context.eventName === "pull_request") {
             const { owner, repo } = github_1.context.repo;
             const branch = github_1.context.payload.pull_request.base.ref;
@@ -263,21 +264,18 @@ function run() {
                 core.endGroup();
                 if (artifactId) {
                     core.startGroup(`Downloading artifact "${refReport}" of repository "${owner}/${repo}" with ID "${artifactId}"`);
-                    const zip = yield octokit.rest.actions.downloadArtifact({
+                    const res = yield octokit.rest.actions.downloadArtifact({
                         owner: owner,
                         repo: repo,
                         artifact_id: artifactId,
                         archive_format: "zip",
                     });
-                    core.info(`Artifact ${refReport} was downloaded to ${artifactPath}.zip`);
-                    core.endGroup();
-                    const cwd = (0, path_1.resolve)();
-                    artifactPath = (0, path_1.join)(cwd, refReport);
-                    core.startGroup(`Unzipping artifact at ${artifactPath}.zip`);
-                    // @ts-ignore
-                    const adm = new adm_zip_1.default(Buffer.from(zip.data));
-                    adm.extractAllTo(artifactPath, true);
-                    core.info(`Artifact ${refReport} was unzipped to ${artifactPath}`);
+                    // @ts-ignore data is unknown
+                    const zip = new adm_zip_1.default(Buffer.from(res.data));
+                    zip.getEntries().forEach(function (zipEntry) {
+                        console.log(zipEntry.toString());
+                        srcContent = zip.readAsText(zipEntry);
+                    });
                     core.endGroup();
                 }
                 else
@@ -289,8 +287,10 @@ function run() {
         }
         try {
             core.startGroup("Load gas reports");
-            const sourceReports = (0, report_1.loadReports)(artifactPath || localReportPath);
-            const compareReports = (0, report_1.loadReports)(localReportPath);
+            const compareContent = fs.readFileSync(localReportPath, "utf8");
+            srcContent !== null && srcContent !== void 0 ? srcContent : (srcContent = compareContent); // if no source gas reports were loaded, defaults to the current gas reports
+            const sourceReports = (0, report_1.loadReports)(srcContent);
+            const compareReports = (0, report_1.loadReports)(compareContent);
             core.endGroup();
             core.startGroup("Compute gas diff");
             const diffRows = (0, report_1.computeDiff)(sourceReports, compareReports);
@@ -312,36 +312,12 @@ run();
 /***/ }),
 
 /***/ 8269:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+/***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
 
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.computeDiff = exports.loadReports = exports.variation = void 0;
-const fs = __importStar(__nccwpck_require__(7147));
 const BASE_TX_COST = 21000;
 const variation = (current, previous) => {
     return {
@@ -351,8 +327,7 @@ const variation = (current, previous) => {
     };
 };
 exports.variation = variation;
-const loadReports = (src) => {
-    const content = fs.readFileSync(src, "utf8");
+const loadReports = (content) => {
     const lines = content.split("\n");
     const reportHeaderIndexes = lines
         .map((line, index) => ({ isHeader: line.startsWith("╭"), index }))
@@ -16478,12 +16453,12 @@ module.exports.PROCESSING_OPTIONS = PROCESSING_OPTIONS;
 /***/ 4294:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-module.exports = __nccwpck_require__(6651);
+module.exports = __nccwpck_require__(4219);
 
 
 /***/ }),
 
-/***/ 6651:
+/***/ 4219:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";

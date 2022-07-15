@@ -1,5 +1,3 @@
-import * as fs from "fs";
-
 export interface FunctionReport {
   method: string;
   min: number;
@@ -43,8 +41,7 @@ export const variation = (current: number, previous: number) => {
   };
 };
 
-export const loadReports = (src: string): { [name: string]: ContractReport } => {
-  const content = fs.readFileSync(src, "utf8");
+export const loadReports = (content: string): { [name: string]: ContractReport } => {
   const lines = content.split("\n");
 
   const reportHeaderIndexes = lines

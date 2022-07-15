@@ -1,10 +1,13 @@
-import { formatDiffMarkdown, formatDiffShell } from "./format";
-import { loadReports, computeDiff } from "./report";
+import Zip from "adm-zip";
+import * as fs from "fs";
+import { dirname, resolve } from "path";
+
 import * as artifact from "@actions/artifact";
 import * as core from "@actions/core";
 import { context, getOctokit } from "@actions/github";
-import AdmZip from "adm-zip";
-import { dirname, join, resolve } from "path";
+
+import { formatDiffMarkdown, formatDiffShell } from "./format";
+import { loadReports, computeDiff } from "./report";
 
 const workflowId = core.getInput("workflowId");
 const token = process.env.GITHUB_TOKEN || core.getInput("token");
@@ -13,10 +16,11 @@ const outReport = core.getInput("outReport").replace(/[\/\\]/g, "-");
 const refReport = core.getInput("refReport").replace(/[\/\\]/g, "-");
 
 const octokit = getOctokit(token);
+const artifactClient = artifact.create();
+
+let srcContent: string;
 
 async function run() {
-  const artifactClient = artifact.create();
-
   core.startGroup("Upload new report");
   const localReportPath = resolve(report);
   try {
@@ -40,7 +44,6 @@ async function run() {
   // cannot use artifactClient because downloads are limited to uploads in the same workflow run
   // cf. https://docs.github.com/en/actions/using-workflows/storing-workflow-data-as-artifacts#downloading-or-deleting-artifacts
   let artifactId: number | null = null;
-  let artifactPath: string | undefined = undefined;
   if (context.eventName === "pull_request") {
     const { owner, repo } = context.repo;
     const branch = context.payload.pull_request!.base.ref;
@@ -82,23 +85,19 @@ async function run() {
         core.startGroup(
           `Downloading artifact "${refReport}" of repository "${owner}/${repo}" with ID "${artifactId}"`
         );
-        const zip = await octokit.rest.actions.downloadArtifact({
+        const res = await octokit.rest.actions.downloadArtifact({
           owner: owner,
           repo: repo,
           artifact_id: artifactId,
           archive_format: "zip",
         });
-        core.info(`Artifact ${refReport} was downloaded to ${artifactPath}.zip`);
-        core.endGroup();
 
-        const cwd = resolve();
-        artifactPath = join(cwd, refReport);
-
-        core.startGroup(`Unzipping artifact at ${artifactPath}.zip`);
-        // @ts-ignore
-        const adm = new AdmZip(Buffer.from(zip.data));
-        adm.extractAllTo(artifactPath, true);
-        core.info(`Artifact ${refReport} was unzipped to ${artifactPath}`);
+        // @ts-ignore data is unknown
+        const zip = new Zip(Buffer.from(res.data));
+        zip.getEntries().forEach(function (zipEntry) {
+          console.log(zipEntry.toString());
+          srcContent = zip.readAsText(zipEntry);
+        });
         core.endGroup();
       } else core.error(`No workflow run found with an artifact named "${refReport}"`);
     } catch (error: any) {
@@ -108,8 +107,11 @@ async function run() {
 
   try {
     core.startGroup("Load gas reports");
-    const sourceReports = loadReports(artifactPath || localReportPath);
-    const compareReports = loadReports(localReportPath);
+    const compareContent = fs.readFileSync(localReportPath, "utf8");
+    srcContent ??= compareContent; // if no source gas reports were loaded, defaults to the current gas reports
+
+    const sourceReports = loadReports(srcContent);
+    const compareReports = loadReports(compareContent);
     core.endGroup();
 
     core.startGroup("Compute gas diff");
