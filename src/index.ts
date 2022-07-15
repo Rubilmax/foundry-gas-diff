@@ -6,10 +6,11 @@ import { context, getOctokit } from "@actions/github";
 import AdmZip from "adm-zip";
 import { dirname, join, resolve } from "path";
 
+const workflowId = core.getInput("workflowId");
 const token = process.env.GITHUB_TOKEN || core.getInput("token");
 const report = core.getInput("report");
-const outReport = core.getInput("outReport").replace(/\//g, "-");
-const refReport = core.getInput("refReport").replace(/\//g, "-");
+const outReport = core.getInput("outReport").replace(/[\/\\]/g, "-");
+const refReport = core.getInput("refReport").replace(/[\/\\]/g, "-");
 
 const octokit = getOctokit(token);
 
@@ -38,20 +39,20 @@ async function run() {
 
   // cannot use artifactClient because downloads are limited to uploads in the same workflow run
   // cf. https://docs.github.com/en/actions/using-workflows/storing-workflow-data-as-artifacts#downloading-or-deleting-artifacts
-  core.startGroup("Download reference report");
   let artifactPath: string | undefined = undefined;
   try {
     let artifactId: number | null = null;
     const { owner, repo } = context.repo;
 
     core.startGroup(
-      `Finding artifact "${refReport}" of workflow "${context.workflow}" on repository "${owner}/${repo}"`
+      `Searching artifact "${refReport}" of workflow "${context.workflow}" on repository "${owner}/${repo}"`
     );
+    console.log(context.payload);
     // Note that the runs are returned in most recent first order.
     for await (const runs of octokit.paginate.iterator(octokit.rest.actions.listWorkflowRuns, {
       owner,
       repo,
-      workflow_id: context.workflow,
+      workflow_id: workflowId,
     })) {
       for (const run of runs.data) {
         if (run.conclusion !== "success" && run.status !== "completed") continue;
@@ -76,29 +77,30 @@ async function run() {
     if (!artifactId) throw new Error("No matching workflow run found with any matching artifact");
     core.endGroup();
 
+    core.startGroup(
+      `Downloading artifact "${refReport}" of repository "${owner}/${repo}" with ID "${artifactId}"`
+    );
     const zip = await octokit.rest.actions.downloadArtifact({
       owner: owner,
       repo: repo,
       artifact_id: artifactId,
       archive_format: "zip",
     });
+    core.info(`Artifact ${refReport} was downloaded to ${artifactPath}.zip`);
+    core.endGroup();
 
     const cwd = resolve();
     artifactPath = join(cwd, refReport);
 
+    core.startGroup(`Unzipping artifact at ${artifactPath}.zip`);
     // @ts-ignore
     const adm = new AdmZip(Buffer.from(zip.data));
-
-    core.startGroup(`==> Extracting: ${refReport}.zip`);
-
-    adm.extractAllTo(resolve(), true);
+    adm.extractAllTo(cwd, true);
+    core.info(`Artifact ${refReport} was unzipped to ${artifactPath}`);
     core.endGroup();
-
-    core.info(`Artifact ${refReport} was downloaded to ${artifactPath}`);
   } catch (error: any) {
     core.error(error.message);
   }
-  core.endGroup();
 
   try {
     core.startGroup("Load gas reports");

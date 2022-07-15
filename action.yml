@@ -1,6 +1,9 @@
 name: Generate gas diff
 
 inputs:
+  workflowId:
+    description: The workflow's file name or ID
+    required: true
   token:
     description: The repository's github token
     required: false

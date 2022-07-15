@@ -194,10 +194,11 @@ const core = __importStar(__nccwpck_require__(2186));
 const github_1 = __nccwpck_require__(5438);
 const adm_zip_1 = __importDefault(__nccwpck_require__(6761));
 const path_1 = __nccwpck_require__(1017);
+const workflowId = core.getInput("workflowId");
 const token = process.env.GITHUB_TOKEN || core.getInput("token");
 const report = core.getInput("report");
-const outReport = core.getInput("outReport").replace(/\//g, "-");
-const refReport = core.getInput("refReport").replace(/\//g, "-");
+const outReport = core.getInput("outReport").replace(/[\/\\]/g, "-");
+const refReport = core.getInput("refReport").replace(/[\/\\]/g, "-");
 const octokit = (0, github_1.getOctokit)(token);
 function run() {
     var e_1, _a;
@@ -219,18 +220,18 @@ function run() {
         core.endGroup();
         // cannot use artifactClient because downloads are limited to uploads in the same workflow run
         // cf. https://docs.github.com/en/actions/using-workflows/storing-workflow-data-as-artifacts#downloading-or-deleting-artifacts
-        core.startGroup("Download reference report");
         let artifactPath = undefined;
         try {
             let artifactId = null;
             const { owner, repo } = github_1.context.repo;
-            core.startGroup(`Finding artifact "${refReport}" of workflow "${github_1.context.workflow}" on repository "${owner}/${repo}"`);
+            core.startGroup(`Searching artifact "${refReport}" of workflow "${github_1.context.workflow}" on repository "${owner}/${repo}"`);
+            console.log(github_1.context.payload);
             try {
                 // Note that the runs are returned in most recent first order.
                 for (var _b = __asyncValues(octokit.paginate.iterator(octokit.rest.actions.listWorkflowRuns, {
                     owner,
                     repo,
-                    workflow_id: github_1.context.workflow,
+                    workflow_id: workflowId,
                 })), _c; _c = yield _b.next(), !_c.done;) {
                     const runs = _c.value;
                     for (const run of runs.data) {
@@ -260,25 +261,27 @@ function run() {
             if (!artifactId)
                 throw new Error("No matching workflow run found with any matching artifact");
             core.endGroup();
+            core.startGroup(`Downloading artifact "${refReport}" of repository "${owner}/${repo}" with ID "${artifactId}"`);
             const zip = yield octokit.rest.actions.downloadArtifact({
                 owner: owner,
                 repo: repo,
                 artifact_id: artifactId,
                 archive_format: "zip",
             });
+            core.info(`Artifact ${refReport} was downloaded to ${artifactPath}.zip`);
+            core.endGroup();
             const cwd = (0, path_1.resolve)();
             artifactPath = (0, path_1.join)(cwd, refReport);
+            core.startGroup(`Unzipping artifact at ${artifactPath}.zip`);
             // @ts-ignore
             const adm = new adm_zip_1.default(Buffer.from(zip.data));
-            core.startGroup(`==> Extracting: ${refReport}.zip`);
-            adm.extractAllTo((0, path_1.resolve)(), true);
+            adm.extractAllTo(cwd, true);
+            core.info(`Artifact ${refReport} was unzipped to ${artifactPath}`);
             core.endGroup();
-            core.info(`Artifact ${refReport} was downloaded to ${artifactPath}`);
         }
         catch (error) {
             core.error(error.message);
         }
-        core.endGroup();
         try {
             core.startGroup("Load gas reports");
             const sourceReports = (0, report_1.loadReports)(artifactPath || localReportPath);
