@@ -36,72 +36,69 @@ async function run() {
   }
   core.endGroup();
 
+  // cannot use artifactClient because downloads are limited to uploads in the same workflow run
+  // cf. https://docs.github.com/en/actions/using-workflows/storing-workflow-data-as-artifacts#downloading-or-deleting-artifacts
+  core.startGroup("Download reference report");
   let artifactPath: string | undefined = undefined;
   try {
-    // cannot use artifactClient because downloads are limited to uploads in the same workflow run
-    // cf. https://docs.github.com/en/actions/using-workflows/storing-workflow-data-as-artifacts#downloading-or-deleting-artifacts
-    core.startGroup("Download reference report");
-
-    let runId: number | null = null;
+    let artifactId: number | null = null;
     const { owner, repo } = context.repo;
 
+    core.startGroup(
+      `Finding artifact "${refReport}" of workflow "${context.workflow}" on repository "${owner}/${repo}"`
+    );
     // Note that the runs are returned in most recent first order.
     for await (const runs of octokit.paginate.iterator(octokit.rest.actions.listWorkflowRuns, {
       owner,
       repo,
       workflow_id: context.workflow,
-      branch: context.ref, // TODO: check
     })) {
       for (const run of runs.data) {
         if (run.conclusion !== "success" && run.status !== "completed") continue;
 
-        const artifacts = await octokit.rest.actions.listWorkflowRunArtifacts({
+        const res = await octokit.rest.actions.listWorkflowRunArtifacts({
           owner: owner,
           repo: repo,
           run_id: run.id,
         });
-        if (artifacts.data.artifacts.length == 0) continue;
 
-        runId = run.id;
-        core.info(`=> (found) Run ID: ${runId}`);
+        const artifact = res.data.artifacts.find((artifact) => artifact.name === refReport);
+        if (!artifact) continue;
+
+        artifactId = artifact.id;
+        core.info(
+          `Found artifact named "${refReport}" with ID "${artifactId}" in run with ID "${run.id}"`
+        );
         break;
       }
     }
 
-    if (!runId) throw new Error("no matching workflow run found with any artifacts?");
-
-    let res = await octokit.rest.actions.listWorkflowRunArtifacts({
-      owner: owner,
-      repo: repo,
-      run_id: runId,
-    });
-    const artifact = res.data.artifacts.find((artifact) => artifact.name === refReport);
-
-    if (!artifact) throw new Error("no artifacts found");
+    if (!artifactId) throw new Error("No matching workflow run found with any matching artifact");
+    core.endGroup();
 
     const zip = await octokit.rest.actions.downloadArtifact({
       owner: owner,
       repo: repo,
-      artifact_id: artifact.id,
+      artifact_id: artifactId,
       archive_format: "zip",
     });
 
     const cwd = resolve();
-    artifactPath = join(cwd, artifact.name);
+    artifactPath = join(cwd, refReport);
 
     // @ts-ignore
     const adm = new AdmZip(Buffer.from(zip.data));
 
-    core.startGroup(`==> Extracting: ${artifact.name}.zip`);
+    core.startGroup(`==> Extracting: ${refReport}.zip`);
 
     adm.extractAllTo(resolve(), true);
     core.endGroup();
 
-    core.info(`Artifact ${artifact.name} was downloaded to ${artifactPath}`);
-    core.endGroup();
+    core.info(`Artifact ${refReport} was downloaded to ${artifactPath}`);
   } catch (error: any) {
     core.error(error.message);
   }
+  core.endGroup();
 
   try {
     core.startGroup("Load gas reports");
