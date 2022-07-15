@@ -218,13 +218,13 @@ function run() {
             return core.setFailed(error.message);
         }
         core.endGroup();
+        // cannot use artifactClient because downloads are limited to uploads in the same workflow run
+        // cf. https://docs.github.com/en/actions/using-workflows/storing-workflow-data-as-artifacts#downloading-or-deleting-artifacts
+        let artifactId = null;
         let artifactPath = undefined;
         if (github_1.context.eventName === "pull_request") {
-            // cannot use artifactClient because downloads are limited to uploads in the same workflow run
-            // cf. https://docs.github.com/en/actions/using-workflows/storing-workflow-data-as-artifacts#downloading-or-deleting-artifacts
+            const { owner, repo } = github_1.context.repo;
             try {
-                let artifactId = null;
-                const { owner, repo } = github_1.context.repo;
                 core.startGroup(`Searching artifact "${refReport}" of workflow "${github_1.context.workflow}" on repository "${owner}/${repo}"`);
                 try {
                     // Note that the runs are returned in most recent first order.
@@ -237,7 +237,7 @@ function run() {
                     })), _c; _c = yield _b.next(), !_c.done;) {
                         const runs = _c.value;
                         for (const run of runs.data) {
-                            yield new Promise((resolve) => setTimeout(resolve, 250)); // avoid reaching GitHub API rate limit
+                            yield new Promise((resolve) => setTimeout(resolve, 200)); // avoid reaching GitHub API rate limit
                             const res = yield octokit.rest.actions.listWorkflowRunArtifacts({
                                 owner: owner,
                                 repo: repo,
@@ -259,29 +259,31 @@ function run() {
                     }
                     finally { if (e_1) throw e_1.error; }
                 }
-                if (!artifactId)
-                    throw new Error("No matching workflow run found with any matching artifact");
                 core.endGroup();
-                core.startGroup(`Downloading artifact "${refReport}" of repository "${owner}/${repo}" with ID "${artifactId}"`);
-                const zip = yield octokit.rest.actions.downloadArtifact({
-                    owner: owner,
-                    repo: repo,
-                    artifact_id: artifactId,
-                    archive_format: "zip",
-                });
-                core.info(`Artifact ${refReport} was downloaded to ${artifactPath}.zip`);
-                core.endGroup();
-                const cwd = (0, path_1.resolve)();
-                artifactPath = (0, path_1.join)(cwd, refReport);
-                core.startGroup(`Unzipping artifact at ${artifactPath}.zip`);
-                // @ts-ignore
-                const adm = new adm_zip_1.default(Buffer.from(zip.data));
-                adm.extractAllTo(cwd, true);
-                core.info(`Artifact ${refReport} was unzipped to ${artifactPath}`);
-                core.endGroup();
+                if (artifactId) {
+                    core.startGroup(`Downloading artifact "${refReport}" of repository "${owner}/${repo}" with ID "${artifactId}"`);
+                    const zip = yield octokit.rest.actions.downloadArtifact({
+                        owner: owner,
+                        repo: repo,
+                        artifact_id: artifactId,
+                        archive_format: "zip",
+                    });
+                    core.info(`Artifact ${refReport} was downloaded to ${artifactPath}.zip`);
+                    core.endGroup();
+                    const cwd = (0, path_1.resolve)();
+                    artifactPath = (0, path_1.join)(cwd, refReport);
+                    core.startGroup(`Unzipping artifact at ${artifactPath}.zip`);
+                    // @ts-ignore
+                    const adm = new adm_zip_1.default(Buffer.from(zip.data));
+                    adm.extractAllTo(cwd, true);
+                    core.info(`Artifact ${refReport} was unzipped to ${artifactPath}`);
+                    core.endGroup();
+                }
+                else
+                    core.error(`No workflow run found with an artifact named "${refReport}"`);
             }
             catch (error) {
-                core.error(error.message);
+                return core.setFailed(error.message);
             }
         }
         try {
@@ -292,7 +294,10 @@ function run() {
             core.startGroup("Compute gas diff");
             const diffRows = (0, report_1.computeDiff)(sourceReports, compareReports);
             const markdown = (0, format_1.formatDiffMarkdown)(diffRows);
+            const shell = (0, format_1.formatDiffShell)(diffRows);
             core.endGroup();
+            console.log(shell);
+            core.setOutput("shell", shell);
             core.setOutput("markdown", markdown);
         }
         catch (error) {
