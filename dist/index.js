@@ -186,6 +186,7 @@ var __asyncValues = (this && this.__asyncValues) || function (o) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var _a;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const adm_zip_1 = __importDefault(__nccwpck_require__(6761));
 const fs = __importStar(__nccwpck_require__(7147));
@@ -198,17 +199,22 @@ const report_1 = __nccwpck_require__(8269);
 const workflowId = core.getInput("workflowId");
 const token = process.env.GITHUB_TOKEN || core.getInput("token");
 const report = core.getInput("report");
-const outReport = core.getInput("outReport").replace(/[\/\\]/g, "-");
-const refReport = core.getInput("refReport").replace(/[\/\\]/g, "-");
+const baseBranch = ((_a = github_1.context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.base.ref) || github_1.context.ref;
+const baseBranchEscaped = baseBranch.replace(/[\/\\]/g, "-");
+const refReport = `${baseBranchEscaped}.${report}`;
 const octokit = (0, github_1.getOctokit)(token);
 const artifactClient = artifact.create();
+const localReportPath = (0, path_1.resolve)(report);
 let srcContent;
 function run() {
     var e_1, _a;
+    var _b;
     return __awaiter(this, void 0, void 0, function* () {
-        core.startGroup("Upload new report");
-        const localReportPath = (0, path_1.resolve)(report);
         try {
+            const headBranch = ((_b = github_1.context.payload.pull_request) === null || _b === void 0 ? void 0 : _b.head.ref) || github_1.context.ref;
+            const headBranchEscaped = headBranch.replace(/[\/\\]/g, "-");
+            const outReport = `${headBranchEscaped}.${report}`;
+            core.startGroup(`Upload new report from "${localReportPath}" as artifacted named "${outReport}"`);
             const uploadResponse = yield artifactClient.uploadArtifact(outReport, [localReportPath], (0, path_1.dirname)(localReportPath), {
                 continueOnError: false,
             });
@@ -225,19 +231,18 @@ function run() {
         let artifactId = null;
         if (github_1.context.eventName === "pull_request") {
             const { owner, repo } = github_1.context.repo;
-            const branch = github_1.context.payload.pull_request.base.ref;
             try {
-                core.startGroup(`Searching artifact "${refReport}" of workflow with ID "${workflowId}" on repository "${owner}/${repo}" on branch "${branch}"`);
+                core.startGroup(`Searching artifact "${refReport}" of workflow with ID "${workflowId}" on repository "${owner}/${repo}" on branch "${baseBranch}"`);
                 try {
                     // Note that the runs are returned in most recent first order.
-                    for (var _b = __asyncValues(octokit.paginate.iterator(octokit.rest.actions.listWorkflowRuns, {
+                    for (var _c = __asyncValues(octokit.paginate.iterator(octokit.rest.actions.listWorkflowRuns, {
                         owner,
                         repo,
                         workflow_id: workflowId,
-                        branch,
+                        branch: baseBranch,
                         status: "completed",
-                    })), _c; _c = yield _b.next(), !_c.done;) {
-                        const runs = _c.value;
+                    })), _d; _d = yield _c.next(), !_d.done;) {
+                        const runs = _d.value;
                         for (const run of runs.data) {
                             yield new Promise((resolve) => setTimeout(resolve, 200)); // avoid reaching GitHub API rate limit
                             const res = yield octokit.rest.actions.listWorkflowRunArtifacts({
@@ -257,7 +262,7 @@ function run() {
                 catch (e_1_1) { e_1 = { error: e_1_1 }; }
                 finally {
                     try {
-                        if (_c && !_c.done && (_a = _b.return)) yield _a.call(_b);
+                        if (_d && !_d.done && (_a = _c.return)) yield _a.call(_c);
                     }
                     finally { if (e_1) throw e_1.error; }
                 }

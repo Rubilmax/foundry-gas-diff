@@ -6,20 +6,12 @@ inputs:
     required: true
   token:
     description: The repository's github token
-    required: false
     default: ${{ github.token }}
+    required: false
   report:
     description: Report freshly generated to compare to reference
-    required: false
     default: gasreport.ansi
-  outReport:
-    description: Report to save & upload for later
     required: false
-    default: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref_name }}.gasreport.ansi
-  refReport:
-    description: Report previously saved to download & use as reference
-    required: false
-    default: ${{ github.base_ref }}.gasreport.ansi
 
 runs:
   using: node16

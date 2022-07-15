@@ -12,18 +12,26 @@ import { loadReports, computeDiff } from "./report";
 const workflowId = core.getInput("workflowId");
 const token = process.env.GITHUB_TOKEN || core.getInput("token");
 const report = core.getInput("report");
-const outReport = core.getInput("outReport").replace(/[\/\\]/g, "-");
-const refReport = core.getInput("refReport").replace(/[\/\\]/g, "-");
+
+const baseBranch: string = context.payload.pull_request?.base.ref || context.ref;
+const baseBranchEscaped = baseBranch.replace(/[\/\\]/g, "-");
+const refReport = `${baseBranchEscaped}.${report}`;
 
 const octokit = getOctokit(token);
 const artifactClient = artifact.create();
+const localReportPath = resolve(report);
 
 let srcContent: string;
 
 async function run() {
-  core.startGroup("Upload new report");
-  const localReportPath = resolve(report);
   try {
+    const headBranch: string = context.payload.pull_request?.head.ref || context.ref;
+    const headBranchEscaped = headBranch.replace(/[\/\\]/g, "-");
+    const outReport = `${headBranchEscaped}.${report}`;
+
+    core.startGroup(
+      `Upload new report from "${localReportPath}" as artifacted named "${outReport}"`
+    );
     const uploadResponse = await artifactClient.uploadArtifact(
       outReport,
       [localReportPath],
@@ -46,18 +54,17 @@ async function run() {
   let artifactId: number | null = null;
   if (context.eventName === "pull_request") {
     const { owner, repo } = context.repo;
-    const branch = context.payload.pull_request!.base.ref;
 
     try {
       core.startGroup(
-        `Searching artifact "${refReport}" of workflow with ID "${workflowId}" on repository "${owner}/${repo}" on branch "${branch}"`
+        `Searching artifact "${refReport}" of workflow with ID "${workflowId}" on repository "${owner}/${repo}" on branch "${baseBranch}"`
       );
       // Note that the runs are returned in most recent first order.
       for await (const runs of octokit.paginate.iterator(octokit.rest.actions.listWorkflowRuns, {
         owner,
         repo,
         workflow_id: workflowId,
-        branch,
+        branch: baseBranch,
         status: "completed",
       })) {
         for (const run of runs.data) {
