@@ -87,7 +87,7 @@ const formatCellMarkdown = (cell) => [
         "** " +
         (cell.delta > 0 ? "❌" : cell.delta < 0 ? "✅" : "➖"),
 ];
-const formatDiffMarkdown = (rows) => {
+const formatDiffMarkdown = (title, rows) => {
     const COLS = [
         { txt: "" },
         { txt: "Contract", align: TextAlign.LEFT },
@@ -113,7 +113,7 @@ const formatDiffMarkdown = (rows) => {
         .join("|")
         .trim();
     return [
-        "# Changes to gas costs",
+        "# " + title,
         "",
         HEADER,
         SEPARATOR,
@@ -203,6 +203,7 @@ const token = process.env.GITHUB_TOKEN || core.getInput("token");
 const report = core.getInput("report");
 const ignore = (core.getInput("ignore") || "").split(",");
 const match = (core.getInput("match") || "").split(",");
+const title = core.getInput("title");
 const baseBranch = ((_a = github_1.context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.base.ref) || github_1.context.ref;
 const baseBranchEscaped = baseBranch.replace(/[/\\]/g, "-");
 const refReport = `${baseBranchEscaped}.${report}`;
@@ -302,7 +303,7 @@ function run() {
             core.endGroup();
             core.startGroup("Compute gas diff");
             const diffRows = (0, report_1.computeDiff)(sourceReports, compareReports);
-            const markdown = (0, format_1.formatDiffMarkdown)(diffRows);
+            const markdown = (0, format_1.formatDiffMarkdown)(title, diffRows);
             const shell = (0, format_1.formatDiffShell)(diffRows);
             core.endGroup();
             console.log(shell);

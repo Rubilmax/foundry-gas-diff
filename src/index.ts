@@ -14,6 +14,7 @@ const token = process.env.GITHUB_TOKEN || core.getInput("token");
 const report = core.getInput("report");
 const ignore = (core.getInput("ignore") || "").split(",");
 const match = (core.getInput("match") || "").split(",");
+const title = core.getInput("title");
 
 const baseBranch: string = context.payload.pull_request?.base.ref || context.ref;
 const baseBranchEscaped = baseBranch.replace(/[/\\]/g, "-");
@@ -123,7 +124,7 @@ async function run() {
 
     core.startGroup("Compute gas diff");
     const diffRows = computeDiff(sourceReports, compareReports);
-    const markdown = formatDiffMarkdown(diffRows);
+    const markdown = formatDiffMarkdown(title, diffRows);
     const shell = formatDiffShell(diffRows);
     core.endGroup();
 

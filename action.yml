@@ -7,15 +7,19 @@ branding:
 
 inputs:
   workflowId:
-    description: The workflow's file name or ID
+    description: The workflow's file name or ID.
     required: true
   token:
-    description: The repository's github token
+    description: The repository's github token.
     default: ${{ github.token }}
     required: false
   report:
-    description: Report freshly generated to compare to reference
+    description: Report freshly generated to compare to reference.
     default: gasreport.ansi
+    required: false
+  title:
+    description: The title displayed in the markdown output.
+    default: Changes to gas costs
     required: false
   ignore:
     description: The list of paths from which to ignore gas reports, separated by a comma.

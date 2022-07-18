@@ -25,7 +25,7 @@ on:
     # - "src/**"
 
 jobs:
-  build_and_preview:
+  compare_gas_reports:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -34,7 +34,7 @@ jobs:
       - run: forge test --gas-report > gasreport.ansi
 
       - name: Compare gas reports
-        uses: Rubilmax/foundry-gas-report@v1.1
+        uses: Rubilmax/foundry-gas-report@v2
         with:
           workflowId: foundry-gas-report.yml # must be the name of the workflow file
           ignore: test/**/* # optionally filter out gas reports from specific paths
@@ -63,9 +63,15 @@ _Defaults to: `${{ github.token }}`_
 ### `report` _{string}_
 
 This should correspond to the path of a file where the output of forge's gas report has been logged.
-Only necessary when running multiple gas reports in the same workflow file.
+Only necessary when generating multiple gas reports in the same workflow.
 
 _Defaults to: `gasreport.ansi`_
+
+### `report` _{string}_
+
+The title displayed in the markdown output. Can be used to identify multiple gas reports generated in the same workflow.
+
+_Defaults to: `Changes to gas cost`_
 
 ### `ignore` _{string}_
 

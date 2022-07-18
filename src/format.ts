@@ -93,7 +93,7 @@ const formatCellMarkdown = (cell: DiffCell) => [
     (cell.delta > 0 ? "❌" : cell.delta < 0 ? "✅" : "➖"),
 ];
 
-export const formatDiffMarkdown = (rows: DiffRow[]) => {
+export const formatDiffMarkdown = (title: string, rows: DiffRow[]) => {
   const COLS = [
     { txt: "" },
     { txt: "Contract", align: TextAlign.LEFT },
@@ -121,7 +121,7 @@ export const formatDiffMarkdown = (rows: DiffRow[]) => {
     .trim();
 
   return [
-    "# Changes to gas costs",
+    "# " + title,
     "",
     HEADER,
     SEPARATOR,
