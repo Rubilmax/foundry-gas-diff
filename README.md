@@ -34,7 +34,7 @@ jobs:
       - run: forge test --gas-report > gasreport.ansi
 
       - name: Compare gas reports
-        uses: Rubilmax/foundry-gas-report@v1
+        uses: Rubilmax/foundry-gas-report@v1.1
         with:
           workflowId: foundry-gas-report.yml # must be the name of the workflow file
           ignore: test/**/* # optionally filter out gas reports from specific paths
