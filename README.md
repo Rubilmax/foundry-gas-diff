@@ -69,7 +69,7 @@ _Defaults to: `gasreport.ansi`_
 
 ### `report` _{string}_
 
-The title displayed in the markdown output. Can be used to identify multiple gas reports generated in the same workflow.
+The title displayed in the markdown output. Can be used to identify multiple gas diffs in the same PR.
 
 _Defaults to: `Changes to gas cost`_
 
