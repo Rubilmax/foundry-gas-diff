@@ -188,7 +188,7 @@ var __asyncValues = (this && this.__asyncValues) || function (o) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var _a;
+var _a, _b;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const adm_zip_1 = __importDefault(__nccwpck_require__(6761));
 const fs = __importStar(__nccwpck_require__(7147));
@@ -201,10 +201,10 @@ const report_1 = __nccwpck_require__(8269);
 const workflowId = core.getInput("workflowId");
 const token = process.env.GITHUB_TOKEN || core.getInput("token");
 const report = core.getInput("report");
-const ignore = (core.getInput("ignore") || "").split(",");
-const match = (core.getInput("match") || "").split(",");
+const ignore = core.getInput("ignore").split(",");
+const match = (_a = (core.getInput("match") || undefined)) === null || _a === void 0 ? void 0 : _a.split(",");
 const title = core.getInput("title");
-const baseBranch = ((_a = github_1.context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.base.ref) || github_1.context.ref;
+const baseBranch = ((_b = github_1.context.payload.pull_request) === null || _b === void 0 ? void 0 : _b.base.ref) || github_1.context.ref;
 const baseBranchEscaped = baseBranch.replace(/[/\\]/g, "-");
 const refReport = `${baseBranchEscaped}.${report}`;
 const octokit = (0, github_1.getOctokit)(token);
@@ -219,7 +219,7 @@ function run() {
             const headBranch = ((_b = github_1.context.payload.pull_request) === null || _b === void 0 ? void 0 : _b.head.ref) || github_1.context.ref;
             const headBranchEscaped = headBranch.replace(/[/\\]/g, "-");
             const outReport = `${headBranchEscaped}.${report}`;
-            core.startGroup(`Upload new report from "${localReportPath}" as artifacted named "${outReport}"`);
+            core.startGroup(`Upload new report from "${localReportPath}" as artifact named "${outReport}"`);
             const uploadResponse = yield artifactClient.uploadArtifact(outReport, [localReportPath], (0, path_1.dirname)(localReportPath), {
                 continueOnError: false,
             });
@@ -308,9 +308,9 @@ function run() {
             core.endGroup();
             core.startGroup("Compute gas diff");
             const diffRows = (0, report_1.computeDiff)(sourceReports, compareReports);
-            core.info(`Format markdown diff`);
+            core.info(`Format markdown of ${diffRows.length} diffs`);
             const markdown = (0, format_1.formatDiffMarkdown)(title, diffRows);
-            core.info(`Format shell diff`);
+            core.info(`Format shell of ${diffRows.length} diffs`);
             const shell = (0, format_1.formatDiffShell)(diffRows);
             core.endGroup();
             console.log(shell);

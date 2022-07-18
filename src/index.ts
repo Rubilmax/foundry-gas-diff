@@ -12,8 +12,8 @@ import { loadReports, computeDiff } from "./report";
 const workflowId = core.getInput("workflowId");
 const token = process.env.GITHUB_TOKEN || core.getInput("token");
 const report = core.getInput("report");
-const ignore = (core.getInput("ignore") || "").split(",");
-const match = (core.getInput("match") || "").split(",");
+const ignore = core.getInput("ignore").split(",");
+const match = (core.getInput("match") || undefined)?.split(",");
 const title = core.getInput("title");
 
 const baseBranch: string = context.payload.pull_request?.base.ref || context.ref;
@@ -32,9 +32,7 @@ async function run() {
     const headBranchEscaped = headBranch.replace(/[/\\]/g, "-");
     const outReport = `${headBranchEscaped}.${report}`;
 
-    core.startGroup(
-      `Upload new report from "${localReportPath}" as artifacted named "${outReport}"`
-    );
+    core.startGroup(`Upload new report from "${localReportPath}" as artifact named "${outReport}"`);
     const uploadResponse = await artifactClient.uploadArtifact(
       outReport,
       [localReportPath],
@@ -130,9 +128,9 @@ async function run() {
 
     core.startGroup("Compute gas diff");
     const diffRows = computeDiff(sourceReports, compareReports);
-    core.info(`Format markdown diff`);
+    core.info(`Format markdown of ${diffRows.length} diffs`);
     const markdown = formatDiffMarkdown(title, diffRows);
-    core.info(`Format shell diff`);
+    core.info(`Format shell of ${diffRows.length} diffs`);
     const shell = formatDiffShell(diffRows);
     core.endGroup();
 
