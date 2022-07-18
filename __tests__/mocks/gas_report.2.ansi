@@ -1,8 +1,49 @@
-No files changed, compilation skipped
+installing solc version "0.8.13"
+Successfully installed solc 0.8.13
+Compiling 87 files with 0.8.13
+Solc 0.8.13 finished in 38.42s
+Compiler run successful
 
-Running 6 tests for test-foundry/compound/TestInterestRates.t.sol:TestInterestRates
-[32m[PASS][0m testIndexComputation() (gas: 23153)
-[32m
+Running 8 tests for test-foundry/compound/TestBorrow.t.sol:TestBorrow
+[32m[PASS][0m testBorrow1() (gas: 887655)
+[32m[PASS][0m testBorrow2() (gas: 1268678)
+[32m[PASS][0m testBorrow3() (gas: 1644089)
+[32m[PASS][0m testBorrow4() (gas: 1904108)
+[32m[PASS][0m testBorrow5() (gas: 9497365)
+[32m[PASS][0m testBorrow6() (gas: 9758683)
+[32m[PASS][0m testBorrowMultipleAssets() (gas: 1450013)
+[32m[PASS][0m testBorrowOnPoolThreshold() (gas: 1187471)
+Test result: [32mok[0m. 8 passed; 0 failed; finished in 31.25s
+
+Running 11 tests for test-foundry/compound/TestEth.t.sol:TestEth
+[32m[PASS][0m testBorrowEthInP2P() (gas: 1671941)
+[32m[PASS][0m testBorrowEthOnPool() (gas: 1293936)
+[32m[PASS][0m testRepayEthInP2P() (gas: 2114778)
+[32m[PASS][0m testRepayEthOnPool() (gas: 1466690)
+[32m[PASS][0m testShouldGetEthMarketConfiguration() (gas: 62730)
+[32m[PASS][0m testShouldLiquidateUserWithEthAsCollateral() (gas: 2683329)
+[32m[PASS][0m testShouldLiquidateUserWithEthBorrowed() (gas: 2546663)
+[32m[PASS][0m testSupplyEthInP2P() (gas: 1785491)
+[32m[PASS][0m testSupplyEthOnPool() (gas: 544947)
+[32m[PASS][0m testWithdrawEthInP2P() (gas: 1951616)
+[32m[PASS][0m testWithdrawEthOnPool() (gas: 755155)
+Test result: [32mok[0m. 11 passed; 0 failed; finished in 6.67s
+
+Running 12 tests for test-foundry/compound/TestFees.t.sol:TestFees
+[32m[PASS][0m testOnlyOwnerCanSetTreasuryVault() (gas: 27635)
+[32m[PASS][0m testOwnerShouldBeAbleToClaimFees() (gas: 3998991)
+[32m[PASS][0m testShouldCollectTheRightAmountOfFees() (gas: 4005888)
+[32m[PASS][0m testShouldNotBePossibleToSetFeesHigherThan100Percent() (gas: 22898)
+[32m[PASS][0m testShouldNotBePossibleToSetP2PIndexCursorHigherThan100Percent() (gas: 22876)
+[32m[PASS][0m testShouldNotClaimCompRewards() (gas: 3799771)
+[32m[PASS][0m testShouldNotClaimFeesIfFactorIsZero() (gas: 3964322)
+[32m[PASS][0m testShouldNotClaimFeesIfMarketIsPartiallyPaused() (gas: 3994565)
+[32m[PASS][0m testShouldNotClaimFeesIfMarketIsPaused() (gas: 3994650)
+[32m[PASS][0m testShouldPayFee() (gas: 4615719)
+[32m[PASS][0m testShouldReduceTheFeeToRepay() (gas: 4650838)
+[32m[PASS][0m testShouldRevertWhenClaimingToZeroAddress() (gas: 3985065)
+Test result: [32mok[0m. 12 passed; 0 failed; finished in 3.02s
+
 Running 16 tests for test-foundry/compound/TestGovernance.t.sol:TestGovernance
 [32m[PASS][0m testOnlyOwnerCanCreateMarkets() (gas: 537403)
 [32m[PASS][0m testOnlyOwnerCanSetClaimRewardsStatus() (gas: 56020)
@@ -20,49 +61,113 @@ Running 16 tests for test-foundry/compound/TestGovernance.t.sol:TestGovernance
 [32m[PASS][0m testShouldDeployContractWithTheRightValues() (gas: 30540)
 [32m[PASS][0m testShouldRevertWhenCreatingMarketWithAnImproperMarket() (gas: 60324)
 [32m[PASS][0m testShouldSetMaxGasWithRightValues() (gas: 52228)
-Test result: [32mok[0m. 16 passed; 0 failed; finished in 50.40s
+Test result: [32mok[0m. 16 passed; 0 failed; finished in 2.74s
 
-Running 3 tests for test-foundry/compound/TestRoundings.t.sol:TestRounding
-[32m[PASS][0m testRoundingError1() (gas: 530886)
-[32m[PASS][0m testRoundingError2() (gas: 416487)
-[32m[PASS][0m testRoundingError3() (gas: 595622)
-Test result: [32mok[0m. 3 passed; 0 failed; finished in 51.58s
+Running 8 tests for test-foundry/compound/TestIncentivesVault.t.sol:TestIncentivesVault
+[32m[PASS][0m testFailWhenContractNotActive() (gas: 39113)
+[32m[PASS][0m testOnlyMorphoShouldTriggerCompConvertFunction() (gas: 237164)
+[32m[PASS][0m testOnlyOwnerShouldSetBonus() (gas: 40088)
+[32m[PASS][0m testOnlyOwnerShouldSetMorphoDao() (gas: 22905)
+[32m[PASS][0m testOnlyOwnerShouldSetOracle() (gas: 23456)
+[32m[PASS][0m testOnlyOwnerShouldSetPauseStatus() (gas: 30779)
+[32m[PASS][0m testOnlyOwnerShouldTransferTokensToDao() (gas: 57911)
+[32m[PASS][0m testShouldGiveTheRightAmountOfRewards() (gas: 272730)
+Test result: [32mok[0m. 8 passed; 0 failed; finished in 807.80ms
+
+Running 6 tests for test-foundry/compound/TestInterestRates.t.sol:TestInterestRates
+[32m[PASS][0m testIndexComputation() (gas: 23153)
+[32m[PASS][0m testIndexComputationWhenPoolSupplyIndexHasJumpedWithDelta() (gas: 23418)
+[32m[PASS][0m testIndexComputationWhenPoolSupplyIndexHasJumpedWithoutDelta() (gas: 19123)
+[32m[PASS][0m testIndexComputationWithDelta() (gas: 27428)
+[32m[PASS][0m testIndexComputationWithDeltaAndReserveFactor() (gas: 27471)
+[32m[PASS][0m testIndexComputationWithReserveFactor() (gas: 23197)
+Test result: [32mok[0m. 6 passed; 0 failed; finished in 11.30ms
+
+Running 42 tests for test-foundry/compound/TestLens.t.sol:TestLens
+[32m[PASS][0m testComputeLiquidation() (gas: 1813254)
+[32m[PASS][0m testComputeLiquidation2() (gas: 1339105)
+[32m[PASS][0m testComputeLiquidation3() (gas: 2210817)
+[32m[PASS][0m testComputeLiquidation4() (gas: 1873306)
+[32m[PASS][0m testGetAllMarkets() (gas: 54181)
+[32m[PASS][0m testGetEnteredMarkets() (gas: 1446568)
+[32m[PASS][0m testGetMainMarketData() (gas: 1265403)
+[32m[PASS][0m testGetMarketConfiguration() (gas: 79945)
+[32m[PASS][0m testGetOutdatedIndexes() (gas: 1293817)
+[32m[PASS][0m testGetRatesPerBlock() (gas: 159823)
+[32m[PASS][0m testGetUpdatedIndexes() (gas: 1337931)
+[32m[PASS][0m testGetUpdatedIndexesWithTransferToCTokenContract() (gas: 196888)
+[32m[PASS][0m testGetUpdatedP2PBorrowIndex() (gas: 170866)
+[32m[PASS][0m testGetUpdatedP2PSupplyIndex() (gas: 170931)
+[32m[PASS][0m testGetterUserWithNothing() (gas: 162356)
+[32m[PASS][0m testHealthFactorAbove1() (gas: 1757753)
+[32m[PASS][0m testHealthFactorAbove1WhenHalfMatched() (gas: 2376641)
+[32m[PASS][0m testHealthFactorAbove1WithUpdatedMarkets() (gas: 1908655)
+[32m[PASS][0m testHealthFactorBelow1() (gas: 1821606)
+[32m[PASS][0m testHealthFactorEqual1() (gas: 2456864)
+[32m[PASS][0m testHealthFactorEqual1WhenBorrowingMaxCapacity() (gas: 1672137)
+[32m[PASS][0m testHealthFactorShouldBeInfinityForPureSuppliers() (gas: 606815)
+[32m[PASS][0m testIsLiquidatableFalse() (gas: 1336312)
+[32m[PASS][0m testIsLiquidatableTrue() (gas: 1764543)
+[32m[PASS][0m testLiquidatableWithUpdatedP2PIndexes() (gas: 2058499)
+[32m[PASS][0m testLiquidationWithUpdatedPoolIndexes() (gas: 1584653)
+[32m[PASS][0m testLiquidityDataFailsWhenOracleFails() (gas: 984912)
+[32m[PASS][0m testLiquidityDataForUSDT() (gas: 775290)
+[32m[PASS][0m testLiquidityDataWithMultipleAssetsAndUSDT() (gas: 2398767)
+[32m[PASS][0m testMaxCapacitiesWithNothingWithSupplyWithMultipleAssetsAndBorrow() (gas: 2163517)
+[32m[PASS][0m testMaxCapacitiesWithSupply() (gas: 838932)
+[32m[PASS][0m testNoRepayLiquidation() (gas: 4948796)
+[32m[PASS][0m testTotalSupplyBorrowWithHalfBorrowDelta() (gas: 3081505)
+[32m[PASS][0m testTotalSupplyBorrowWithHalfSupplyDelta() (gas: 3016159)
+[32m[PASS][0m testUserBalanceStatesWithSupplyAndBorrow() (gas: 1363835)
+[32m[PASS][0m testUserBalanceStatesWithSupplyAndBorrowWithMultipleAssets() (gas: 2480484)
+[32m[PASS][0m testUserBalanceWithMatching() (gas: 1853697)
+[32m[PASS][0m testUserBalanceWithoutMatching() (gas: 1339659)
+[32m[PASS][0m testUserLiquidityDataForAssetWithNothing() (gas: 162127)
+[32m[PASS][0m testUserLiquidityDataForAssetWithSupply() (gas: 597082)
+[32m[PASS][0m testUserLiquidityDataForAssetWithSupplyAndBorrow() (gas: 1235596)
+[32m[PASS][0m testUserLiquidityDataForAssetWithSupplyAndBorrowWithMultipleAssets() (gas: 1365379)
+Test result: [32mok[0m. 42 passed; 0 failed; finished in 12.09s
+
+Running 7 tests for test-foundry/compound/TestLiquidate.t.sol:TestLiquidate
+[32m[PASS][0m testCannotBorrowLiquidateInSameBlock() (gas: 1790694)
+[32m[PASS][0m testFailLiquidateZero() (gas: 29798)
+[32m[PASS][0m testLiquidateUpdateIndexesSameAsCompound() (gas: 5221934)
+[32m[PASS][0m testShouldLiquidateUser() (gas: 2232349)
+[32m[PASS][0m testShouldLiquidateWhileInP2PAndPool() (gas: 3479383)
+[32m[PASS][0m testShouldNotBePossibleToLiquidateUserAboveWater() (gas: 1347949)
+[32m[PASS][0m testShouldPartiallyLiquidateWhileInP2PAndPool() (gas: 3486752)
+Test result: [32mok[0m. 7 passed; 0 failed; finished in 4.96s
 
 Running 4 tests for test-foundry/compound/TestMarketMember.t.sol:TestMarketMember
 [32m[PASS][0m testShouldNotLiquidateUserNotOnMemberOfMarketAsBorrow() (gas: 1296955)
 [32m[PASS][0m testShouldNotLiquidateUserNotOnMemberOfMarketAsCollateral() (gas: 1297279)
 [32m[PASS][0m testShouldNotRepayWhenNotMarketMember() (gas: 70749)
 [32m[PASS][0m testShouldNotWithdrawWhenNotMarketMember() (gas: 42227)
-Test result: [32mok[0m. 4 passed; 0 failed; finished in 331.36ms
+Test result: [32mok[0m. 4 passed; 0 failed; finished in 428.48ms
 
-Running 11 tests for test-foundry/compound/TestEth.t.sol:TestEth
-[32m[PASS][0m testBorrowEthInP2P() (gas: 1671941)
-[32m[PASS][0m testBorrowEthOnPool() (gas: 1293936)
-[32m[PASS][0m testRepayEthInP2P() (gas: 2114778)
-[32m[PASS][0m testRepayEthOnPool() (gas: 1466690)
-[32m[PASS][0m testShouldGetEthMarketConfiguration() (gas: 62730)
-[32m[PASS][0m testShouldLiquidateUserWithEthAsCollateral() (gas: 2683329)
-[32m[PASS][0m testShouldLiquidateUserWithEthBorrowed() (gas: 2546663)
-[32m[PASS][0m testSupplyEthInP2P() (gas: 1785491)
-[32m[PASS][0m testSupplyEthOnPool() (gas: 544947)
-[32m[PASS][0m testWithdrawEthInP2P() (gas: 1951616)
-[32m[PASS][0m testWithdrawEthOnPool() (gas: 755155)
-Test result: [32mok[0m. 11 passed; 0 failed; finished in 57.08s
+Running 4 tests for test-foundry/compound/TestMarketStrategy.t.sol:TestMarketStrategy
+[32m[PASS][0m testShouldPutBorrowerOnPool() (gas: 1647062)
+[32m[PASS][0m testShouldPutBorrowersOnPool() (gas: 2970958)
+[32m[PASS][0m testShouldPutSupplierOnPool() (gas: 1647070)
+[32m[PASS][0m testShouldPutSuppliersOnPool() (gas: 2197525)
+Test result: [32mok[0m. 4 passed; 0 failed; finished in 679.11ms
 
-Running 12 tests for test-foundry/compound/TestFees.t.sol:TestFees
-[32m[PASS][0m testOnlyOwnerCanSetTreasuryVault() (gas: 27635)
-[32m[PASS][0m testOwnerShouldBeAbleToClaimFees() (gas: 3998991)
-[32m[PASS][0m testShouldCollectTheRightAmountOfFees() (gas: 4005888)
-[32m[PASS][0m testShouldNotBePossibleToSetFeesHigherThan100Percent() (gas: 22898)
-[32m[PASS][0m testShouldNotBePossibleToSetP2PIndexCursorHigherThan100Percent() (gas: 22876)
-[32m[PASS][0m testShouldNotClaimCompRewards() (gas: 3799771)
-[32m[PASS][0m testShouldNotClaimFeesIfFactorIsZero() (gas: 3964322)
-[32m[PASS][0m testShouldNotClaimFeesIfMarketIsPartiallyPaused() (gas: 3994565)
-[32m[PASS][0m testShouldNotClaimFeesIfMarketIsPaused() (gas: 3994650)
-[32m[PASS][0m testShouldPayFee() (gas: 4615719)
-[32m[PASS][0m testShouldReduceTheFeeToRepay() (gas: 4650838)
-[32m[PASS][0m testShouldRevertWhenClaimingToZeroAddress() (gas: 3985065)
-Test result: [32mok[0m. 12 passed; 0 failed; finished in 61.09s
+Running 5 tests for test-foundry/compound/TestMorphoGetters.t.sol:TestMorphoGetters
+[32m[PASS][0m testEnteredMarkets() (gas: 1201525)
+[32m[PASS][0m testFailUserLeftMarkets() (gas: 951860)
+[32m[PASS][0m testGetAllMarkets() (gas: 55384)
+[32m[PASS][0m testGetHead() (gas: 1761539)
+[32m[PASS][0m testGetNext() (gas: 38280748)
+Test result: [32mok[0m. 5 passed; 0 failed; finished in 70.26s
+
+Running 1 test for test-foundry/compound/TestMorphoUtils.t.sol:TestMorphoUtils
+[32m[PASS][0m testUserShouldNotUpdateP2PIndexesOfMarketNotCreated() (gas: 21001)
+Test result: [32mok[0m. 1 passed; 0 failed; finished in 52.52ms
+
+Running 2 tests for test-foundry/compound/TestP2PDisable.t.sol:TestP2PDisable
+[32m[PASS][0m testShouldMatchBorrowDeltaWithP2PDisabled() (gas: 3717995)
+[32m[PASS][0m testShouldMatchSupplyDeltaWithP2PDisabled() (gas: 2775139)
+Test result: [32mok[0m. 2 passed; 0 failed; finished in 139.60ms
 
 Running 7 tests for test-foundry/compound/TestPausableMarket.t.sol:TestPausableMarket
 [32m[PASS][0m testOnlyOwnerShouldTriggerPartialPauseFunction() (gas: 49981)
@@ -72,19 +177,7 @@ Running 7 tests for test-foundry/compound/TestPausableMarket.t.sol:TestPausableM
 [32m[PASS][0m testShouldDisableMarketWhenPaused() (gas: 3505480)
 [32m[PASS][0m testShouldOnlyEnableRepayWithdrawLiquidateWhenPartiallyPaused() (gas: 4112206)
 [32m[PASS][0m testShouldTriggerFunctionsWhenNotPaused() (gas: 2750290)
-Test result: [32mok[0m. 7 passed; 0 failed; finished in 61.87s
-
-Running 2 tests for test-foundry/compound/TestP2PDisable.t.sol:TestP2PDisable
-[32m[PASS][0m testShouldMatchBorrowDeltaWithP2PDisabled() (gas: 3717995)
-[32m[PASS][0m testShouldMatchSupplyDeltaWithP2PDisabled() (gas: 2775139)
-Test result: [32mok[0m. 2 passed; 0 failed; finished in 62.55s
-
-Running 4 tests for test-foundry/compound/TestMarketStrategy.t.sol:TestMarketStrategy
-[32m[PASS][0m testShouldPutBorrowerOnPool() (gas: 1647062)
-[32m[PASS][0m testShouldPutBorrowersOnPool() (gas: 2970958)
-[32m[PASS][0m testShouldPutSupplierOnPool() (gas: 1647070)
-[32m[PASS][0m testShouldPutSuppliersOnPool() (gas: 2197525)
-Test result: [32mok[0m. 4 passed; 0 failed; finished in 8.46s
+Test result: [32mok[0m. 7 passed; 0 failed; finished in 257.84ms
 
 Running 39 tests for test-foundry/compound/TestRatesLens.t.sol:TestRatesLens
 [32m[PASS][0m testAverageBorrowRateShouldEqual0WhenNoBorrow() (gas: 139351)
@@ -126,69 +219,129 @@ Running 39 tests for test-foundry/compound/TestRatesLens.t.sol:TestRatesLens
 [32m[PASS][0m testUserRatesShouldEqualP2PRatesWhenFullyMatched() (gas: 2291082)
 [32m[PASS][0m testUserSupplyRateShouldEqualMidrateWhenHalfMatched() (gas: 2048962)
 [32m[PASS][0m testUserSupplyRateShouldEqualPoolRateWhenNotMatched() (gas: 605867)
-Test result: [32mok[0m. 39 passed; 0 failed; finished in 62.62s
+Test result: [32mok[0m. 39 passed; 0 failed; finished in 2.01s
 
-Running 7 tests for test-foundry/compound/TestLiquidate.t.sol:TestLiquidate
-[32m[PASS][0m testCannotBorrowLiquidateInSameBlock() (gas: 1790694)
-[32m[PASS][0m testFailLiquidateZero() (gas: 29798)
-[32m[PASS][0m testLiquidateUpdateIndexesSameAsCompound() (gas: 5221934)
-[32m[PASS][0m testShouldLiquidateUser() (gas: 2232349)
-[32m[PASS][0m testShouldLiquidateWhileInP2PAndPool() (gas: 3479383)
-[32m[PASS][0m testShouldNotBePossibleToLiquidateUserAboveWater() (gas: 1347949)
-[32m[PASS][0m testShouldPartiallyLiquidateWhileInP2PAndPool() (gas: 3486752)
-Test result: [32mok[0m. 7 passed; 0 failed; finished in 67.06s
+Running 11 tests for test-foundry/compound/TestSupply.t.sol:TestSupply
+[32m[PASS][0m testFailSupplyZero() (gas: 27213)
+[32m[PASS][0m testSupply1() (gas: 538330)
+[32m[PASS][0m testSupply2() (gas: 1754357)
+[32m[PASS][0m testSupply3() (gas: 1830571)
+[32m[PASS][0m testSupply4() (gas: 71120840)
+[32m[PASS][0m testSupply5() (gas: 71240184)
+[32m[PASS][0m testSupplyMultipleTimes() (gas: 619790)
+[32m[PASS][0m testSupplyOnBehalf() (gas: 544096)
+[32m[PASS][0m testSupplyOnPoolThreshold() (gas: 421573)
+[32m[PASS][0m testSupplyRepayOnBehalf() (gas: 1721406)
+[32m[PASS][0m testSupplyUpdateIndexesSameAsCompound() (gas: 1631895)
+Test result: [32mok[0m. 11 passed; 0 failed; finished in 35.90s
 
-Running 45 tests for test-foundry/compound/TestLens.t.sol:TestLens
-[32m[PASS][0m testComputeLiquidation() (gas: 1813254)
-[32m[PASS][0m testComputeLiquidation2() (gas: 1339105)
-[32m[PASS][0m testComputeLiquidation3() (gas: 2210817)
-[32m[PASS][0m testComputeLiquidation4() (gas: 1873306)
-[32m[PASS][0m testFuzzLiquidation(uint64,uint80) (runs: 256, μ: 2419042, ~: 2408470)
-[32m[PASS][0m testFuzzLiquidationAboveIncentiveThreshold(uint64) (runs: 256, μ: 4095374, ~: 3976035)
-[32m[PASS][0m testFuzzLiquidationUnderIncentiveThreshold(uint64) (runs: 256, μ: 4485884, ~: 4485917)
-[32m[PASS][0m testGetAllMarkets() (gas: 54181)
-[32m[PASS][0m testGetEnteredMarkets() (gas: 1446568)
-[32m[PASS][0m testGetMainMarketData() (gas: 1265403)
-[32m[PASS][0m testGetMarketConfiguration() (gas: 79945)
-[32m[PASS][0m testGetOutdatedIndexes() (gas: 1293817)
-[32m[PASS][0m testGetRatesPerBlock() (gas: 159823)
-[32m[PASS][0m testGetUpdatedIndexes() (gas: 1337931)
-[32m[PASS][0m testGetUpdatedIndexesWithTransferToCTokenContract() (gas: 196888)
-[32m[PASS][0m testGetUpdatedP2PBorrowIndex() (gas: 170866)
-[32m[PASS][0m testGetUpdatedP2PSupplyIndex() (gas: 170931)
-[32m[PASS][0m testGetterUserWithNothing() (gas: 162356)
-[32m[PASS][0m testHealthFactorAbove1() (gas: 1757753)
-[32m[PASS][0m testHealthFactorAbove1WhenHalfMatched() (gas: 2376641)
-[32m[PASS][0m testHealthFactorAbove1WithUpdatedMarkets() (gas: 1908655)
-[32m[PASS][0m testHealthFactorBelow1() (gas: 1821606)
-[32m[PASS][0m testHealthFactorEqual1() (gas: 2456864)
-[32m[PASS][0m testHealthFactorEqual1WhenBorrowingMaxCapacity() (gas: 1672137)
-[32m[PASS][0m testHealthFactorShouldBeInfinityForPureSuppliers() (gas: 606815)
-[32m[PASS][0m testIsLiquidatableFalse() (gas: 1336312)
-[32m[PASS][0m testIsLiquidatableTrue() (gas: 1764543)
-[32m[PASS][0m testLiquidatableWithUpdatedP2PIndexes() (gas: 2058499)
-[32m[PASS][0m testLiquidationWithUpdatedPoolIndexes() (gas: 1584653)
-[32m[PASS][0m testLiquidityDataFailsWhenOracleFails() (gas: 984912)
-[32m[PASS][0m testLiquidityDataForUSDT() (gas: 775290)
-[32m[PASS][0m testLiquidityDataWithMultipleAssetsAndUSDT() (gas: 2398767)
-[32m[PASS][0m testMaxCapacitiesWithNothingWithSupplyWithMultipleAssetsAndBorrow() (gas: 2163517)
-[32m[PASS][0m testMaxCapacitiesWithSupply() (gas: 838932)
-[32m[PASS][0m testNoRepayLiquidation() (gas: 4948796)
-[32m[PASS][0m testTotalSupplyBorrowWithHalfBorrowDelta() (gas: 3081505)
-[32m[PASS][0m testTotalSupplyBorrowWithHalfSupplyDelta() (gas: 3016159)
-[32m[PASS][0m testUserBalanceStatesWithSupplyAndBorrow() (gas: 1363835)
-[32m[PASS][0m testUse
-╭──────────────────────────────────────┬─────────────────┬──────┬────────┬──────┬─────────╮
-│ WhitePaperInterestRateModel contract ┆                 ┆      ┆        ┆      ┆         │
-╞══════════════════════════════════════╪═════════════════╪══════╪════════╪══════╪═════════╡
-│ Deployment Cost                      ┆ Deployment Size ┆      ┆        ┆      ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ 0                                    ┆ 0               ┆      ┆        ┆      ┆         │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ Function Name                        ┆ min             ┆ avg  ┆ median ┆ max  ┆ # calls │
-├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ getBorrowRate                        ┆ 4003            ┆ 6378 ┆ 8003   ┆ 8003 ┆ 884     │
-╰──────────────────────────────────────┴─────────────────┴──────┴────────┴──────┴─────────╯
+Running 12 tests for test-foundry/compound/TestUpgradeable.t.sol:TestUpgradeable
+[32m[PASS][0m testLensImplementationsShouldBeInitialized() (gas: 15162)
+[32m[PASS][0m testOnlyProxyOwnerCanUpgradeAndCallLens() (gas: 4911213)
+[32m[PASS][0m testOnlyProxyOwnerCanUpgradeAndCallMorpho() (gas: 3220645)
+[32m[PASS][0m testOnlyProxyOwnerCanUpgradeAndCallRewardsManager() (gas: 1041331)
+[32m[PASS][0m testOnlyProxyOwnerCanUpgradeLens() (gas: 4908285)
+[32m[PASS][0m testOnlyProxyOwnerCanUpgradeMorpho() (gas: 3218633)
+[32m[PASS][0m testOnlyProxyOwnerCanUpgradeRewardsManager() (gas: 1038553)
+[32m[PASS][0m testPositionsManagerImplementationsShouldBeInitialized() (gas: 21594)
+[32m[PASS][0m testRewardsManagerImplementationsShouldBeInitialized() (gas: 15203)
+[32m[PASS][0m testUpgradeLens() (gas: 4907058)
+[32m[PASS][0m testUpgradeMorpho() (gas: 3732588)
+[32m[PASS][0m testUpgradeRewardsManager() (gas: 1037240)
+Test result: [32mok[0m. 12 passed; 0 failed; finished in 94.11ms
+
+Running 15 tests for test-foundry/compound/TestWithdraw.t.sol:TestWithdraw
+[32m[PASS][0m testDeltaWithdraw() (gas: 109628712)
+[32m[PASS][0m testDeltaWithdrawAll() (gas: 78803486)
+[32m[PASS][0m testFailInfiniteWithdraw() (gas: 2919398)
+[32m[PASS][0m testFailWithdrawZero() (gas: 29112)
+[32m[PASS][0m testShouldNotFreezeMarketWithExchangeRatePump() (gas: 836341)
+[32m[PASS][0m testShouldNotWithdrawWhenUnderCollaterized() (gas: 1594529)
+[32m[PASS][0m testWithdraw1() (gas: 1316849)
+[32m[PASS][0m testWithdraw2() (gas: 909125)
+[32m[PASS][0m testWithdraw3_1() (gas: 2132902)
+[32m[PASS][0m testWithdraw3_2() (gas: 64070542)
+[32m[PASS][0m testWithdraw3_3() (gas: 2160488)
+[32m[PASS][0m testWithdraw3_4() (gas: 64429320)
+[32m[PASS][0m testWithdrawAll() (gas: 795243)
+[32m[PASS][0m testWithdrawWhileAttackerSendsCToken() (gas: 2290635)
+[32m[PASS][0m testWithdrawnOnPoolThreshold() (gas: 600140)
+Test result: [32mok[0m. 15 passed; 0 failed; finished in 6.42s
+
+Running 15 tests for test-foundry/compound/TestRepay.t.sol:TestRepay
+[32m[PASS][0m testCannotBorrowRepayInSameBlock() (gas: 1308320)
+[32m[PASS][0m testCannotBorrowRepayOnBehalfInSameBlock() (gas: 1314807)
+[32m[PASS][0m testDeltaRepay() (gas: 103498602)
+[32m[PASS][0m testDeltaRepayAll() (gas: 101434994)
+[32m[PASS][0m testFailRepayZero() (gas: 29429)
+[32m[PASS][0m testRepay1() (gas: 1417589)
+[32m[PASS][0m testRepay2_1() (gas: 2599984)
+[32m[PASS][0m testRepay2_2() (gas: 71686836)
+[32m[PASS][0m testRepay2_3() (gas: 2036370)
+[32m[PASS][0m testRepay2_4() (gas: 71840871)
+[32m[PASS][0m testRepayAll() (gas: 1334606)
+[32m[PASS][0m testRepayOnBehalf() (gas: 1431667)
+[32m[PASS][0m testRepayOnPoolThreshold() (gas: 1434216)
+[32m[PASS][0m testRepayRepayOnBehalf() (gas: 1462436)
+[32m[PASS][0m testRepayUpdateIndexesSameAsCompound() (gas: 3353151)
+Test result: [32mok[0m. 15 passed; 0 failed; finished in 56.08s
+
+Running 3 tests for test-foundry/compound/TestRoundings.t.sol:TestRounding
+[32m[PASS][0m testRoundingError1() (gas: 530886)
+[32m[PASS][0m testRoundingError2() (gas: 416487)
+[32m[PASS][0m testRoundingError3() (gas: 595622)
+Test result: [32mok[0m. 3 passed; 0 failed; finished in 1.06s
+
+Running 19 tests for test-foundry/compound/TestRewards.t.sol:TestRewards
+[32m[PASS][0m testFailShouldNotClaimRewardsWhenRewardsManagerIsAddressZero() (gas: 3584447)
+[32m[PASS][0m testShouldAllowClaimingRewardsOfMarketAlreadyClaimed() (gas: 1843712)
+[32m[PASS][0m testShouldClaimOnSeveralMarkets() (gas: 1608834)
+[32m[PASS][0m testShouldClaimRewardsAndTradeForMorpkoTokens() (gas: 821609)
+[32m[PASS][0m testShouldClaimRewardsOnSeveralMarketsAtOnce() (gas: 2164030)
+[32m[PASS][0m testShouldClaimRightAmountOfBorrowRewards() (gas: 1490333)
+[32m[PASS][0m testShouldClaimRightAmountOfSupplyRewards() (gas: 1080828)
+[32m[PASS][0m testShouldClaimTheSameAmountOfRewards() (gas: 4338695)
+[32m[PASS][0m testShouldComputeCorrectBorrowIndex() (gas: 1706935)
+[32m[PASS][0m testShouldComputeCorrectSupplyIndex() (gas: 840181)
+[32m[PASS][0m testShouldGetRightAmountOfBorrowRewards() (gas: 1545708)
+[32m[PASS][0m testShouldGetRightAmountOfSupplyRewards() (gas: 1109157)
+[32m[PASS][0m testShouldNotBePossibleToClaimRewardsOnOtherMarket() (gas: 1143768)
+[32m[PASS][0m testShouldRevertWhenClaimRewardsIsPaused() (gas: 51349)
+[32m[PASS][0m testShouldUpdateCorrectBorrowIndex() (gas: 2047933)
+[32m[PASS][0m testShouldUpdateCorrectBorrowIndexWhenSpeedIs0() (gas: 1747233)
+[32m[PASS][0m testShouldUpdateCorrectSupplyIndex() (gas: 1456385)
+[32m[PASS][0m testShouldUpdateCorrectSupplyIndexWhenSpeedIs0() (gas: 1275766)
+[32m[PASS][0m testUsersShouldClaimRewardsIndependently() (gas: 4664208)
+Test result: [32mok[0m. 19 passed; 0 failed; finished in 6.37s
+╭─────────────────────────────────────────────────────────────────┬─────────────────┬───────┬────────┬───────┬─────────╮
+│ contracts/compound/IncentivesVault.sol:IncentivesVault contract ┆                 ┆       ┆        ┆       ┆         │
+╞═════════════════════════════════════════════════════════════════╪═════════════════╪═══════╪════════╪═══════╪═════════╡
+│ Deployment Cost                                                 ┆ Deployment Size ┆       ┆        ┆       ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ 633588                                                          ┆ 3395            ┆       ┆        ┆       ┆         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ Function Name                                                   ┆ min             ┆ avg   ┆ median ┆ max   ┆ # calls │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ bonus                                                           ┆ 318             ┆ 318   ┆ 318    ┆ 318   ┆ 1       │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ isPaused                                                        ┆ 377             ┆ 377   ┆ 377    ┆ 377   ┆ 2       │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ morphoDao                                                       ┆ 349             ┆ 349   ┆ 349    ┆ 349   ┆ 1       │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ oracle                                                          ┆ 393             ┆ 393   ┆ 393    ┆ 393   ┆ 1       │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ setBonus                                                        ┆ 2510            ┆ 18768 ┆ 23504  ┆ 25554 ┆ 4       │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ setMorphoDao                                                    ┆ 2605            ┆ 5011  ┆ 5814   ┆ 5814  ┆ 4       │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ setOracle                                                       ┆ 2606            ┆ 5610  ┆ 5610   ┆ 8615  ┆ 2       │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ setPauseStatus                                                  ┆ 1436            ┆ 13858 ┆ 14151  ┆ 25694 ┆ 4       │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ tradeCompForMorphoTokens                                        ┆ 443             ┆ 31392 ┆ 32786  ┆ 65651 ┆ 6       │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
+│ transferTokensToDao                                             ┆ 2604            ┆ 20542 ┆ 20542  ┆ 38481 ┆ 2       │
+╰─────────────────────────────────────────────────────────────────┴─────────────────┴───────┴────────┴───────┴─────────╯
 ╭───────────────────────────────────────────────────────────────────────────┬─────────────────┬───────┬────────┬────────┬─────────╮
 │ contracts/compound/InterestRatesManager.sol:InterestRatesManager contract ┆                 ┆       ┆        ┆        ┆         │
 ╞═══════════════════════════════════════════════════════════════════════════╪═════════════════╪═══════╪════════╪════════╪═════════╡
@@ -219,9 +372,9 @@ Running 45 tests for test-foundry/compound/TestLens.t.sol:TestLens
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
 │ claimToTreasury                               ┆ 1150            ┆ 7684   ┆ 3934   ┆ 23518   ┆ 12      │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ comptroller                                   ┆ 428             ┆ 434    ┆ 428    ┆ 2428    ┆ 2547    │
+│ comptroller                                   ┆ 428             ┆ 434    ┆ 428    ┆ 2428    ┆ 2520    │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ createMarket                                  ┆ 2692            ┆ 258527 ┆ 250265 ┆ 300389  ┆ 1434    │
+│ createMarket                                  ┆ 2692            ┆ 258494 ┆ 250265 ┆ 300389  ┆ 1416    │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
 │ defaultMaxGasForMatching                      ┆ 635             ┆ 635    ┆ 635    ┆ 635     ┆ 1       │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
@@ -241,9 +394,9 @@ Running 45 tests for test-foundry/compound/TestLens.t.sol:TestLens
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
 │ incentivesVault                               ┆ 449             ┆ 449    ┆ 449    ┆ 449     ┆ 1       │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ initialize                                    ┆ 3788            ┆ 246896 ┆ 247927 ┆ 247927  ┆ 237     │
+│ initialize                                    ┆ 3788            ┆ 246883 ┆ 247927 ┆ 247927  ┆ 234     │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ interestRatesManager                          ┆ 427             ┆ 431    ┆ 427    ┆ 2427    ┆ 2075    │
+│ interestRatesManager                          ┆ 427             ┆ 431    ┆ 427    ┆ 2427    ┆ 2054    │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
 │ isClaimRewardsPaused                          ┆ 421             ┆ 421    ┆ 421    ┆ 421     ┆ 1       │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
@@ -269,13 +422,13 @@ Running 45 tests for test-foundry/compound/TestLens.t.sol:TestLens
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
 │ repay                                         ┆ 3979            ┆ 247816 ┆ 167306 ┆ 2323204 ┆ 69      │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ rewardsManager                                ┆ 471             ┆ 679    ┆ 471    ┆ 2471    ┆ 2311    │
+│ rewardsManager                                ┆ 471             ┆ 679    ┆ 471    ┆ 2471    ┆ 2287    │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
 │ setClaimRewardsPauseStatus                    ┆ 2671            ┆ 18061  ┆ 25756  ┆ 25756   ┆ 3       │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
 │ setDefaultMaxGasForMatching                   ┆ 1157            ┆ 8701   ┆ 8282   ┆ 10282   ┆ 28      │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ setIncentivesVault                            ┆ 2628            ┆ 23658  ┆ 23811  ┆ 23811   ┆ 238     │
+│ setIncentivesVault                            ┆ 2628            ┆ 23656  ┆ 23811  ┆ 23811   ┆ 235     │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
 │ setInterestRatesManager                       ┆ 2696            ┆ 5737   ┆ 5737   ┆ 8779    ┆ 2       │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
@@ -293,9 +446,9 @@ Running 45 tests for test-foundry/compound/TestLens.t.sol:TestLens
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
 │ setReserveFactor                              ┆ 2717            ┆ 49531  ┆ 2717   ┆ 111655  ┆ 23      │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ setRewardsManager                             ┆ 2631            ┆ 21610  ┆ 21814  ┆ 21814   ┆ 239     │
+│ setRewardsManager                             ┆ 2631            ┆ 21607  ┆ 21814  ┆ 21814   ┆ 236     │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ setTreasuryVault                              ┆ 2651            ┆ 23524  ┆ 23834  ┆ 23834   ┆ 240     │
+│ setTreasuryVault                              ┆ 2651            ┆ 23520  ┆ 23834  ┆ 23834   ┆ 237     │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
 │ supply                                        ┆ 3997            ┆ 370777 ┆ 394252 ┆ 2125460 ┆ 502     │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
@@ -353,7 +506,7 @@ Running 45 tests for test-foundry/compound/TestLens.t.sol:TestLens
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
 │ getLocalCompSupplyState                                       ┆ 849             ┆ 1115  ┆ 849    ┆ 2849   ┆ 15      │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ initialize                                                    ┆ 2753            ┆ 68845 ┆ 69126  ┆ 69126  ┆ 237     │
+│ initialize                                                    ┆ 2753            ┆ 68842 ┆ 69126  ┆ 69126  ┆ 234     │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
 │ userUnclaimedCompRewards                                      ┆ 601             ┆ 601   ┆ 601    ┆ 601    ┆ 10      │
 ╰───────────────────────────────────────────────────────────────┴─────────────────┴───────┴────────┴────────┴─────────╯
@@ -424,7 +577,7 @@ Running 45 tests for test-foundry/compound/TestLens.t.sol:TestLens
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
 │ getUserUnclaimedRewards                        ┆ 20111           ┆ 44709  ┆ 41940  ┆ 103707 ┆ 10      │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ initialize                                     ┆ 2776            ┆ 71205  ┆ 71495  ┆ 71495  ┆ 237     │
+│ initialize                                     ┆ 2776            ┆ 71201  ┆ 71495  ┆ 71495  ┆ 234     │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
 │ isLiquidatable                                 ┆ 54947           ┆ 61839  ┆ 57500  ┆ 93957  ┆ 17      │
 ╰────────────────────────────────────────────────┴─────────────────┴────────┴────────┴────────┴─────────╯
@@ -460,7 +613,7 @@ Running 45 tests for test-foundry/compound/TestLens.t.sol:TestLens
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
 │ cEth                                                                                                                        ┆ 9700            ┆ 9700   ┆ 9700   ┆ 9700    ┆ 2       │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ changeAdmin                                                                                                                 ┆ 2419            ┆ 2419   ┆ 2419   ┆ 2419    ┆ 236     │
+│ changeAdmin                                                                                                                 ┆ 2419            ┆ 2419   ┆ 2419   ┆ 2419    ┆ 233     │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
 │ claimRewards                                                                                                                ┆ 6685            ┆ 108090 ┆ 79593  ┆ 315649  ┆ 41      │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
@@ -470,11 +623,11 @@ Running 45 tests for test-foundry/compound/TestLens.t.sol:TestLens
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
 │ compSupplierIndex                                                                                                           ┆ 1532            ┆ 1742   ┆ 1532   ┆ 3532    ┆ 19      │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ comptroller                                                                                                                 ┆ 1223            ┆ 1229   ┆ 1223   ┆ 3223    ┆ 2547    │
+│ comptroller                                                                                                                 ┆ 1223            ┆ 1229   ┆ 1223   ┆ 3223    ┆ 2520    │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
 │ computeLiquidationRepayAmount                                                                                               ┆ 70747           ┆ 110626 ┆ 103282 ┆ 176297  ┆ 10      │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ createMarket                                                                                                                ┆ 10009           ┆ 259413 ┆ 251069 ┆ 301193  ┆ 1434    │
+│ createMarket                                                                                                                ┆ 10009           ┆ 259381 ┆ 251069 ┆ 301193  ┆ 1416    │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
 │ defaultMaxGasForMatching                                                                                                    ┆ 1442            ┆ 1442   ┆ 1442   ┆ 1442    ┆ 1       │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
@@ -548,9 +701,9 @@ Running 45 tests for test-foundry/compound/TestLens.t.sol:TestLens
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
 │ incentivesVault                                                                                                             ┆ 1244            ┆ 1244   ┆ 1244   ┆ 1244    ┆ 1       │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ initialize                                                                                                                  ┆ 69921           ┆ 130330 ┆ 72290  ┆ 248779  ┆ 708     │
+│ initialize                                                                                                                  ┆ 69921           ┆ 130330 ┆ 72290  ┆ 248779  ┆ 699     │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ interestRatesManager                                                                                                        ┆ 1222            ┆ 1226   ┆ 1222   ┆ 3222    ┆ 2075    │
+│ interestRatesManager                                                                                                        ┆ 1222            ┆ 1226   ┆ 1222   ┆ 3222    ┆ 2054    │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
 │ isClaimRewardsPaused                                                                                                        ┆ 1216            ┆ 1216   ┆ 1216   ┆ 1216    ┆ 1       │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
@@ -578,13 +731,13 @@ Running 45 tests for test-foundry/compound/TestLens.t.sol:TestLens
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
 │ repay                                                                                                                       ┆ 4787            ┆ 248659 ┆ 167949 ┆ 2323848 ┆ 69      │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ rewardsManager                                                                                                              ┆ 1266            ┆ 1474   ┆ 1266   ┆ 3266    ┆ 2311    │
+│ rewardsManager                                                                                                              ┆ 1266            ┆ 1474   ┆ 1266   ┆ 3266    ┆ 2287    │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
 │ setClaimRewardsPauseStatus                                                                                                  ┆ 9982            ┆ 25361  ┆ 33051  ┆ 33051   ┆ 3       │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
 │ setDefaultMaxGasForMatching                                                                                                 ┆ 1980            ┆ 12530  ┆ 9092   ┆ 17592   ┆ 28      │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ setIncentivesVault                                                                                                          ┆ 9939            ┆ 24508  ┆ 24606  ┆ 24606   ┆ 238     │
+│ setIncentivesVault                                                                                                          ┆ 9939            ┆ 24506  ┆ 24606  ┆ 24606   ┆ 235     │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
 │ setInterestRatesManager                                                                                                     ┆ 10007           ┆ 13040  ┆ 13040  ┆ 16074   ┆ 2       │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
@@ -602,9 +755,9 @@ Running 45 tests for test-foundry/compound/TestLens.t.sol:TestLens
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
 │ setReserveFactor                                                                                                            ┆ 10031           ┆ 56273  ┆ 10031  ┆ 118953  ┆ 23      │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ setRewardsManager                                                                                                           ┆ 6008            ┆ 22458  ┆ 22609  ┆ 22609   ┆ 239     │
+│ setRewardsManager                                                                                                           ┆ 6008            ┆ 22457  ┆ 22609  ┆ 22609   ┆ 236     │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ setTreasuryVault                                                                                                            ┆ 9962            ┆ 24421  ┆ 24629  ┆ 24629   ┆ 240     │
+│ setTreasuryVault                                                                                                            ┆ 9962            ┆ 24419  ┆ 24629  ┆ 24629   ┆ 237     │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
 │ supply                                                                                                                      ┆ 4805            ┆ 373418 ┆ 395056 ┆ 2126103 ┆ 502     │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
@@ -635,7 +788,7 @@ Running 45 tests for test-foundry/compound/TestLens.t.sol:TestLens
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
 │ balanceOf                                                        ┆ 608             ┆ 750   ┆ 608    ┆ 2608  ┆ 14      │
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌┤
-│ transfer                                                         ┆ 2921            ┆ 24642 ┆ 24821  ┆ 29621 ┆ 249     │
+│ transfer                                                         ┆ 2921            ┆ 24640 ┆ 24821  ┆ 29621 ┆ 246     │
 ╰──────────────────────────────────────────────────────────────────┴─────────────────┴───────┴────────┴───────┴─────────╯
 ╭──────────────────────────────────────────────────────────────┬─────────────────┬────────┬────────┬────────┬─────────╮
 │ test-foundry/compound/helpers/Attacker.sol:Attacker contract ┆                 ┆        ┆        ┆        ┆         │
