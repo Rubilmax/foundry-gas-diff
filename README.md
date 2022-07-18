@@ -76,7 +76,7 @@ _Defaults to: `node_modules/**/*` (node dependencies are always discarded from g
 
 ### `match` _{string}_
 
-The list of paths of which to only keep gas reports, separated by a comma.
+The list of paths of which only to keep gas reports, separated by a comma.
 This allows to only display gas diff of specific contracts.
 
 _Defaults to: `node_modules/**/*` (node dependencies are always discarded from gas reports)_

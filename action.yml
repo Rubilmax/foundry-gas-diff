@@ -12,6 +12,12 @@ inputs:
     description: Report freshly generated to compare to reference
     default: gasreport.ansi
     required: false
+  ignore:
+    description: The list of paths from which to ignore gas reports, separated by a comma.
+    required: false
+  match:
+    description: The list of paths of which only to keep gas reports, separated by a comma.
+    required: false
 
 runs:
   using: node16
