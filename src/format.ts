@@ -1,4 +1,6 @@
-import chalk from "chalk";
+import colors from "colors";
+
+import { DiffCell, DiffRow } from "./report";
 
 export enum TextAlign {
   LEFT = "left",
@@ -10,7 +12,7 @@ const center = (text: string, length: number) =>
   text.padStart((text.length + length) / 2).padEnd(length);
 
 export const formatCellShell = (cell: DiffCell) => {
-  const format = chalk[cell.delta > 0 ? "red" : cell.delta < 0 ? "green" : "reset"];
+  const format = colors[cell.delta > 0 ? "red" : cell.delta < 0 ? "green" : "reset"];
 
   return [
     format((isNaN(cell.value) ? "-" : cell.value.toString()).padStart(8)),
@@ -35,7 +37,7 @@ export const formatDiffShell = (rows: DiffRow[]) => {
     { txt: "Max", length: 30 },
     { txt: "", length: 0 },
   ];
-  const HEADER = COLS.map((entry) => chalk.bold(center(entry.txt, entry.length || 0)))
+  const HEADER = COLS.map((entry) => colors.bold(center(entry.txt, entry.length || 0)))
     .join(" | ")
     .trim();
   const SEPARATOR = COLS.map(({ length }) => (length > 0 ? "-".repeat(length + 2) : ""))
@@ -48,7 +50,7 @@ export const formatDiffShell = (rows: DiffRow[]) => {
     ...rows.map((entry) =>
       [
         "",
-        chalk.grey(entry.contract.padEnd(contractLength)),
+        colors.grey(entry.contract.padEnd(contractLength)),
         entry.method.padEnd(methodLength),
         ...formatCellShell(entry.min),
         ...formatCellShell(entry.avg),

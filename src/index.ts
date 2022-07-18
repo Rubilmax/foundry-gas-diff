@@ -12,9 +12,12 @@ import { loadReports, computeDiff } from "./report";
 const workflowId = core.getInput("workflowId");
 const token = process.env.GITHUB_TOKEN || core.getInput("token");
 const report = core.getInput("report");
+const baseBranch: string =
+  core.getInput("base") || context.payload.pull_request?.base.ref || context.ref;
+const headBranch: string =
+  core.getInput("head") || context.payload.pull_request?.head.ref || context.ref;
 
-const baseBranch: string = context.payload.pull_request?.base.ref || context.ref;
-const baseBranchEscaped = baseBranch.replace(/[\/\\]/g, "-");
+const baseBranchEscaped = baseBranch.replace(/[/\\]/g, "-");
 const refReport = `${baseBranchEscaped}.${report}`;
 
 const octokit = getOctokit(token);
@@ -25,8 +28,7 @@ let srcContent: string;
 
 async function run() {
   try {
-    const headBranch: string = context.payload.pull_request?.head.ref || context.ref;
-    const headBranchEscaped = headBranch.replace(/[\/\\]/g, "-");
+    const headBranchEscaped = headBranch.replace(/[/\\]/g, "-");
     const outReport = `${headBranchEscaped}.${report}`;
 
     core.startGroup(
@@ -71,8 +73,8 @@ async function run() {
           await new Promise((resolve) => setTimeout(resolve, 200)); // avoid reaching GitHub API rate limit
 
           const res = await octokit.rest.actions.listWorkflowRunArtifacts({
-            owner: owner,
-            repo: repo,
+            owner,
+            repo,
             run_id: run.id,
           });
 
@@ -93,18 +95,15 @@ async function run() {
           `Downloading artifact "${refReport}" of repository "${owner}/${repo}" with ID "${artifactId}"`
         );
         const res = await octokit.rest.actions.downloadArtifact({
-          owner: owner,
-          repo: repo,
+          owner,
+          repo,
           artifact_id: artifactId,
           archive_format: "zip",
         });
 
         // @ts-ignore data is unknown
         const zip = new Zip(Buffer.from(res.data));
-        zip.getEntries().forEach(function (zipEntry) {
-          console.log(zipEntry.toString());
-          srcContent = zip.readAsText(zipEntry);
-        });
+        for (const entry of zip.getEntries()) srcContent = zip.readAsText(entry);
         core.endGroup();
       } else core.error(`No workflow run found with an artifact named "${refReport}"`);
     } catch (error: any) {
