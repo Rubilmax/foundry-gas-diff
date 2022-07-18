@@ -282,8 +282,10 @@ function run() {
                     });
                     // @ts-ignore data is unknown
                     const zip = new adm_zip_1.default(Buffer.from(res.data));
-                    for (const entry of zip.getEntries())
+                    for (const entry of zip.getEntries()) {
+                        core.info(`Loading gas reports from "${entry.entryName}"`);
                         srcContent = zip.readAsText(entry);
+                    }
                     core.endGroup();
                 }
                 else
@@ -295,15 +297,20 @@ function run() {
         }
         try {
             core.startGroup("Load gas reports");
+            core.info(`Loading gas reports from "${localReportPath}"`);
             const compareContent = fs.readFileSync(localReportPath, "utf8");
             srcContent !== null && srcContent !== void 0 ? srcContent : (srcContent = compareContent); // if no source gas reports were loaded, defaults to the current gas reports
             const loadOptions = { ignorePatterns: ignore, matchPatterns: match };
+            core.info(`Mapping reference gas reports`);
             const sourceReports = (0, report_1.loadReports)(srcContent, loadOptions);
+            core.info(`Mapping compared gas reports`);
             const compareReports = (0, report_1.loadReports)(compareContent, loadOptions);
             core.endGroup();
             core.startGroup("Compute gas diff");
             const diffRows = (0, report_1.computeDiff)(sourceReports, compareReports);
+            core.info(`Format markdown diff`);
             const markdown = (0, format_1.formatDiffMarkdown)(title, diffRows);
+            core.info(`Format shell diff`);
             const shell = (0, format_1.formatDiffShell)(diffRows);
             core.endGroup();
             console.log(shell);

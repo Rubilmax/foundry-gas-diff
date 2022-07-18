@@ -104,7 +104,10 @@ async function run() {
 
         // @ts-ignore data is unknown
         const zip = new Zip(Buffer.from(res.data));
-        for (const entry of zip.getEntries()) srcContent = zip.readAsText(entry);
+        for (const entry of zip.getEntries()) {
+          core.info(`Loading gas reports from "${entry.entryName}"`);
+          srcContent = zip.readAsText(entry);
+        }
         core.endGroup();
       } else core.error(`No workflow run found with an artifact named "${refReport}"`);
     } catch (error: any) {
@@ -114,17 +117,22 @@ async function run() {
 
   try {
     core.startGroup("Load gas reports");
+    core.info(`Loading gas reports from "${localReportPath}"`);
     const compareContent = fs.readFileSync(localReportPath, "utf8");
     srcContent ??= compareContent; // if no source gas reports were loaded, defaults to the current gas reports
 
     const loadOptions = { ignorePatterns: ignore, matchPatterns: match };
+    core.info(`Mapping reference gas reports`);
     const sourceReports = loadReports(srcContent, loadOptions);
+    core.info(`Mapping compared gas reports`);
     const compareReports = loadReports(compareContent, loadOptions);
     core.endGroup();
 
     core.startGroup("Compute gas diff");
     const diffRows = computeDiff(sourceReports, compareReports);
+    core.info(`Format markdown diff`);
     const markdown = formatDiffMarkdown(title, diffRows);
+    core.info(`Format shell diff`);
     const shell = formatDiffShell(diffRows);
     core.endGroup();
 

@@ -1,7 +1,7 @@
 installing solc version "0.8.13"
 Successfully installed solc 0.8.13
 Compiling 87 files with 0.8.13
-Solc 0.8.13 finished in 29.46s
+Solc 0.8.13 finished in 37.23s
 Compiler run successful
 
 Running 8 tests for test-foundry/compound/TestBorrow.t.sol:TestBorrow
@@ -13,12 +13,12 @@ Running 8 tests for test-foundry/compound/TestBorrow.t.sol:TestBorrow
 [32m[PASS][0m testBorrow6() (gas: 9764653)
 [32m[PASS][0m testBorrowMultipleAssets() (gas: 1451008)
 [32m[PASS][0m testBorrowOnPoolThreshold() (gas: 1188466)
-Test result: [32mok[0m. 8 passed; 0 failed; finished in 52.32s
+Test result: [32mok[0m. 8 passed; 0 failed; finished in 54.71s
 
 Running 11 tests for test-foundry/compound/TestEth.t.sol:TestEth
 [32m[PASS][0m testBorrowEthInP2P() (gas: 1673930)
 [32m[PASS][0m testBorrowEthOnPool() (gas: 1294931)
-[32m[PASS][0m testRepayEthInP2P() (gas: 2116767)
+[32m[PASS][0m testRepayEthInP2P() (gas: 2116767)a
 [32m[PASS][0m testRepayEthOnPool() (gas: 1467685)
 [32m[PASS][0m testShouldGetEthMarketConfiguration() (gas: 62730)
 [32m[PASS][0m testShouldLiquidateUserWithEthAsCollateral() (gas: 2685318)
@@ -27,7 +27,7 @@ Running 11 tests for test-foundry/compound/TestEth.t.sol:TestEth
 [32m[PASS][0m testSupplyEthOnPool() (gas: 545941)
 [32m[PASS][0m testWithdrawEthInP2P() (gas: 1953208)
 [32m[PASS][0m testWithdrawEthOnPool() (gas: 755950)
-Test result: [32mok[0m. 11 passed; 0 failed; finished in 8.22s
+Test result: [32mok[0m. 11 passed; 0 failed; finished in 9.97s
 
 Running 12 tests for test-foundry/compound/TestFees.t.sol:TestFees
 [32m[PASS][0m testOnlyOwnerCanSetTreasuryVault() (gas: 27635)
@@ -42,7 +42,7 @@ Running 12 tests for test-foundry/compound/TestFees.t.sol:TestFees
 [32m[PASS][0m testShouldPayFee() (gas: 4617709)
 [32m[PASS][0m testShouldReduceTheFeeToRepay() (gas: 4652828)
 [32m[PASS][0m testShouldRevertWhenClaimingToZeroAddress() (gas: 3986060)
-Test result: [32mok[0m. 12 passed; 0 failed; finished in 3.58s
+Test result: [32mok[0m. 12 passed; 0 failed; finished in 3.82s
 
 Running 16 tests for test-foundry/compound/TestGovernance.t.sol:TestGovernance
 [32m[PASS][0m testOnlyOwnerCanCreateMarkets() (gas: 537403)
@@ -61,7 +61,7 @@ Running 16 tests for test-foundry/compound/TestGovernance.t.sol:TestGovernance
 [32m[PASS][0m testShouldDeployContractWithTheRightValues() (gas: 30540)
 [32m[PASS][0m testShouldRevertWhenCreatingMarketWithAnImproperMarket() (gas: 60324)
 [32m[PASS][0m testShouldSetMaxGasWithRightValues() (gas: 52228)
-Test result: [32mok[0m. 16 passed; 0 failed; finished in 3.60s
+Test result: [32mok[0m. 16 passed; 0 failed; finished in 3.75s
 
 Running 8 tests for test-foundry/compound/TestIncentivesVault.t.sol:TestIncentivesVault
 [32m[PASS][0m testFailWhenContractNotActive() (gas: 39113)
@@ -72,7 +72,7 @@ Running 8 tests for test-foundry/compound/TestIncentivesVault.t.sol:TestIncentiv
 [32m[PASS][0m testOnlyOwnerShouldSetPauseStatus() (gas: 30779)
 [32m[PASS][0m testOnlyOwnerShouldTransferTokensToDao() (gas: 57911)
 [32m[PASS][0m testShouldGiveTheRightAmountOfRewards() (gas: 272730)
-Test result: [32mok[0m. 8 passed; 0 failed; finished in 1.22s
+Test result: [32mok[0m. 8 passed; 0 failed; finished in 1.29s
 
 Running 6 tests for test-foundry/compound/TestInterestRates.t.sol:TestInterestRates
 [32m[PASS][0m testIndexComputation() (gas: 23153)
@@ -81,7 +81,7 @@ Running 6 tests for test-foundry/compound/TestInterestRates.t.sol:TestInterestRa
 [32m[PASS][0m testIndexComputationWithDelta() (gas: 27428)
 [32m[PASS][0m testIndexComputationWithDeltaAndReserveFactor() (gas: 27471)
 [32m[PASS][0m testIndexComputationWithReserveFactor() (gas: 23197)
-Test result: [32mok[0m. 6 passed; 0 failed; finished in 8.89ms
+Test result: [32mok[0m. 6 passed; 0 failed; finished in 3.62ms
 
 Running 42 tests for test-foundry/compound/TestLens.t.sol:TestLens
 [32m[PASS][0m testComputeLiquidation() (gas: 1814249)
@@ -126,7 +126,7 @@ Running 42 tests for test-foundry/compound/TestLens.t.sol:TestLens
 [32m[PASS][0m testUserLiquidityDataForAssetWithSupply() (gas: 598077)
 [32m[PASS][0m testUserLiquidityDataForAssetWithSupplyAndBorrow() (gas: 1236591)
 [32m[PASS][0m testUserLiquidityDataForAssetWithSupplyAndBorrowWithMultipleAssets() (gas: 1366374)
-Test result: [32mok[0m. 42 passed; 0 failed; finished in 15.86s
+Test result: [32mok[0m. 42 passed; 0 failed; finished in 16.25s
 
 Running 7 tests for test-foundry/compound/TestLiquidate.t.sol:TestLiquidate
 [32m[PASS][0m testCannotBorrowLiquidateInSameBlock() (gas: 1791689)
@@ -136,21 +136,21 @@ Running 7 tests for test-foundry/compound/TestLiquidate.t.sol:TestLiquidate
 [32m[PASS][0m testShouldLiquidateWhileInP2PAndPool() (gas: 3481373)
 [32m[PASS][0m testShouldNotBePossibleToLiquidateUserAboveWater() (gas: 1348944)
 [32m[PASS][0m testShouldPartiallyLiquidateWhileInP2PAndPool() (gas: 3488742)
-Test result: [32mok[0m. 7 passed; 0 failed; finished in 6.89s
+Test result: [32mok[0m. 7 passed; 0 failed; finished in 7.47s
 
 Running 4 tests for test-foundry/compound/TestMarketMember.t.sol:TestMarketMember
 [32m[PASS][0m testShouldNotLiquidateUserNotOnMemberOfMarketAsBorrow() (gas: 1297949)
 [32m[PASS][0m testShouldNotLiquidateUserNotOnMemberOfMarketAsCollateral() (gas: 1298273)
 [32m[PASS][0m testShouldNotRepayWhenNotMarketMember() (gas: 70749)
 [32m[PASS][0m testShouldNotWithdrawWhenNotMarketMember() (gas: 42227)
-Test result: [32mok[0m. 4 passed; 0 failed; finished in 608.99ms
+Test result: [32mok[0m. 4 passed; 0 failed; finished in 607.83ms
 
 Running 4 tests for test-foundry/compound/TestMarketStrategy.t.sol:TestMarketStrategy
 [32m[PASS][0m testShouldPutBorrowerOnPool() (gas: 1649052)
 [32m[PASS][0m testShouldPutBorrowersOnPool() (gas: 2974938)
 [32m[PASS][0m testShouldPutSupplierOnPool() (gas: 1649060)
 [32m[PASS][0m testShouldPutSuppliersOnPool() (gas: 2201505)
-Test result: [32mok[0m. 4 passed; 0 failed; finished in 877.39ms
+Test result: [32mok[0m. 4 passed; 0 failed; finished in 973.45ms
 
 Running 5 tests for test-foundry/compound/TestMorphoGetters.t.sol:TestMorphoGetters
 [32m[PASS][0m testEnteredMarkets() (gas: 1203515)
@@ -158,16 +158,16 @@ Running 5 tests for test-foundry/compound/TestMorphoGetters.t.sol:TestMorphoGett
 [32m[PASS][0m testGetAllMarkets() (gas: 55384)
 [32m[PASS][0m testGetHead() (gas: 1762534)
 [32m[PASS][0m testGetNext() (gas: 38294486)
-Test result: [32mok[0m. 5 passed; 0 failed; finished in 104.99s
+Test result: [32mok[0m. 5 passed; 0 failed; finished in 110.43s
 
 Running 1 test for test-foundry/compound/TestMorphoUtils.t.sol:TestMorphoUtils
 [32m[PASS][0m testUserShouldNotUpdateP2PIndexesOfMarketNotCreated() (gas: 21001)
-Test result: [32mok[0m. 1 passed; 0 failed; finished in 34.61ms
+Test result: [32mok[0m. 1 passed; 0 failed; finished in 49.30ms
 
 Running 2 tests for test-foundry/compound/TestP2PDisable.t.sol:TestP2PDisable
 [32m[PASS][0m testShouldMatchBorrowDeltaWithP2PDisabled() (gas: 3722265)
 [32m[PASS][0m testShouldMatchSupplyDeltaWithP2PDisabled() (gas: 2776843)
-Test result: [32mok[0m. 2 passed; 0 failed; finished in 115.38ms
+Test result: [32mok[0m. 2 passed; 0 failed; finished in 131.27ms
 
 Running 7 tests for test-foundry/compound/TestPausableMarket.t.sol:TestPausableMarket
 [32m[PASS][0m testOnlyOwnerShouldTriggerPartialPauseFunction() (gas: 49981)
@@ -177,7 +177,7 @@ Running 7 tests for test-foundry/compound/TestPausableMarket.t.sol:TestPausableM
 [32m[PASS][0m testShouldDisableMarketWhenPaused() (gas: 3507469)
 [32m[PASS][0m testShouldOnlyEnableRepayWithdrawLiquidateWhenPartiallyPaused() (gas: 4114195)
 [32m[PASS][0m testShouldTriggerFunctionsWhenNotPaused() (gas: 2751285)
-Test result: [32mok[0m. 7 passed; 0 failed; finished in 215.58ms
+Test result: [32mok[0m. 7 passed; 0 failed; finished in 240.84ms
 
 Running 39 tests for test-foundry/compound/TestRatesLens.t.sol:TestRatesLens
 [32m[PASS][0m testAverageBorrowRateShouldEqual0WhenNoBorrow() (gas: 139351)
@@ -219,7 +219,7 @@ Running 39 tests for test-foundry/compound/TestRatesLens.t.sol:TestRatesLens
 [32m[PASS][0m testUserRatesShouldEqualP2PRatesWhenFullyMatched() (gas: 2294065)
 [32m[PASS][0m testUserSupplyRateShouldEqualMidrateWhenHalfMatched() (gas: 2051945)
 [32m[PASS][0m testUserSupplyRateShouldEqualPoolRateWhenNotMatched() (gas: 606862)
-Test result: [32mok[0m. 39 passed; 0 failed; finished in 2.37s
+Test result: [32mok[0m. 39 passed; 0 failed; finished in 2.69s
 
 Running 11 tests for test-foundry/compound/TestSupply.t.sol:TestSupply
 [32m[PASS][0m testFailSupplyZero() (gas: 27213)
@@ -233,7 +233,7 @@ Running 11 tests for test-foundry/compound/TestSupply.t.sol:TestSupply
 [32m[PASS][0m testSupplyOnPoolThreshold() (gas: 422567)
 [32m[PASS][0m testSupplyRepayOnBehalf() (gas: 1722779)
 [32m[PASS][0m testSupplyUpdateIndexesSameAsCompound() (gas: 1634879)
-Test result: [32mok[0m. 11 passed; 0 failed; finished in 53.36s
+Test result: [32mok[0m. 11 passed; 0 failed; finished in 57.36s
 
 Running 12 tests for test-foundry/compound/TestUpgradeable.t.sol:TestUpgradeable
 [32m[PASS][0m testLensImplementationsShouldBeInitialized() (gas: 15162)
@@ -248,7 +248,7 @@ Running 12 tests for test-foundry/compound/TestUpgradeable.t.sol:TestUpgradeable
 [32m[PASS][0m testUpgradeLens() (gas: 4907058)
 [32m[PASS][0m testUpgradeMorpho() (gas: 3733583)
 [32m[PASS][0m testUpgradeRewardsManager() (gas: 1037240)
-Test result: [32mok[0m. 12 passed; 0 failed; finished in 73.69ms
+Test result: [32mok[0m. 12 passed; 0 failed; finished in 88.07ms
 
 Running 15 tests for test-foundry/compound/TestWithdraw.t.sol:TestWithdraw
 [32m[PASS][0m testDeltaWithdraw() (gas: 109649792)
@@ -266,7 +266,7 @@ Running 15 tests for test-foundry/compound/TestWithdraw.t.sol:TestWithdraw
 [32m[PASS][0m testWithdrawAll() (gas: 796039)
 [32m[PASS][0m testWithdrawWhileAttackerSendsCToken() (gas: 2292227)
 [32m[PASS][0m testWithdrawnOnPoolThreshold() (gas: 601135)
-Test result: [32mok[0m. 15 passed; 0 failed; finished in 10.25s
+Test result: [32mok[0m. 15 passed; 0 failed; finished in 11.09s
 
 Running 15 tests for test-foundry/compound/TestRepay.t.sol:TestRepay
 [32m[PASS][0m testCannotBorrowRepayInSameBlock() (gas: 1309315)
@@ -284,13 +284,13 @@ Running 15 tests for test-foundry/compound/TestRepay.t.sol:TestRepay
 [32m[PASS][0m testRepayOnPoolThreshold() (gas: 1435211)
 [32m[PASS][0m testRepayRepayOnBehalf() (gas: 1463431)
 [32m[PASS][0m testRepayUpdateIndexesSameAsCompound() (gas: 3355141)
-Test result: [32mok[0m. 15 passed; 0 failed; finished in 82.77s
+Test result: [32mok[0m. 15 passed; 0 failed; finished in 88.20s
 
 Running 3 tests for test-foundry/compound/TestRoundings.t.sol:TestRounding
 [32m[PASS][0m testRoundingError1() (gas: 531881)
 [32m[PASS][0m testRoundingError2() (gas: 417481)
 [32m[PASS][0m testRoundingError3() (gas: 595622)
-Test result: [32mok[0m. 3 passed; 0 failed; finished in 1.32s
+Test result: [32mok[0m. 3 passed; 0 failed; finished in 1.41s
 
 Running 19 tests for test-foundry/compound/TestRewards.t.sol:TestRewards
 [32m[PASS][0m testFailShouldNotClaimRewardsWhenRewardsManagerIsAddressZero() (gas: 3585442)
@@ -312,7 +312,7 @@ Running 19 tests for test-foundry/compound/TestRewards.t.sol:TestRewards
 [32m[PASS][0m testShouldUpdateCorrectSupplyIndex() (gas: 1457380)
 [32m[PASS][0m testShouldUpdateCorrectSupplyIndexWhenSpeedIs0() (gas: 1276761)
 [32m[PASS][0m testUsersShouldClaimRewardsIndependently() (gas: 4667193)
-Test result: [32mok[0m. 19 passed; 0 failed; finished in 9.42s
+Test result: [32mok[0m. 19 passed; 0 failed; finished in 9.86s
 ╭─────────────────────────────────────────────────────────────────┬─────────────────┬───────┬────────┬───────┬─────────╮
 │ contracts/compound/IncentivesVault.sol:IncentivesVault contract ┆                 ┆       ┆        ┆       ┆         │
 ╞═════════════════════════════════════════════════════════════════╪═════════════════╪═══════╪════════╪═══════╪═════════╡
