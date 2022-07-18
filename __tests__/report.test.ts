@@ -29,9 +29,27 @@ describe("", () => {
   //   );
   // });
 
-  it("should run action", () => {
+  it("should compare 1 to 2 with shell format", () => {
+    const srcContent = fs.readFileSync("__tests__/mocks/gas_report.2.ansi", "utf8");
+    const cmpContent = fs.readFileSync("__tests__/mocks/gas_report.1.ansi", "utf8");
+
+    const loadOptions = { ignorePatterns: ["test-foundry/**/*"] };
+    console.log(
+      formatDiffShell(
+        computeDiff(loadReports(srcContent, loadOptions), loadReports(cmpContent, loadOptions))
+      )
+    );
+  });
+
+  it("should compare 2 to 1 with shell format", () => {
     const srcContent = fs.readFileSync("__tests__/mocks/gas_report.1.ansi", "utf8");
     const cmpContent = fs.readFileSync("__tests__/mocks/gas_report.2.ansi", "utf8");
-    console.log(formatDiffShell(computeDiff(loadReports(srcContent), loadReports(cmpContent))));
+
+    const loadOptions = { ignorePatterns: ["**/User.sol"] };
+    console.log(
+      formatDiffShell(
+        computeDiff(loadReports(srcContent, loadOptions), loadReports(cmpContent, loadOptions))
+      )
+    );
   });
 });

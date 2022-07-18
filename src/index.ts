@@ -12,11 +12,10 @@ import { loadReports, computeDiff } from "./report";
 const workflowId = core.getInput("workflowId");
 const token = process.env.GITHUB_TOKEN || core.getInput("token");
 const report = core.getInput("report");
-const baseBranch: string =
-  core.getInput("base") || context.payload.pull_request?.base.ref || context.ref;
-const headBranch: string =
-  core.getInput("head") || context.payload.pull_request?.head.ref || context.ref;
+const ignore = (core.getInput("ignore") || "").split(",");
+const match = (core.getInput("match") || "").split(",");
 
+const baseBranch: string = context.payload.pull_request?.base.ref || context.ref;
 const baseBranchEscaped = baseBranch.replace(/[/\\]/g, "-");
 const refReport = `${baseBranchEscaped}.${report}`;
 
@@ -28,6 +27,7 @@ let srcContent: string;
 
 async function run() {
   try {
+    const headBranch: string = context.payload.pull_request?.head.ref || context.ref;
     const headBranchEscaped = headBranch.replace(/[/\\]/g, "-");
     const outReport = `${headBranchEscaped}.${report}`;
 
@@ -116,8 +116,9 @@ async function run() {
     const compareContent = fs.readFileSync(localReportPath, "utf8");
     srcContent ??= compareContent; // if no source gas reports were loaded, defaults to the current gas reports
 
-    const sourceReports = loadReports(srcContent);
-    const compareReports = loadReports(compareContent);
+    const loadOptions = { ignorePatterns: ignore, matchPatterns: match };
+    const sourceReports = loadReports(srcContent, loadOptions);
+    const compareReports = loadReports(compareContent, loadOptions);
     core.endGroup();
 
     core.startGroup("Compute gas diff");

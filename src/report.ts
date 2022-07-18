@@ -1,3 +1,5 @@
+import { Minimatch } from "minimatch";
+
 export interface FunctionReport {
   method: string;
   min: number;
@@ -8,7 +10,7 @@ export interface FunctionReport {
 }
 
 export interface ContractReport {
-  name: string;
+  contractName: string;
   deploymentCost: number;
   deploymentSize: number;
   functions: {
@@ -41,7 +43,21 @@ export const variation = (current: number, previous: number) => {
   };
 };
 
-export const loadReports = (content: string): { [name: string]: ContractReport } => {
+export const loadReports = (
+  content: string,
+  {
+    ignorePatterns,
+    matchPatterns,
+  }: {
+    ignorePatterns?: string[];
+    matchPatterns?: string[];
+  }
+): { [name: string]: ContractReport } => {
+  const ignoreMinimatchs = (ignorePatterns ?? [])
+    .concat(["node_modules/**/*"])
+    .map((pattern) => new Minimatch(pattern));
+  const matchMinimatchs = matchPatterns?.map((pattern) => new Minimatch(pattern));
+
   const lines = content.split("\n");
 
   const reportHeaderIndexes = lines
@@ -61,17 +77,31 @@ export const loadReports = (content: string): { [name: string]: ContractReport }
           .filter((line) => !line.startsWith("├") && !line.startsWith("╞"))
       )
       .map((reportLines) => {
-        const [deploymentCost, deploymentSize] = reportLines[2].match(/\d+/g) || [];
+        const [filePath, contractName] = reportLines[0].split(" ")[1].split(":");
+
+        return {
+          filePath,
+          contractName,
+          reportLines: reportLines.slice(1),
+        };
+      })
+      .filter(
+        matchMinimatchs
+          ? ({ filePath }) => matchMinimatchs.some((minimatch) => minimatch.match(filePath))
+          : ({ filePath }) => !ignoreMinimatchs.some((minimatch) => minimatch.match(filePath))
+      )
+      .map(({ contractName, reportLines }) => {
+        const [deploymentCost, deploymentSize] = reportLines[1].match(/\d+/g) || [];
         if (!deploymentCost || !deploymentSize)
           throw Error("No depoyment cost or deployment size found. Is this a Foundry gas report?");
 
         return {
-          name: reportLines[0].split(" ")[1].split(":")[1],
+          contractName,
           deploymentCost: parseFloat(deploymentCost),
           deploymentSize: parseFloat(deploymentSize),
           functions: Object.fromEntries(
             reportLines
-              .slice(4)
+              .slice(3)
               .map((line) => {
                 const [method, min, avg, median, max, calls] = line.split("┆");
 
@@ -88,7 +118,7 @@ export const loadReports = (content: string): { [name: string]: ContractReport }
           ),
         };
       })
-      .map((report) => [report.name, report])
+      .map((report) => [report.contractName, report])
   );
 };
 

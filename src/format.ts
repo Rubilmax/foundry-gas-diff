@@ -15,10 +15,14 @@ export const formatCellShell = (cell: DiffCell) => {
   const format = colors[cell.delta > 0 ? "red" : cell.delta < 0 ? "green" : "reset"];
 
   return [
-    format((isNaN(cell.value) ? "-" : cell.value.toString()).padStart(8)),
-    format((isNaN(cell.delta) ? "-" : plusSign(cell.delta) + cell.delta.toString()).padStart(8)),
+    format((isNaN(cell.value) ? "-" : cell.value.toLocaleString()).padStart(10)),
     format(
-      (isNaN(cell.prcnt) ? "-" : plusSign(cell.prcnt) + cell.prcnt.toFixed(2) + "%").padStart(8)
+      (isNaN(cell.delta) ? "-" : plusSign(cell.delta) + cell.delta.toLocaleString()).padStart(10)
+    ),
+    colors.bold(
+      format(
+        (isNaN(cell.prcnt) ? "-" : plusSign(cell.prcnt) + cell.prcnt.toFixed(2) + "%").padStart(8)
+      )
     ),
   ];
 };
@@ -31,10 +35,10 @@ export const formatDiffShell = (rows: DiffRow[]) => {
     { txt: "", length: 0 },
     { txt: "Contract", length: contractLength },
     { txt: "Method", length: methodLength },
-    { txt: "Min", length: 30 },
-    { txt: "Avg", length: 30 },
-    { txt: "Median", length: 30 },
-    { txt: "Max", length: 30 },
+    { txt: "Min", length: 34 },
+    { txt: "Avg", length: 34 },
+    { txt: "Median", length: 34 },
+    { txt: "Max", length: 34 },
     { txt: "", length: 0 },
   ];
   const HEADER = COLS.map((entry) => colors.bold(center(entry.txt, entry.length || 0)))
@@ -81,10 +85,12 @@ const alignPattern = (align = TextAlign.LEFT) => {
 };
 
 const formatCellMarkdown = (cell: DiffCell) => [
-  isNaN(cell.value) ? "-" : cell.value.toString(),
-  isNaN(cell.delta) ? "-" : plusSign(cell.delta) + cell.delta.toString(),
-  (isNaN(cell.prcnt) ? "-" : plusSign(cell.prcnt) + cell.prcnt.toFixed(2) + "%") +
-    (cell.delta > 0 ? ":x:" : cell.delta < 0 ? ":heavy_check_mark:" : ":heavy_minus_sign:"),
+  isNaN(cell.value) ? "-" : cell.value.toLocaleString(),
+  isNaN(cell.delta) ? "-" : plusSign(cell.delta) + cell.delta.toLocaleString(),
+  "**" +
+    (isNaN(cell.prcnt) ? "-" : plusSign(cell.prcnt) + cell.prcnt.toFixed(2) + "%") +
+    "** " +
+    (cell.delta > 0 ? "❌" : cell.delta < 0 ? "✅" : "➖"),
 ];
 
 export const formatDiffMarkdown = (rows: DiffRow[]) => {
