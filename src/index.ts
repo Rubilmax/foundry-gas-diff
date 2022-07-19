@@ -6,8 +6,8 @@ import * as artifact from "@actions/artifact";
 import * as core from "@actions/core";
 import { context, getOctokit } from "@actions/github";
 
-import { formatDiffMarkdown, formatDiffShell } from "./format";
-import { loadReports, computeDiff } from "./report";
+import { formatMarkdownDiff, formatShellDiff } from "./format";
+import { loadReports, computeDiffs } from "./report";
 
 const workflowId = core.getInput("workflowId");
 const token = process.env.GITHUB_TOKEN || core.getInput("token");
@@ -127,11 +127,11 @@ async function run() {
     core.endGroup();
 
     core.startGroup("Compute gas diff");
-    const diffRows = computeDiff(sourceReports, compareReports);
+    const diffRows = computeDiffs(sourceReports, compareReports);
     core.info(`Format markdown of ${diffRows.length} diffs`);
-    const markdown = formatDiffMarkdown(title, diffRows);
+    const markdown = formatMarkdownDiff(title, diffRows);
     core.info(`Format shell of ${diffRows.length} diffs`);
-    const shell = formatDiffShell(diffRows);
+    const shell = formatShellDiff(diffRows);
     core.endGroup();
 
     console.log(shell);

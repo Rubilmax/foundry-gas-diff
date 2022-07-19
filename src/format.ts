@@ -1,6 +1,6 @@
 import colors from "colors";
 
-import { DiffCell, DiffRow } from "./report";
+import { DiffCell, DiffReport } from "./report";
 
 export enum TextAlign {
   LEFT = "left",
@@ -11,7 +11,7 @@ export enum TextAlign {
 const center = (text: string, length: number) =>
   text.padStart((text.length + length) / 2).padEnd(length);
 
-export const formatCellShell = (cell: DiffCell) => {
+export const formatShellCell = (cell: DiffCell) => {
   const format = colors[cell.delta > 0 ? "red" : cell.delta < 0 ? "green" : "reset"];
 
   return [
@@ -27,47 +27,57 @@ export const formatCellShell = (cell: DiffCell) => {
   ];
 };
 
-export const formatDiffShell = (rows: DiffRow[]) => {
-  const contractLength = Math.max(8, ...rows.map(({ contract }) => contract.length));
-  const methodLength = Math.max(7, ...rows.map(({ method }) => method.length));
+export const formatShellDiff = (diffs: DiffReport[]) => {
+  const maxContractLength = Math.max(8, ...diffs.map(({ name }) => name.length));
+  const maxMethodLength = Math.max(
+    7,
+    ...diffs.flatMap(({ methods }) => methods.map(({ name }) => name.length))
+  );
 
   const COLS = [
     { txt: "", length: 0 },
-    { txt: "Contract", length: contractLength },
-    { txt: "Method", length: methodLength },
+    { txt: "Contract", length: maxContractLength },
+    { txt: "Method", length: maxMethodLength },
     { txt: "Min", length: 34 },
     { txt: "Avg", length: 34 },
     { txt: "Median", length: 34 },
     { txt: "Max", length: 34 },
     { txt: "", length: 0 },
   ];
-  const HEADER = COLS.map((entry) => colors.bold(center(entry.txt, entry.length || 0)))
+  const header = COLS.map((entry) => colors.bold(center(entry.txt, entry.length || 0)))
     .join(" | ")
     .trim();
-  const SEPARATOR = COLS.map(({ length }) => (length > 0 ? "-".repeat(length + 2) : ""))
+  const contractSeparator = COLS.map(({ length }) => (length > 0 ? "-".repeat(length + 2) : ""))
     .join("|")
     .trim();
 
   return [
     "",
-    HEADER,
-    ...rows.map((entry) =>
-      [
-        "",
-        colors.grey(entry.contract.padEnd(contractLength)),
-        entry.method.padEnd(methodLength),
-        ...formatCellShell(entry.min),
-        ...formatCellShell(entry.avg),
-        ...formatCellShell(entry.median),
-        ...formatCellShell(entry.max),
-        "",
-      ]
-        .join(" | ")
+    header,
+    ...diffs.map((diff) =>
+      diff.methods
+        .map((method, methodIndex) =>
+          [
+            "",
+            colors.bold(
+              colors.grey((methodIndex === 0 ? diff.name : "").padEnd(maxContractLength))
+            ),
+            colors.italic(method.name.padEnd(maxMethodLength)),
+            ...formatShellCell(method.min),
+            ...formatShellCell(method.avg),
+            ...formatShellCell(method.median),
+            ...formatShellCell(method.max),
+            "",
+          ]
+            .join(" | ")
+            .trim()
+        )
+        .join("\n")
         .trim()
     ),
     "",
   ]
-    .join(`\n${SEPARATOR}\n`)
+    .join(`\n${contractSeparator}\n`)
     .trim();
 };
 
@@ -84,16 +94,24 @@ const alignPattern = (align = TextAlign.LEFT) => {
   }
 };
 
-const formatCellMarkdown = (cell: DiffCell) => [
-  isNaN(cell.value) ? "-" : cell.value.toLocaleString(),
-  isNaN(cell.delta) ? "-" : plusSign(cell.delta) + cell.delta.toLocaleString(),
-  "**" +
-    (isNaN(cell.prcnt) ? "-" : plusSign(cell.prcnt) + cell.prcnt.toFixed(2) + "%") +
-    "** " +
-    (cell.delta > 0 ? "❌" : cell.delta < 0 ? "✅" : "➖"),
+const formatMarkdownCell = (rows: DiffCell[]) => [
+  rows.map((row) => (isNaN(row.value) ? "-" : row.value.toLocaleString())).join("<br />"),
+  rows
+    .map(
+      (row) =>
+        (isNaN(row.delta) ? "-" : plusSign(row.delta) + row.delta.toLocaleString()) +
+        (row.delta > 0 ? "❌" : row.delta < 0 ? "✅" : "➖")
+    )
+    .join("<br />"),
+  rows
+    .map(
+      (row) =>
+        "**" + (isNaN(row.prcnt) ? "-" : plusSign(row.prcnt) + row.prcnt.toFixed(2) + "%") + "**"
+    )
+    .join("<br />"),
 ];
 
-export const formatDiffMarkdown = (title: string, rows: DiffRow[]) => {
+export const formatMarkdownDiff = (title: string, diffs: DiffReport[]) => {
   const COLS = [
     { txt: "" },
     { txt: "Contract", align: TextAlign.LEFT },
@@ -113,28 +131,28 @@ export const formatDiffMarkdown = (title: string, rows: DiffRow[]) => {
     { txt: "" },
   ];
 
-  const HEADER = COLS.map((entry) => entry.txt)
+  const header = COLS.map((entry) => entry.txt)
     .join(" | ")
     .trim();
-  const SEPARATOR = COLS.map((entry) => (entry.txt ? alignPattern(entry.align) : ""))
+  const contractSeparator = COLS.map((entry) => (entry.txt ? alignPattern(entry.align) : ""))
     .join("|")
     .trim();
 
   return [
     "# " + title,
     "",
-    HEADER,
-    SEPARATOR,
-    rows
-      .map((entry) =>
+    header,
+    contractSeparator,
+    diffs
+      .flatMap((diff) =>
         [
           "",
-          entry.contract,
-          entry.method,
-          ...formatCellMarkdown(entry.min),
-          ...formatCellMarkdown(entry.avg),
-          ...formatCellMarkdown(entry.median),
-          ...formatCellMarkdown(entry.max),
+          `**${diff.name}**`,
+          diff.methods.map((method) => `_${method.name}_`).join("<br />"),
+          ...formatMarkdownCell(diff.methods.map((method) => method.min)),
+          ...formatMarkdownCell(diff.methods.map((method) => method.avg)),
+          ...formatMarkdownCell(diff.methods.map((method) => method.median)),
+          ...formatMarkdownCell(diff.methods.map((method) => method.max)),
           "",
         ]
           .join(" | ")

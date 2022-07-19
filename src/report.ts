@@ -1,7 +1,7 @@
 import { Minimatch } from "minimatch";
 
-export interface FunctionReport {
-  method: string;
+export interface MethodReport {
+  name: string;
   min: number;
   avg: number;
   median: number;
@@ -10,21 +10,32 @@ export interface FunctionReport {
 }
 
 export interface ContractReport {
-  contractName: string;
+  name: string;
+  filePath: string;
   deploymentCost: number;
   deploymentSize: number;
-  functions: {
-    [name: string]: FunctionReport;
+  methods: {
+    [name: string]: MethodReport;
   };
 }
 
-export interface DiffRow {
-  contract: string;
-  method: string;
-  min: DiffCell;
-  avg: DiffCell;
-  median: DiffCell;
-  max: DiffCell;
+export interface GasReport {
+  [name: string]: ContractReport;
+}
+
+export interface DiffReport {
+  name: string;
+  filePath: string;
+  deploymentCost: DiffCell;
+  deploymentSize: DiffCell;
+  methods: {
+    name: string;
+    min: DiffCell;
+    avg: DiffCell;
+    median: DiffCell;
+    max: DiffCell;
+    calls: DiffCell;
+  }[];
 }
 
 export interface DiffCell {
@@ -52,7 +63,7 @@ export const loadReports = (
     ignorePatterns?: string[];
     matchPatterns?: string[];
   }
-): { [name: string]: ContractReport } => {
+): GasReport => {
   const ignoreMinimatchs = (ignorePatterns ?? [])
     .concat(["node_modules/**/*"])
     .map((pattern) => new Minimatch(pattern));
@@ -77,11 +88,11 @@ export const loadReports = (
           .filter((line) => !line.startsWith("├") && !line.startsWith("╞"))
       )
       .map((reportLines) => {
-        const [filePath, contractName] = reportLines[0].split(" ")[1].split(":");
+        const [filePath, name] = reportLines[0].split(" ")[1].split(":");
 
         return {
+          name,
           filePath,
-          contractName,
           reportLines: reportLines.slice(1),
         };
       })
@@ -90,23 +101,24 @@ export const loadReports = (
           ? ({ filePath }) => matchMinimatchs.some((minimatch) => minimatch.match(filePath))
           : ({ filePath }) => !ignoreMinimatchs.some((minimatch) => minimatch.match(filePath))
       )
-      .map(({ contractName, reportLines }) => {
+      .map(({ name, filePath, reportLines }) => {
         const [deploymentCost, deploymentSize] = reportLines[1].match(/\d+/g) || [];
         if (!deploymentCost || !deploymentSize)
           throw Error("No depoyment cost or deployment size found. Is this a Foundry gas report?");
 
         return {
-          contractName,
+          name,
+          filePath,
           deploymentCost: parseFloat(deploymentCost),
           deploymentSize: parseFloat(deploymentSize),
-          functions: Object.fromEntries(
+          methods: Object.fromEntries(
             reportLines
               .slice(3)
               .map((line) => {
                 const [method, min, avg, median, max, calls] = line.split("┆");
 
                 return {
-                  method: method.split(" ")[1],
+                  name: method.split(" ")[1],
                   min: parseFloat(min),
                   avg: parseFloat(avg),
                   median: parseFloat(median),
@@ -114,52 +126,76 @@ export const loadReports = (
                   calls: parseFloat(calls),
                 };
               })
-              .map((functionReport) => [functionReport.method, functionReport])
+              .map((methodReport) => [methodReport.name, methodReport])
           ),
         };
       })
-      .map((report) => [report.contractName, report])
+      .map((report) => [report.name, report])
   );
 };
 
-export const computeDiff = (
-  sourceReports: {
-    [name: string]: ContractReport;
-  },
-  compareReports: {
-    [name: string]: ContractReport;
-  }
-): DiffRow[] => {
+export const computeDiffs = (sourceReports: GasReport, compareReports: GasReport): DiffReport[] => {
   const sourceReportNames = Object.keys(sourceReports);
   const commonReportNames = Object.keys(compareReports).filter((name) =>
     sourceReportNames.includes(name)
   );
 
   return commonReportNames
-    .flatMap((reportName) =>
-      Object.values(sourceReports[reportName].functions).map((functionReport) => ({
-        contract: reportName,
-        method: functionReport.method,
-        min: variation(
-          compareReports[reportName].functions[functionReport.method].min,
-          sourceReports[reportName].functions[functionReport.method].min
-        ),
-        avg: variation(
-          compareReports[reportName].functions[functionReport.method].avg,
-          sourceReports[reportName].functions[functionReport.method].avg
-        ),
-        median: variation(
-          compareReports[reportName].functions[functionReport.method].median,
-          sourceReports[reportName].functions[functionReport.method].median
-        ),
-        max: variation(
-          compareReports[reportName].functions[functionReport.method].max,
-          sourceReports[reportName].functions[functionReport.method].max
-        ),
-      }))
-    )
-    .filter(
-      (row) =>
-        row.min.delta !== 0 || row.avg.delta !== 0 || row.median.delta !== 0 || row.max.delta !== 0
-    );
+    .map((reportName) => {
+      const srcReport = sourceReports[reportName];
+      const cmpReport = compareReports[reportName];
+
+      return {
+        ...srcReport,
+        deploymentCost: variation(cmpReport.deploymentCost, srcReport.deploymentCost),
+        deploymentSize: variation(cmpReport.deploymentSize, srcReport.deploymentSize),
+        methods: Object.values(srcReport.methods)
+          .map((methodReport) => ({
+            ...methodReport,
+            min: variation(
+              cmpReport.methods[methodReport.name].min,
+              srcReport.methods[methodReport.name].min
+            ),
+            avg: variation(
+              cmpReport.methods[methodReport.name].avg,
+              srcReport.methods[methodReport.name].avg
+            ),
+            median: variation(
+              cmpReport.methods[methodReport.name].median,
+              srcReport.methods[methodReport.name].median
+            ),
+            max: variation(
+              cmpReport.methods[methodReport.name].max,
+              srcReport.methods[methodReport.name].max
+            ),
+            calls: variation(
+              cmpReport.methods[methodReport.name].max,
+              srcReport.methods[methodReport.name].max
+            ),
+          }))
+          .filter(
+            (row) =>
+              row.min.delta !== 0 ||
+              row.avg.delta !== 0 ||
+              row.median.delta !== 0 ||
+              row.max.delta !== 0
+          )
+          .sort(
+            (method1, method2) =>
+              Math.max(
+                Math.abs(method2.min.prcnt),
+                Math.abs(method2.avg.prcnt),
+                Math.abs(method2.median.prcnt),
+                Math.abs(method2.max.prcnt)
+              ) -
+              Math.max(
+                Math.abs(method1.min.prcnt),
+                Math.abs(method1.avg.prcnt),
+                Math.abs(method1.median.prcnt),
+                Math.abs(method1.max.prcnt)
+              )
+          ),
+      };
+    })
+    .filter((diff) => diff.methods.length > 0);
 };

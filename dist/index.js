@@ -10,7 +10,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.formatDiffMarkdown = exports.formatDiffShell = exports.formatCellShell = exports.TextAlign = void 0;
+exports.formatMarkdownDiff = exports.formatShellDiff = exports.formatShellCell = exports.TextAlign = void 0;
 const colors_1 = __importDefault(__nccwpck_require__(3045));
 var TextAlign;
 (function (TextAlign) {
@@ -19,7 +19,7 @@ var TextAlign;
     TextAlign["CENTER"] = "center";
 })(TextAlign = exports.TextAlign || (exports.TextAlign = {}));
 const center = (text, length) => text.padStart((text.length + length) / 2).padEnd(length);
-const formatCellShell = (cell) => {
+const formatShellCell = (cell) => {
     const format = colors_1.default[cell.delta > 0 ? "red" : cell.delta < 0 ? "green" : "reset"];
     return [
         format((isNaN(cell.value) ? "-" : cell.value.toLocaleString()).padStart(10)),
@@ -27,47 +27,50 @@ const formatCellShell = (cell) => {
         colors_1.default.bold(format((isNaN(cell.prcnt) ? "-" : plusSign(cell.prcnt) + cell.prcnt.toFixed(2) + "%").padStart(8))),
     ];
 };
-exports.formatCellShell = formatCellShell;
-const formatDiffShell = (rows) => {
-    const contractLength = Math.max(8, ...rows.map(({ contract }) => contract.length));
-    const methodLength = Math.max(7, ...rows.map(({ method }) => method.length));
+exports.formatShellCell = formatShellCell;
+const formatShellDiff = (diffs) => {
+    const maxContractLength = Math.max(8, ...diffs.map(({ name }) => name.length));
+    const maxMethodLength = Math.max(7, ...diffs.flatMap(({ methods }) => methods.map(({ name }) => name.length)));
     const COLS = [
         { txt: "", length: 0 },
-        { txt: "Contract", length: contractLength },
-        { txt: "Method", length: methodLength },
+        { txt: "Contract", length: maxContractLength },
+        { txt: "Method", length: maxMethodLength },
         { txt: "Min", length: 34 },
         { txt: "Avg", length: 34 },
         { txt: "Median", length: 34 },
         { txt: "Max", length: 34 },
         { txt: "", length: 0 },
     ];
-    const HEADER = COLS.map((entry) => colors_1.default.bold(center(entry.txt, entry.length || 0)))
+    const header = COLS.map((entry) => colors_1.default.bold(center(entry.txt, entry.length || 0)))
         .join(" | ")
         .trim();
-    const SEPARATOR = COLS.map(({ length }) => (length > 0 ? "-".repeat(length + 2) : ""))
+    const contractSeparator = COLS.map(({ length }) => (length > 0 ? "-".repeat(length + 2) : ""))
         .join("|")
         .trim();
     return [
         "",
-        HEADER,
-        ...rows.map((entry) => [
+        header,
+        ...diffs.map((diff) => diff.methods
+            .map((method, methodIndex) => [
             "",
-            colors_1.default.grey(entry.contract.padEnd(contractLength)),
-            entry.method.padEnd(methodLength),
-            ...(0, exports.formatCellShell)(entry.min),
-            ...(0, exports.formatCellShell)(entry.avg),
-            ...(0, exports.formatCellShell)(entry.median),
-            ...(0, exports.formatCellShell)(entry.max),
+            colors_1.default.bold(colors_1.default.grey((methodIndex === 0 ? diff.name : "").padEnd(maxContractLength))),
+            colors_1.default.italic(method.name.padEnd(maxMethodLength)),
+            ...(0, exports.formatShellCell)(method.min),
+            ...(0, exports.formatShellCell)(method.avg),
+            ...(0, exports.formatShellCell)(method.median),
+            ...(0, exports.formatShellCell)(method.max),
             "",
         ]
             .join(" | ")
+            .trim())
+            .join("\n")
             .trim()),
         "",
     ]
-        .join(`\n${SEPARATOR}\n`)
+        .join(`\n${contractSeparator}\n`)
         .trim();
 };
-exports.formatDiffShell = formatDiffShell;
+exports.formatShellDiff = formatShellDiff;
 const plusSign = (num) => (num > 0 ? "+" : "");
 const alignPattern = (align = TextAlign.LEFT) => {
     switch (align) {
@@ -79,15 +82,17 @@ const alignPattern = (align = TextAlign.LEFT) => {
             return ":-:";
     }
 };
-const formatCellMarkdown = (cell) => [
-    isNaN(cell.value) ? "-" : cell.value.toLocaleString(),
-    isNaN(cell.delta) ? "-" : plusSign(cell.delta) + cell.delta.toLocaleString(),
-    "**" +
-        (isNaN(cell.prcnt) ? "-" : plusSign(cell.prcnt) + cell.prcnt.toFixed(2) + "%") +
-        "** " +
-        (cell.delta > 0 ? "❌" : cell.delta < 0 ? "✅" : "➖"),
+const formatMarkdownCell = (rows) => [
+    rows.map((row) => (isNaN(row.value) ? "-" : row.value.toLocaleString())).join("<br />"),
+    rows
+        .map((row) => (isNaN(row.delta) ? "-" : plusSign(row.delta) + row.delta.toLocaleString()) +
+        (row.delta > 0 ? "❌" : row.delta < 0 ? "✅" : "➖"))
+        .join("<br />"),
+    rows
+        .map((row) => "**" + (isNaN(row.prcnt) ? "-" : plusSign(row.prcnt) + row.prcnt.toFixed(2) + "%") + "**")
+        .join("<br />"),
 ];
-const formatDiffMarkdown = (title, rows) => {
+const formatMarkdownDiff = (title, diffs) => {
     const COLS = [
         { txt: "" },
         { txt: "Contract", align: TextAlign.LEFT },
@@ -106,26 +111,26 @@ const formatDiffMarkdown = (title, rows) => {
         { txt: "%", align: TextAlign.RIGHT },
         { txt: "" },
     ];
-    const HEADER = COLS.map((entry) => entry.txt)
+    const header = COLS.map((entry) => entry.txt)
         .join(" | ")
         .trim();
-    const SEPARATOR = COLS.map((entry) => (entry.txt ? alignPattern(entry.align) : ""))
+    const contractSeparator = COLS.map((entry) => (entry.txt ? alignPattern(entry.align) : ""))
         .join("|")
         .trim();
     return [
         "# " + title,
         "",
-        HEADER,
-        SEPARATOR,
-        rows
-            .map((entry) => [
+        header,
+        contractSeparator,
+        diffs
+            .flatMap((diff) => [
             "",
-            entry.contract,
-            entry.method,
-            ...formatCellMarkdown(entry.min),
-            ...formatCellMarkdown(entry.avg),
-            ...formatCellMarkdown(entry.median),
-            ...formatCellMarkdown(entry.max),
+            `**${diff.name}**`,
+            diff.methods.map((method) => `_${method.name}_`).join("<br />"),
+            ...formatMarkdownCell(diff.methods.map((method) => method.min)),
+            ...formatMarkdownCell(diff.methods.map((method) => method.avg)),
+            ...formatMarkdownCell(diff.methods.map((method) => method.median)),
+            ...formatMarkdownCell(diff.methods.map((method) => method.max)),
             "",
         ]
             .join(" | ")
@@ -136,7 +141,7 @@ const formatDiffMarkdown = (title, rows) => {
         .join("\n")
         .trim();
 };
-exports.formatDiffMarkdown = formatDiffMarkdown;
+exports.formatMarkdownDiff = formatMarkdownDiff;
 
 
 /***/ }),
@@ -307,11 +312,11 @@ function run() {
             const compareReports = (0, report_1.loadReports)(compareContent, loadOptions);
             core.endGroup();
             core.startGroup("Compute gas diff");
-            const diffRows = (0, report_1.computeDiff)(sourceReports, compareReports);
+            const diffRows = (0, report_1.computeDiffs)(sourceReports, compareReports);
             core.info(`Format markdown of ${diffRows.length} diffs`);
-            const markdown = (0, format_1.formatDiffMarkdown)(title, diffRows);
+            const markdown = (0, format_1.formatMarkdownDiff)(title, diffRows);
             core.info(`Format shell of ${diffRows.length} diffs`);
-            const shell = (0, format_1.formatDiffShell)(diffRows);
+            const shell = (0, format_1.formatShellDiff)(diffRows);
             core.endGroup();
             console.log(shell);
             core.setOutput("shell", shell);
@@ -333,7 +338,7 @@ run();
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.computeDiff = exports.loadReports = exports.variation = void 0;
+exports.computeDiffs = exports.loadReports = exports.variation = void 0;
 const minimatch_1 = __nccwpck_require__(3973);
 const BASE_TX_COST = 21000;
 const variation = (current, previous) => {
@@ -360,30 +365,31 @@ const loadReports = (content, { ignorePatterns, matchPatterns, }) => {
         lines.slice(reportHeaderIndex).findIndex((line) => line.startsWith("╰")))
         .filter((line) => !line.startsWith("├") && !line.startsWith("╞")))
         .map((reportLines) => {
-        const [filePath, contractName] = reportLines[0].split(" ")[1].split(":");
+        const [filePath, name] = reportLines[0].split(" ")[1].split(":");
         return {
+            name,
             filePath,
-            contractName,
             reportLines: reportLines.slice(1),
         };
     })
         .filter(matchMinimatchs
         ? ({ filePath }) => matchMinimatchs.some((minimatch) => minimatch.match(filePath))
         : ({ filePath }) => !ignoreMinimatchs.some((minimatch) => minimatch.match(filePath)))
-        .map(({ contractName, reportLines }) => {
+        .map(({ name, filePath, reportLines }) => {
         const [deploymentCost, deploymentSize] = reportLines[1].match(/\d+/g) || [];
         if (!deploymentCost || !deploymentSize)
             throw Error("No depoyment cost or deployment size found. Is this a Foundry gas report?");
         return {
-            contractName,
+            name,
+            filePath,
             deploymentCost: parseFloat(deploymentCost),
             deploymentSize: parseFloat(deploymentSize),
-            functions: Object.fromEntries(reportLines
+            methods: Object.fromEntries(reportLines
                 .slice(3)
                 .map((line) => {
                 const [method, min, avg, median, max, calls] = line.split("┆");
                 return {
-                    method: method.split(" ")[1],
+                    name: method.split(" ")[1],
                     min: parseFloat(min),
                     avg: parseFloat(avg),
                     median: parseFloat(median),
@@ -391,27 +397,31 @@ const loadReports = (content, { ignorePatterns, matchPatterns, }) => {
                     calls: parseFloat(calls),
                 };
             })
-                .map((functionReport) => [functionReport.method, functionReport])),
+                .map((methodReport) => [methodReport.name, methodReport])),
         };
     })
-        .map((report) => [report.contractName, report]));
+        .map((report) => [report.name, report]));
 };
 exports.loadReports = loadReports;
-const computeDiff = (sourceReports, compareReports) => {
+const computeDiffs = (sourceReports, compareReports) => {
     const sourceReportNames = Object.keys(sourceReports);
     const commonReportNames = Object.keys(compareReports).filter((name) => sourceReportNames.includes(name));
     return commonReportNames
-        .flatMap((reportName) => Object.values(sourceReports[reportName].functions).map((functionReport) => ({
-        contract: reportName,
-        method: functionReport.method,
-        min: (0, exports.variation)(compareReports[reportName].functions[functionReport.method].min, sourceReports[reportName].functions[functionReport.method].min),
-        avg: (0, exports.variation)(compareReports[reportName].functions[functionReport.method].avg, sourceReports[reportName].functions[functionReport.method].avg),
-        median: (0, exports.variation)(compareReports[reportName].functions[functionReport.method].median, sourceReports[reportName].functions[functionReport.method].median),
-        max: (0, exports.variation)(compareReports[reportName].functions[functionReport.method].max, sourceReports[reportName].functions[functionReport.method].max),
-    })))
-        .filter((row) => row.min.delta !== 0 || row.avg.delta !== 0 || row.median.delta !== 0 || row.max.delta !== 0);
+        .map((reportName) => {
+        const srcReport = sourceReports[reportName];
+        const cmpReport = compareReports[reportName];
+        return Object.assign(Object.assign({}, srcReport), { deploymentCost: (0, exports.variation)(cmpReport.deploymentCost, srcReport.deploymentCost), deploymentSize: (0, exports.variation)(cmpReport.deploymentSize, srcReport.deploymentSize), methods: Object.values(srcReport.methods)
+                .map((methodReport) => (Object.assign(Object.assign({}, methodReport), { min: (0, exports.variation)(cmpReport.methods[methodReport.name].min, srcReport.methods[methodReport.name].min), avg: (0, exports.variation)(cmpReport.methods[methodReport.name].avg, srcReport.methods[methodReport.name].avg), median: (0, exports.variation)(cmpReport.methods[methodReport.name].median, srcReport.methods[methodReport.name].median), max: (0, exports.variation)(cmpReport.methods[methodReport.name].max, srcReport.methods[methodReport.name].max), calls: (0, exports.variation)(cmpReport.methods[methodReport.name].max, srcReport.methods[methodReport.name].max) })))
+                .filter((row) => row.min.delta !== 0 ||
+                row.avg.delta !== 0 ||
+                row.median.delta !== 0 ||
+                row.max.delta !== 0)
+                .sort((method1, method2) => Math.max(Math.abs(method2.min.prcnt), Math.abs(method2.avg.prcnt), Math.abs(method2.median.prcnt), Math.abs(method2.max.prcnt)) -
+                Math.max(Math.abs(method1.min.prcnt), Math.abs(method1.avg.prcnt), Math.abs(method1.median.prcnt), Math.abs(method1.max.prcnt))) });
+    })
+        .filter((diff) => diff.methods.length > 0);
 };
-exports.computeDiff = computeDiff;
+exports.computeDiffs = computeDiffs;
 
 
 /***/ }),
