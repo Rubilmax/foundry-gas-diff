@@ -169,8 +169,8 @@ export const computeDiffs = (sourceReports: GasReport, compareReports: GasReport
               srcReport.methods[methodReport.name].max
             ),
             calls: variation(
-              cmpReport.methods[methodReport.name].max,
-              srcReport.methods[methodReport.name].max
+              cmpReport.methods[methodReport.name].calls,
+              srcReport.methods[methodReport.name].calls
             ),
           }))
           .filter(
@@ -180,22 +180,18 @@ export const computeDiffs = (sourceReports: GasReport, compareReports: GasReport
               row.median.delta !== 0 ||
               row.max.delta !== 0
           )
-          .sort(
-            (method1, method2) =>
-              Math.max(
-                Math.abs(method2.min.prcnt),
-                Math.abs(method2.avg.prcnt),
-                Math.abs(method2.median.prcnt),
-                Math.abs(method2.max.prcnt)
-              ) -
-              Math.max(
-                Math.abs(method1.min.prcnt),
-                Math.abs(method1.avg.prcnt),
-                Math.abs(method1.median.prcnt),
-                Math.abs(method1.max.prcnt)
-              )
-          ),
+          .sort((method1, method2) => Math.abs(method2.avg.prcnt) - Math.abs(method1.avg.prcnt)),
       };
     })
-    .filter((diff) => diff.methods.length > 0);
+    .filter(
+      (diff) =>
+        diff.methods.length > 0 ||
+        diff.deploymentCost.delta !== 0 ||
+        diff.deploymentSize.delta !== 0
+    )
+    .sort(
+      (diff1, diff2) =>
+        Math.max(...diff2.methods.map((method) => Math.abs(method.avg.prcnt))) -
+        Math.max(...diff1.methods.map((method) => Math.abs(method.avg.prcnt)))
+    );
 };

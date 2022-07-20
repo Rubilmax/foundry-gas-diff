@@ -11,12 +11,13 @@ export enum TextAlign {
 const center = (text: string, length: number) =>
   text.padStart((text.length + length) / 2).padEnd(length);
 
-export const formatShellCell = (cell: DiffCell) => {
+export const formatShellCell = (cell: DiffCell, length = 10) => {
   const format = colors[cell.delta > 0 ? "red" : cell.delta < 0 ? "green" : "reset"];
 
   return [
-    format(cell.value.toLocaleString().padStart(10)),
-    format((plusSign(cell.delta) + cell.delta.toLocaleString()).padStart(10)),
+    cell.value.toLocaleString().padStart(length) +
+      " " +
+      format(("(" + (plusSign(cell.delta) + cell.delta.toLocaleString()) + ")").padEnd(length)),
     colors.bold(format((plusSign(cell.prcnt) + cell.prcnt.toFixed(2) + "%").padStart(8))),
   ];
 };
@@ -31,11 +32,13 @@ export const formatShellDiff = (diffs: DiffReport[]) => {
   const COLS = [
     { txt: "", length: 0 },
     { txt: "Contract", length: maxContractLength },
+    { txt: "Deployment Cost (+/-)", length: 32 },
     { txt: "Method", length: maxMethodLength },
-    { txt: "Min", length: 34 },
-    { txt: "Avg", length: 34 },
-    { txt: "Median", length: 34 },
-    { txt: "Max", length: 34 },
+    { txt: "Min (+/-)", length: 32 },
+    { txt: "Avg (+/-)", length: 32 },
+    { txt: "Median (+/-)", length: 32 },
+    { txt: "Max (+/-)", length: 32 },
+    { txt: "# Calls (+/-)", length: 13 },
     { txt: "", length: 0 },
   ];
   const header = COLS.map((entry) => colors.bold(center(entry.txt, entry.length || 0)))
@@ -56,11 +59,13 @@ export const formatShellDiff = (diffs: DiffReport[]) => {
             colors.bold(
               colors.grey((methodIndex === 0 ? diff.name : "").padEnd(maxContractLength))
             ),
+            ...(methodIndex === 0 ? formatShellCell(diff.deploymentCost) : ["".padEnd(32)]),
             colors.italic(method.name.padEnd(maxMethodLength)),
             ...formatShellCell(method.min),
             ...formatShellCell(method.avg),
             ...formatShellCell(method.median),
             ...formatShellCell(method.max),
+            formatShellCell(method.calls, 6)[0],
             "",
           ]
             .join(" | ")
@@ -94,6 +99,7 @@ const formatMarkdownSummaryCell = (rows: DiffCell[]) => [
       (row) =>
         plusSign(row.delta) +
         row.delta.toLocaleString() +
+        " " +
         (row.delta > 0 ? "❌" : row.delta < 0 ? "✅" : "➖")
     )
     .join("<br />"),
@@ -108,7 +114,6 @@ const formatMarkdownFullCell = (rows: DiffCell[]) => [
         "&nbsp;(" +
         plusSign(row.delta) +
         row.delta.toLocaleString() +
-        (row.delta > 0 ? "❌" : row.delta < 0 ? "✅" : "➖") +
         ")"
     )
     .join("<br />"),
@@ -127,15 +132,17 @@ const MARKDOWN_SUMMARY_COLS = [
 const MARKDOWN_DIFF_COLS = [
   { txt: "" },
   { txt: "Contract", align: TextAlign.LEFT },
+  { txt: "Deployment Cost (+/-)", align: TextAlign.RIGHT },
   { txt: "Method", align: TextAlign.LEFT },
-  { txt: "Min", align: TextAlign.RIGHT },
+  { txt: "Min (+/-)", align: TextAlign.RIGHT },
   { txt: "%", align: TextAlign.RIGHT },
-  { txt: "Avg", align: TextAlign.RIGHT },
+  { txt: "Avg (+/-)", align: TextAlign.RIGHT },
   { txt: "%", align: TextAlign.RIGHT },
-  { txt: "Median", align: TextAlign.RIGHT },
+  { txt: "Median (+/-)", align: TextAlign.RIGHT },
   { txt: "%", align: TextAlign.RIGHT },
-  { txt: "Max", align: TextAlign.RIGHT },
+  { txt: "Max (+/-)", align: TextAlign.RIGHT },
   { txt: "%", align: TextAlign.RIGHT },
+  { txt: "# Calls (+/-)", align: TextAlign.RIGHT },
   { txt: "" },
 ];
 
@@ -189,11 +196,13 @@ export const formatMarkdownDiff = (title: string, diffs: DiffReport[]) => {
         [
           "",
           `**${diff.name}**`,
+          formatMarkdownFullCell([diff.deploymentCost])[0],
           diff.methods.map((method) => `_${method.name}_`).join("<br />"),
           ...formatMarkdownFullCell(diff.methods.map((method) => method.min)),
           ...formatMarkdownFullCell(diff.methods.map((method) => method.avg)),
           ...formatMarkdownFullCell(diff.methods.map((method) => method.median)),
           ...formatMarkdownFullCell(diff.methods.map((method) => method.max)),
+          formatMarkdownFullCell(diff.methods.map((method) => method.calls))[0],
           "",
         ]
           .join(" | ")

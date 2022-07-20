@@ -19,11 +19,12 @@ var TextAlign;
     TextAlign["CENTER"] = "center";
 })(TextAlign = exports.TextAlign || (exports.TextAlign = {}));
 const center = (text, length) => text.padStart((text.length + length) / 2).padEnd(length);
-const formatShellCell = (cell) => {
+const formatShellCell = (cell, length = 10) => {
     const format = colors_1.default[cell.delta > 0 ? "red" : cell.delta < 0 ? "green" : "reset"];
     return [
-        format(cell.value.toLocaleString().padStart(10)),
-        format((plusSign(cell.delta) + cell.delta.toLocaleString()).padStart(10)),
+        cell.value.toLocaleString().padStart(length) +
+            " " +
+            format(("(" + (plusSign(cell.delta) + cell.delta.toLocaleString()) + ")").padEnd(length)),
         colors_1.default.bold(format((plusSign(cell.prcnt) + cell.prcnt.toFixed(2) + "%").padStart(8))),
     ];
 };
@@ -34,11 +35,13 @@ const formatShellDiff = (diffs) => {
     const COLS = [
         { txt: "", length: 0 },
         { txt: "Contract", length: maxContractLength },
+        { txt: "Deployment Cost (+/-)", length: 32 },
         { txt: "Method", length: maxMethodLength },
-        { txt: "Min", length: 34 },
-        { txt: "Avg", length: 34 },
-        { txt: "Median", length: 34 },
-        { txt: "Max", length: 34 },
+        { txt: "Min (+/-)", length: 32 },
+        { txt: "Avg (+/-)", length: 32 },
+        { txt: "Median (+/-)", length: 32 },
+        { txt: "Max (+/-)", length: 32 },
+        { txt: "# Calls (+/-)", length: 13 },
         { txt: "", length: 0 },
     ];
     const header = COLS.map((entry) => colors_1.default.bold(center(entry.txt, entry.length || 0)))
@@ -54,11 +57,13 @@ const formatShellDiff = (diffs) => {
             .map((method, methodIndex) => [
             "",
             colors_1.default.bold(colors_1.default.grey((methodIndex === 0 ? diff.name : "").padEnd(maxContractLength))),
+            ...(methodIndex === 0 ? (0, exports.formatShellCell)(diff.deploymentCost) : ["".padEnd(32)]),
             colors_1.default.italic(method.name.padEnd(maxMethodLength)),
             ...(0, exports.formatShellCell)(method.min),
             ...(0, exports.formatShellCell)(method.avg),
             ...(0, exports.formatShellCell)(method.median),
             ...(0, exports.formatShellCell)(method.max),
+            (0, exports.formatShellCell)(method.calls, 6)[0],
             "",
         ]
             .join(" | ")
@@ -86,6 +91,7 @@ const formatMarkdownSummaryCell = (rows) => [
     rows
         .map((row) => plusSign(row.delta) +
         row.delta.toLocaleString() +
+        " " +
         (row.delta > 0 ? "❌" : row.delta < 0 ? "✅" : "➖"))
         .join("<br />"),
     rows.map((row) => "**" + plusSign(row.prcnt) + row.prcnt.toFixed(2) + "%**").join("<br />"),
@@ -96,7 +102,6 @@ const formatMarkdownFullCell = (rows) => [
         "&nbsp;(" +
         plusSign(row.delta) +
         row.delta.toLocaleString() +
-        (row.delta > 0 ? "❌" : row.delta < 0 ? "✅" : "➖") +
         ")")
         .join("<br />"),
     rows.map((row) => "**" + plusSign(row.prcnt) + row.prcnt.toFixed(2) + "%**").join("<br />"),
@@ -112,15 +117,17 @@ const MARKDOWN_SUMMARY_COLS = [
 const MARKDOWN_DIFF_COLS = [
     { txt: "" },
     { txt: "Contract", align: TextAlign.LEFT },
+    { txt: "Deployment Cost (+/-)", align: TextAlign.RIGHT },
     { txt: "Method", align: TextAlign.LEFT },
-    { txt: "Min", align: TextAlign.RIGHT },
+    { txt: "Min (+/-)", align: TextAlign.RIGHT },
     { txt: "%", align: TextAlign.RIGHT },
-    { txt: "Avg", align: TextAlign.RIGHT },
+    { txt: "Avg (+/-)", align: TextAlign.RIGHT },
     { txt: "%", align: TextAlign.RIGHT },
-    { txt: "Median", align: TextAlign.RIGHT },
+    { txt: "Median (+/-)", align: TextAlign.RIGHT },
     { txt: "%", align: TextAlign.RIGHT },
-    { txt: "Max", align: TextAlign.RIGHT },
+    { txt: "Max (+/-)", align: TextAlign.RIGHT },
     { txt: "%", align: TextAlign.RIGHT },
+    { txt: "# Calls (+/-)", align: TextAlign.RIGHT },
     { txt: "" },
 ];
 const formatMarkdownDiff = (title, diffs) => {
@@ -164,11 +171,13 @@ const formatMarkdownDiff = (title, diffs) => {
             .flatMap((diff) => [
             "",
             `**${diff.name}**`,
+            formatMarkdownFullCell([diff.deploymentCost])[0],
             diff.methods.map((method) => `_${method.name}_`).join("<br />"),
             ...formatMarkdownFullCell(diff.methods.map((method) => method.min)),
             ...formatMarkdownFullCell(diff.methods.map((method) => method.avg)),
             ...formatMarkdownFullCell(diff.methods.map((method) => method.median)),
             ...formatMarkdownFullCell(diff.methods.map((method) => method.max)),
+            formatMarkdownFullCell(diff.methods.map((method) => method.calls))[0],
             "",
         ]
             .join(" | ")
@@ -449,15 +458,18 @@ const computeDiffs = (sourceReports, compareReports) => {
         const srcReport = sourceReports[reportName];
         const cmpReport = compareReports[reportName];
         return Object.assign(Object.assign({}, srcReport), { deploymentCost: (0, exports.variation)(cmpReport.deploymentCost, srcReport.deploymentCost), deploymentSize: (0, exports.variation)(cmpReport.deploymentSize, srcReport.deploymentSize), methods: Object.values(srcReport.methods)
-                .map((methodReport) => (Object.assign(Object.assign({}, methodReport), { min: (0, exports.variation)(cmpReport.methods[methodReport.name].min, srcReport.methods[methodReport.name].min), avg: (0, exports.variation)(cmpReport.methods[methodReport.name].avg, srcReport.methods[methodReport.name].avg), median: (0, exports.variation)(cmpReport.methods[methodReport.name].median, srcReport.methods[methodReport.name].median), max: (0, exports.variation)(cmpReport.methods[methodReport.name].max, srcReport.methods[methodReport.name].max), calls: (0, exports.variation)(cmpReport.methods[methodReport.name].max, srcReport.methods[methodReport.name].max) })))
+                .map((methodReport) => (Object.assign(Object.assign({}, methodReport), { min: (0, exports.variation)(cmpReport.methods[methodReport.name].min, srcReport.methods[methodReport.name].min), avg: (0, exports.variation)(cmpReport.methods[methodReport.name].avg, srcReport.methods[methodReport.name].avg), median: (0, exports.variation)(cmpReport.methods[methodReport.name].median, srcReport.methods[methodReport.name].median), max: (0, exports.variation)(cmpReport.methods[methodReport.name].max, srcReport.methods[methodReport.name].max), calls: (0, exports.variation)(cmpReport.methods[methodReport.name].calls, srcReport.methods[methodReport.name].calls) })))
                 .filter((row) => row.min.delta !== 0 ||
                 row.avg.delta !== 0 ||
                 row.median.delta !== 0 ||
                 row.max.delta !== 0)
-                .sort((method1, method2) => Math.max(Math.abs(method2.min.prcnt), Math.abs(method2.avg.prcnt), Math.abs(method2.median.prcnt), Math.abs(method2.max.prcnt)) -
-                Math.max(Math.abs(method1.min.prcnt), Math.abs(method1.avg.prcnt), Math.abs(method1.median.prcnt), Math.abs(method1.max.prcnt))) });
+                .sort((method1, method2) => Math.abs(method2.avg.prcnt) - Math.abs(method1.avg.prcnt)) });
     })
-        .filter((diff) => diff.methods.length > 0);
+        .filter((diff) => diff.methods.length > 0 ||
+        diff.deploymentCost.delta !== 0 ||
+        diff.deploymentSize.delta !== 0)
+        .sort((diff1, diff2) => Math.max(...diff2.methods.map((method) => Math.abs(method.avg.prcnt))) -
+        Math.max(...diff1.methods.map((method) => Math.abs(method.avg.prcnt))));
 };
 exports.computeDiffs = computeDiffs;
 
