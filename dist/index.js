@@ -369,8 +369,10 @@ function run() {
             const shell = (0, format_1.formatShellDiff)(diffRows);
             core.endGroup();
             console.log(shell);
-            core.setOutput("shell", shell);
-            core.setOutput("markdown", markdown);
+            if (diffRows.length > 0) {
+                core.setOutput("shell", shell);
+                core.setOutput("markdown", markdown);
+            }
         }
         catch (error) {
             core.setFailed(error.message);

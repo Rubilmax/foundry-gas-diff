@@ -54,15 +54,17 @@ jobs:
       - run: forge test --gas-report > gasreport.ansi
 
       - name: Compare gas reports
-        uses: Rubilmax/foundry-gas-diff@v3.5
+        uses: Rubilmax/foundry-gas-diff@v3.6
         with:
           workflowId: foundry-gas-diff.yml # must be the name of the workflow file
           ignore: test/**/* # optionally filter out gas reports from specific paths
         id: gas_diff
 
       - name: Add gas diff to sticky comment
+        if: github.event_name == 'pull_request' || github.event_name == 'pull_request_target'
         uses: marocchino/sticky-pull-request-comment@v2
         with:
+          delete: ${{ !steps.gas_diff.outputs.markdown }} # delete the comment in case changes no longer impacts gas costs
           message: ${{ steps.gas_diff.outputs.markdown }}
 ```
 
