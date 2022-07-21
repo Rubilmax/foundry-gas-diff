@@ -1,12 +1,30 @@
 # 🔥🛠️ Foundry Gas Diff Reporter
 
-- An awesome description to complete
+## Live Example
 
-## Setup
+### Changes to gas costs
 
-A full setup guide to complete
+#### 🧾 Summary
 
-## Usage
+| Contract             | Method                           |            Avg (+/-) |                          % |
+| :------------------- | :------------------------------- | -------------------: | -------------------------: |
+| **PositionsManager** | _supplyLogic_<br />_borrowLogic_ | +849 ❌<br />+702 ❌ | **+0.25%**<br />**+0.13%** |
+| **Morpho**           | _supply_                         |              +809 ❌ |                 **+0.23%** |
+
+---
+
+<details>
+<summary><strong>Full diff report</strong> 👇</summary>
+<br />
+
+| Contract             |    Deployment Cost (+/-) | Method                           |                          Min (+/-) |                        % |                                    Avg (+/-) |                          % |                              Median (+/-) |                         % |                                     Max (+/-) |                         % |                  # Calls (+/-) |
+| :------------------- | -----------------------: | :------------------------------- | ---------------------------------: | -----------------------: | -------------------------------------------: | -------------------------: | ----------------------------------------: | ------------------------: | --------------------------------------------: | ------------------------: | -----------------------------: |
+| **PositionsManager** | 4,546,050&nbsp;(+14,617) | _supplyLogic_<br />_borrowLogic_ | 737&nbsp;(0)<br />148,437&nbsp;(0) | **0.00%**<br />**0.00%** | 365,894&nbsp;(+849)<br />542,977&nbsp;(+702) | **+0.25%**<br />**+0.13%** | 383,960&nbsp;(+995)<br />438,816&nbsp;(0) | **+0.27%**<br />**0.00%** | 2,121,294&nbsp;(+304)<br />1,090,968&nbsp;(0) | **+0.01%**<br />**0.00%** | 500&nbsp;(0)<br />292&nbsp;(0) |
+| **Morpho**           |       3,150,242&nbsp;(0) | _supply_                         |                     3,997&nbsp;(0) |                **0.00%** |                          371,586&nbsp;(+809) |                 **+0.23%** |                       395,247&nbsp;(+995) |                **+0.27%** |                         2,125,764&nbsp;(+304) |                **+0.01%** |                   502&nbsp;(0) |
+
+</details>
+
+## Getting started
 
 ### Automatically generate a gas report diff on every PR
 
@@ -78,14 +96,14 @@ _Defaults to: `Changes to gas cost`_
 The list of paths from which to ignore gas reports, separated by a comma.
 This allows to clean out gas diffs from dependency contracts impacted by a change (e.g. Proxies, ERC20, ...).
 
-_Defaults to: `node_modules/**/*` (node dependencies are always discarded from gas reports)_
+_No default assigned: optional opt-in (Please note that node dependencies are always discarded from gas reports)_
 
 ### `match` _{string}_
 
 The list of paths of which only to keep gas reports, separated by a comma.
 This allows to only display gas diff of specific contracts.
 
-_Defaults to: `node_modules/**/*` (node dependencies are always discarded from gas reports)_
+_No default assigned: optional opt-in_
 
 ## Status
 
