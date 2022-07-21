@@ -461,6 +461,7 @@ const computeDiffs = (sourceReports, compareReports) => {
         const srcReport = sourceReports[reportName];
         const cmpReport = compareReports[reportName];
         return Object.assign(Object.assign({}, srcReport), { deploymentCost: (0, exports.variation)(cmpReport.deploymentCost, srcReport.deploymentCost), deploymentSize: (0, exports.variation)(cmpReport.deploymentSize, srcReport.deploymentSize), methods: Object.values(srcReport.methods)
+                .filter((methodReport) => cmpReport.methods[methodReport.name] && srcReport.methods[methodReport.name])
                 .map((methodReport) => (Object.assign(Object.assign({}, methodReport), { min: (0, exports.variation)(cmpReport.methods[methodReport.name].min, srcReport.methods[methodReport.name].min), avg: (0, exports.variation)(cmpReport.methods[methodReport.name].avg, srcReport.methods[methodReport.name].avg), median: (0, exports.variation)(cmpReport.methods[methodReport.name].median, srcReport.methods[methodReport.name].median), max: (0, exports.variation)(cmpReport.methods[methodReport.name].max, srcReport.methods[methodReport.name].max), calls: (0, exports.variation)(cmpReport.methods[methodReport.name].calls, srcReport.methods[methodReport.name].calls) })))
                 .filter((row) => row.min.delta !== 0 ||
                 row.avg.delta !== 0 ||

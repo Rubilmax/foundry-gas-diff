@@ -150,6 +150,10 @@ export const computeDiffs = (sourceReports: GasReport, compareReports: GasReport
         deploymentCost: variation(cmpReport.deploymentCost, srcReport.deploymentCost),
         deploymentSize: variation(cmpReport.deploymentSize, srcReport.deploymentSize),
         methods: Object.values(srcReport.methods)
+          .filter(
+            (methodReport) =>
+              cmpReport.methods[methodReport.name] && srcReport.methods[methodReport.name]
+          )
           .map((methodReport) => ({
             ...methodReport,
             min: variation(
