@@ -31,10 +31,8 @@ inputs:
 outputs:
   shell:
     description: The gas diff between the base gas report and the freshly generated gas report, specifically formatted for shell display
-    value: ${{ steps.random-number-generator.outputs.random-id }}
   markdown:
     description: The gas diff between the base gas report and the freshly generated gas report, specifically formatted for markdown display
-    value: ${{ steps.random-number-generator.outputs.random-id }}
 
 runs:
   using: node16

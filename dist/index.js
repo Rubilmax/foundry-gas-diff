@@ -146,7 +146,7 @@ const formatMarkdownDiff = (title, diffs) => {
     return [
         "# " + title,
         "",
-        "## Summary",
+        "### 🧾 Summary",
         "",
         summaryHeader,
         summaryHeaderSeparator,
@@ -163,7 +163,9 @@ const formatMarkdownDiff = (title, diffs) => {
             .join("\n"),
         "---",
         "",
-        "## Full diff report",
+        "<details>",
+        "<summary><strong>Full diff report</strong> 👇</summary>",
+        "<br />",
         "",
         diffHeader,
         diffHeaderSeparator,
@@ -183,6 +185,7 @@ const formatMarkdownDiff = (title, diffs) => {
             .join(" | ")
             .trim())
             .join("\n"),
+        "</details>",
         "",
     ]
         .join("\n")
