@@ -1,7 +1,7 @@
 {
-  "name": "foundry-gas-report",
+  "name": "foundry-gas-diff",
   "version": "3.4.0",
-  "description": "Github Action reporting gas diff from Foundry reports",
+  "description": "Github Action reporting gas diff from Foundry gas reports",
   "author": "Romain Milon (Rubilmax) <rmilon@gmail.com>",
   "license": "UNLICENSED",
   "main": "lib/index.js",
@@ -16,12 +16,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Rubilmax/foundry-gas-report.git"
+    "url": "git+https://github.com/Rubilmax/foundry-gas-diff.git"
   },
   "bugs": {
-    "url": "https://github.com/Rubilmax/foundry-gas-report/issues"
+    "url": "https://github.com/Rubilmax/foundry-gas-diff/issues"
   },
-  "homepage": "https://github.com/Rubilmax/foundry-gas-report#readme",
+  "homepage": "https://github.com/Rubilmax/foundry-gas-diff#readme",
   "keywords": [
     "foundry",
     "forge",
