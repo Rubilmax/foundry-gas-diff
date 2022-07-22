@@ -13,6 +13,14 @@ inputs:
     description: The repository's github token.
     default: ${{ github.token }}
     required: false
+  base:
+    description: The gas diff reference branch name.
+    default: ${{ github.base_ref || github.ref_name }}
+    required: false
+  head:
+    description: The gas diff target branch name.
+    default: ${{ github.head_ref || github.ref_name }}
+    required: false
   report:
     description: Report freshly generated to compare to reference.
     default: gasreport.ansi

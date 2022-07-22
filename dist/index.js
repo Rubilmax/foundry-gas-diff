@@ -243,7 +243,7 @@ var __asyncValues = (this && this.__asyncValues) || function (o) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var _a, _b;
+var _a;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const adm_zip_1 = __importDefault(__nccwpck_require__(6761));
 const fs = __importStar(__nccwpck_require__(7147));
@@ -259,19 +259,18 @@ const report = core.getInput("report");
 const ignore = core.getInput("ignore").split(",");
 const match = (_a = (core.getInput("match") || undefined)) === null || _a === void 0 ? void 0 : _a.split(",");
 const title = core.getInput("title");
-const baseBranch = ((_b = github_1.context.payload.pull_request) === null || _b === void 0 ? void 0 : _b.base.ref) || github_1.context.ref;
+const baseBranch = core.getInput("base");
+const headBranch = core.getInput("head");
 const baseBranchEscaped = baseBranch.replace(/[/\\]/g, "-");
-const refReport = `${baseBranchEscaped}.${report}`;
+const baseReport = `${baseBranchEscaped}.${report}`;
 const octokit = (0, github_1.getOctokit)(token);
 const artifactClient = artifact.create();
 const localReportPath = (0, path_1.resolve)(report);
 let srcContent;
 function run() {
     var e_1, _a;
-    var _b;
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const headBranch = ((_b = github_1.context.payload.pull_request) === null || _b === void 0 ? void 0 : _b.head.ref) || github_1.context.ref;
             const headBranchEscaped = headBranch.replace(/[/\\]/g, "-");
             const outReport = `${headBranchEscaped}.${report}`;
             core.startGroup(`Upload new report from "${localReportPath}" as artifact named "${outReport}"`);
@@ -292,17 +291,17 @@ function run() {
         if (github_1.context.eventName === "pull_request") {
             const { owner, repo } = github_1.context.repo;
             try {
-                core.startGroup(`Searching artifact "${refReport}" of workflow with ID "${workflowId}" on repository "${owner}/${repo}" on branch "${baseBranch}"`);
+                core.startGroup(`Searching artifact "${baseReport}" of workflow with ID "${workflowId}" on repository "${owner}/${repo}" on branch "${baseBranch}"`);
                 try {
                     // Note that the runs are returned in most recent first order.
-                    for (var _c = __asyncValues(octokit.paginate.iterator(octokit.rest.actions.listWorkflowRuns, {
+                    for (var _b = __asyncValues(octokit.paginate.iterator(octokit.rest.actions.listWorkflowRuns, {
                         owner,
                         repo,
                         workflow_id: workflowId,
                         branch: baseBranch,
                         status: "completed",
-                    })), _d; _d = yield _c.next(), !_d.done;) {
-                        const runs = _d.value;
+                    })), _c; _c = yield _b.next(), !_c.done;) {
+                        const runs = _c.value;
                         for (const run of runs.data) {
                             yield new Promise((resolve) => setTimeout(resolve, 200)); // avoid reaching GitHub API rate limit
                             const res = yield octokit.rest.actions.listWorkflowRunArtifacts({
@@ -310,11 +309,11 @@ function run() {
                                 repo,
                                 run_id: run.id,
                             });
-                            const artifact = res.data.artifacts.find((artifact) => artifact.name === refReport);
+                            const artifact = res.data.artifacts.find((artifact) => artifact.name === baseReport);
                             if (!artifact)
                                 continue;
                             artifactId = artifact.id;
-                            core.info(`Found artifact named "${refReport}" with ID "${artifactId}" in run with ID "${run.id}"`);
+                            core.info(`Found artifact named "${baseReport}" with ID "${artifactId}" in run with ID "${run.id}"`);
                             break;
                         }
                     }
@@ -322,13 +321,13 @@ function run() {
                 catch (e_1_1) { e_1 = { error: e_1_1 }; }
                 finally {
                     try {
-                        if (_d && !_d.done && (_a = _c.return)) yield _a.call(_c);
+                        if (_c && !_c.done && (_a = _b.return)) yield _a.call(_b);
                     }
                     finally { if (e_1) throw e_1.error; }
                 }
                 core.endGroup();
                 if (artifactId) {
-                    core.startGroup(`Downloading artifact "${refReport}" of repository "${owner}/${repo}" with ID "${artifactId}"`);
+                    core.startGroup(`Downloading artifact "${baseReport}" of repository "${owner}/${repo}" with ID "${artifactId}"`);
                     const res = yield octokit.rest.actions.downloadArtifact({
                         owner,
                         repo,
@@ -344,7 +343,7 @@ function run() {
                     core.endGroup();
                 }
                 else
-                    core.error(`No workflow run found with an artifact named "${refReport}"`);
+                    core.error(`No workflow run found with an artifact named "${baseReport}"`);
             }
             catch (error) {
                 return core.setFailed(error.message);

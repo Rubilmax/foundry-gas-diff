@@ -54,7 +54,7 @@ jobs:
       - run: forge test --gas-report > gasreport.ansi
 
       - name: Compare gas reports
-        uses: Rubilmax/foundry-gas-diff@v3.6
+        uses: Rubilmax/foundry-gas-diff@v3.7
         with:
           workflowId: foundry-gas-diff.yml # must be the name of the workflow file
           ignore: test/**/* # optionally filter out gas reports from specific paths
@@ -89,7 +89,19 @@ Only necessary when generating multiple gas reports in the same workflow.
 
 _Defaults to: `gasreport.ansi`_
 
-### `report` _{string}_
+### `base` _{string}_
+
+The gas diff reference branch name, used to fetch the previous gas report to compare the freshly generated gas report to.
+
+_Defaults to: `${{ github.base_ref || github.ref_name }}`_
+
+### `head` _{string}_
+
+The gas diff target branch name, used to upload the freshly generated gas report.
+
+_Defaults to: `${{ github.head_ref || github.ref_name }}`_
+
+### `title` _{string}_
 
 The title displayed in the markdown output. Can be used to identify multiple gas diffs in the same PR.
 

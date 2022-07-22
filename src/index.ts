@@ -15,10 +15,11 @@ const report = core.getInput("report");
 const ignore = core.getInput("ignore").split(",");
 const match = (core.getInput("match") || undefined)?.split(",");
 const title = core.getInput("title");
+const baseBranch = core.getInput("base");
+const headBranch = core.getInput("head");
 
-const baseBranch: string = context.payload.pull_request?.base.ref || context.ref;
 const baseBranchEscaped = baseBranch.replace(/[/\\]/g, "-");
-const refReport = `${baseBranchEscaped}.${report}`;
+const baseReport = `${baseBranchEscaped}.${report}`;
 
 const octokit = getOctokit(token);
 const artifactClient = artifact.create();
@@ -28,7 +29,6 @@ let srcContent: string;
 
 async function run() {
   try {
-    const headBranch: string = context.payload.pull_request?.head.ref || context.ref;
     const headBranchEscaped = headBranch.replace(/[/\\]/g, "-");
     const outReport = `${headBranchEscaped}.${report}`;
 
@@ -58,7 +58,7 @@ async function run() {
 
     try {
       core.startGroup(
-        `Searching artifact "${refReport}" of workflow with ID "${workflowId}" on repository "${owner}/${repo}" on branch "${baseBranch}"`
+        `Searching artifact "${baseReport}" of workflow with ID "${workflowId}" on repository "${owner}/${repo}" on branch "${baseBranch}"`
       );
       // Note that the runs are returned in most recent first order.
       for await (const runs of octokit.paginate.iterator(octokit.rest.actions.listWorkflowRuns, {
@@ -77,12 +77,12 @@ async function run() {
             run_id: run.id,
           });
 
-          const artifact = res.data.artifacts.find((artifact) => artifact.name === refReport);
+          const artifact = res.data.artifacts.find((artifact) => artifact.name === baseReport);
           if (!artifact) continue;
 
           artifactId = artifact.id;
           core.info(
-            `Found artifact named "${refReport}" with ID "${artifactId}" in run with ID "${run.id}"`
+            `Found artifact named "${baseReport}" with ID "${artifactId}" in run with ID "${run.id}"`
           );
           break;
         }
@@ -91,7 +91,7 @@ async function run() {
 
       if (artifactId) {
         core.startGroup(
-          `Downloading artifact "${refReport}" of repository "${owner}/${repo}" with ID "${artifactId}"`
+          `Downloading artifact "${baseReport}" of repository "${owner}/${repo}" with ID "${artifactId}"`
         );
         const res = await octokit.rest.actions.downloadArtifact({
           owner,
@@ -107,7 +107,7 @@ async function run() {
           srcContent = zip.readAsText(entry);
         }
         core.endGroup();
-      } else core.error(`No workflow run found with an artifact named "${refReport}"`);
+      } else core.error(`No workflow run found with an artifact named "${baseReport}"`);
     } catch (error: any) {
       return core.setFailed(error.message);
     }
