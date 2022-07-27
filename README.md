@@ -57,20 +57,23 @@ on:
     # Optionally configure to run only for specific files. For example:
     # paths:
     # - src/**
+    # - test/**
+    # - foundry.toml
+    # - remappings.txt
+    # - .github/workflows/foundry-gas-diff.yml
 
 jobs:
   compare_gas_reports:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          submodules: recursive
 
       - name: Install Foundry
         uses: onbjerg/foundry-toolchain@v1
         with:
           version: nightly
-
-      - name: Install Dependencies
-        run: forge install
 
       # Add any step generating a gas report to a temporary file named gasreport.ansi (can be changed)
       # For example:
