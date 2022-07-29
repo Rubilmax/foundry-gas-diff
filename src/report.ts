@@ -1,58 +1,13 @@
+import _orderBy from "lodash/orderBy";
 import { Minimatch } from "minimatch";
 
-export interface MethodReport {
-  name: string;
-  min: number;
-  avg: number;
-  median: number;
-  max: number;
-  calls: number;
-}
+import { DiffReport, GasReport, SortCriterion, SortOrder } from "./types";
 
-export interface ContractReport {
-  name: string;
-  filePath: string;
-  deploymentCost: number;
-  deploymentSize: number;
-  methods: {
-    [name: string]: MethodReport;
-  };
-}
-
-export interface GasReport {
-  [name: string]: ContractReport;
-}
-
-export interface DiffReport {
-  name: string;
-  filePath: string;
-  deploymentCost: DiffCell;
-  deploymentSize: DiffCell;
-  methods: {
-    name: string;
-    min: DiffCell;
-    avg: DiffCell;
-    median: DiffCell;
-    max: DiffCell;
-    calls: DiffCell;
-  }[];
-}
-
-export interface DiffCell {
-  value: number;
-  delta: number;
-  prcnt: number;
-}
-
-const BASE_TX_COST = 21000;
-
-export const variation = (current: number, previous: number) => {
-  return {
-    value: current,
-    delta: current - previous,
-    prcnt: (100 * (current - previous)) / (previous - BASE_TX_COST),
-  };
-};
+export const variation = (current: number, previous: number) => ({
+  value: current,
+  delta: current - previous,
+  prcnt: previous !== 0 ? (100 * (current - previous)) / previous : Infinity,
+});
 
 export const loadReports = (
   content: string,
@@ -134,7 +89,12 @@ export const loadReports = (
   );
 };
 
-export const computeDiffs = (sourceReports: GasReport, compareReports: GasReport): DiffReport[] => {
+export const computeDiffs = (
+  sourceReports: GasReport,
+  compareReports: GasReport,
+  sortCriteria: SortCriterion[],
+  sortOrders: SortOrder[]
+): DiffReport[] => {
   const sourceReportNames = Object.keys(sourceReports);
   const commonReportNames = Object.keys(compareReports).filter((name) =>
     sourceReportNames.includes(name)
@@ -149,49 +109,50 @@ export const computeDiffs = (sourceReports: GasReport, compareReports: GasReport
         ...srcReport,
         deploymentCost: variation(cmpReport.deploymentCost, srcReport.deploymentCost),
         deploymentSize: variation(cmpReport.deploymentSize, srcReport.deploymentSize),
-        methods: Object.values(srcReport.methods)
-          .filter(
-            (methodReport) =>
-              cmpReport.methods[methodReport.name] && srcReport.methods[methodReport.name]
-          )
-          .map((methodReport) => ({
-            ...methodReport,
-            min: variation(
-              cmpReport.methods[methodReport.name].min,
-              srcReport.methods[methodReport.name].min
+        methods: _orderBy(
+          Object.values(srcReport.methods)
+            .filter(
+              (methodReport) =>
+                cmpReport.methods[methodReport.name] && srcReport.methods[methodReport.name]
+            )
+            .map((methodReport) => ({
+              ...methodReport,
+              min: variation(
+                cmpReport.methods[methodReport.name].min,
+                srcReport.methods[methodReport.name].min
+              ),
+              avg: variation(
+                cmpReport.methods[methodReport.name].avg,
+                srcReport.methods[methodReport.name].avg
+              ),
+              median: variation(
+                cmpReport.methods[methodReport.name].median,
+                srcReport.methods[methodReport.name].median
+              ),
+              max: variation(
+                cmpReport.methods[methodReport.name].max,
+                srcReport.methods[methodReport.name].max
+              ),
+              calls: variation(
+                cmpReport.methods[methodReport.name].calls,
+                srcReport.methods[methodReport.name].calls
+              ),
+            }))
+            .filter(
+              (row) =>
+                row.min.delta !== 0 ||
+                row.avg.delta !== 0 ||
+                row.median.delta !== 0 ||
+                row.max.delta !== 0
             ),
-            avg: variation(
-              cmpReport.methods[methodReport.name].avg,
-              srcReport.methods[methodReport.name].avg
-            ),
-            median: variation(
-              cmpReport.methods[methodReport.name].median,
-              srcReport.methods[methodReport.name].median
-            ),
-            max: variation(
-              cmpReport.methods[methodReport.name].max,
-              srcReport.methods[methodReport.name].max
-            ),
-            calls: variation(
-              cmpReport.methods[methodReport.name].calls,
-              srcReport.methods[methodReport.name].calls
-            ),
-          }))
-          .filter(
-            (row) =>
-              row.min.delta !== 0 ||
-              row.avg.delta !== 0 ||
-              row.median.delta !== 0 ||
-              row.max.delta !== 0
-          )
-          .sort((method1, method2) => Math.abs(method2.avg.prcnt) - Math.abs(method1.avg.prcnt)),
+          sortCriteria,
+          sortOrders
+        ),
       };
     })
     .filter(
-      (diff) =>
-        diff.methods.length > 0 ||
-        diff.deploymentCost.delta !== 0 ||
-        diff.deploymentSize.delta !== 0
+      (diff) => diff.methods.length > 0 || diff.deploymentCost.delta !== 0
+      // || diff.deploymentSize.delta !== 0 not displayed yet
     )
     .sort(
       (diff1, diff2) =>

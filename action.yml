@@ -6,9 +6,6 @@ branding:
   color: purple
 
 inputs:
-  workflowId:
-    description: The workflow's file name or ID.
-    required: true
   token:
     description: The repository's github token.
     default: ${{ github.token }}
@@ -29,6 +26,14 @@ inputs:
     description: The title displayed in the markdown output.
     default: Changes to gas costs
     required: false
+  sortCriteria:
+    description: The list of criteria to order diff rows by in the report (name | min | avg | median | max | calls), separated by a comma. Must have the same length as sortOrders.
+    required: false
+    default: name
+  sortOrders:
+    description: The list of directions to order diff rows in the report, according to order criteria (asc | desc), separated by a comma. Must have the same length as sortCriteria.
+    required: false
+    default: asc
   ignore:
     description: The list of paths from which to ignore gas reports, separated by a comma.
     required: false

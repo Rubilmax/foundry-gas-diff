@@ -80,9 +80,10 @@ jobs:
       - run: forge test --gas-report > gasreport.ansi
 
       - name: Compare gas reports
-        uses: Rubilmax/foundry-gas-diff@v3.7
+        uses: Rubilmax/foundry-gas-diff@v3.8
         with:
-          workflowId: foundry-gas-diff.yml # must be the name of the workflow file
+          sortCriteria: avg,max # optionnally sort diff rows by criteria
+          sortOrders: desc,asc # and directions
           ignore: test/**/* # optionally filter out gas reports from specific paths
         id: gas_diff
 
@@ -99,12 +100,6 @@ jobs:
 > As the action is expecting a comparative file stored on the base branch and cannot find it (because the action never ran on the target branch and thus has never uploaded any gas report)
 
 ## Options
-
-### `workflowId` _{string}_ (required)
-
-The workflow ID the reference gas report was uploaded from.
-By default, the reference gas report of next workflow runs are uploaded by this action from the previous workflow runs,
-thus it should correspond to the ID of the workflow this action is defined in: `foundry-gas-diff.yml` in the above example.
 
 ### `token` _{string}_
 
@@ -137,14 +132,28 @@ The title displayed in the markdown output. Can be used to identify multiple gas
 
 _Defaults to: `Changes to gas cost`_
 
-### `ignore` _{string}_
+### `sortCriteria` _{string[]}_
+
+A list of criteria to sort diff rows by in the report table (can be `name | min | avg | median | max | calls`), separated by a comma.
+Must have the same length as sortOrders.
+
+_Defaults to: name_
+
+### `sortOrders` _{string[]}_
+
+A list of directions to sort diff rows by in the report table (can be `asc | desc`), for each sort criterion, separated by a comma.
+Must have the same length as sortCriteria.
+
+_Defaults to: asc_
+
+### `ignore` _{string[]}_
 
 The list of paths from which to ignore gas reports, separated by a comma.
 This allows to clean out gas diffs from dependency contracts impacted by a change (e.g. Proxies, ERC20, ...).
 
 _No default assigned: optional opt-in (Please note that node dependencies are always discarded from gas reports)_
 
-### `match` _{string}_
+### `match` _{string[]}_
 
 The list of paths of which only to keep gas reports, separated by a comma.
 This allows to only display gas diff of specific contracts.

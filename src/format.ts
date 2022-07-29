@@ -1,6 +1,6 @@
 import colors from "colors";
 
-import { DiffCell, DiffReport } from "./report";
+import { DiffCell, DiffReport } from "./types";
 
 export enum TextAlign {
   LEFT = "left",
@@ -18,7 +18,15 @@ export const formatShellCell = (cell: DiffCell, length = 10) => {
     cell.value.toLocaleString().padStart(length) +
       " " +
       format(("(" + (plusSign(cell.delta) + cell.delta.toLocaleString()) + ")").padEnd(length)),
-    colors.bold(format((plusSign(cell.prcnt) + cell.prcnt.toFixed(2) + "%").padStart(8))),
+    colors.bold(
+      format(
+        (
+          plusSign(cell.prcnt) +
+          (cell.prcnt === Infinity ? "∞" : cell.prcnt.toFixed(2)) +
+          "%"
+        ).padStart(8)
+      )
+    ),
   ];
 };
 
@@ -103,7 +111,12 @@ const formatMarkdownSummaryCell = (rows: DiffCell[]) => [
         (row.delta > 0 ? "❌" : row.delta < 0 ? "✅" : "➖")
     )
     .join("<br />"),
-  rows.map((row) => "**" + plusSign(row.prcnt) + row.prcnt.toFixed(2) + "%**").join("<br />"),
+  rows
+    .map(
+      (row) =>
+        "**" + plusSign(row.prcnt) + (row.prcnt === Infinity ? "∞" : row.prcnt.toFixed(2)) + "%**"
+    )
+    .join("<br />"),
 ];
 
 const formatMarkdownFullCell = (rows: DiffCell[]) => [
@@ -117,7 +130,12 @@ const formatMarkdownFullCell = (rows: DiffCell[]) => [
         ")"
     )
     .join("<br />"),
-  rows.map((row) => "**" + plusSign(row.prcnt) + row.prcnt.toFixed(2) + "%**").join("<br />"),
+  rows
+    .map(
+      (row) =>
+        "**" + plusSign(row.prcnt) + (row.prcnt === Infinity ? "∞" : row.prcnt.toFixed(2)) + "%**"
+    )
+    .join("<br />"),
 ];
 
 const MARKDOWN_SUMMARY_COLS = [
@@ -173,6 +191,7 @@ export const formatMarkdownDiff = (title: string, diffs: DiffReport[]) => {
     summaryHeader,
     summaryHeaderSeparator,
     diffs
+      .filter((diff) => diff.methods.length > 0)
       .flatMap((diff) =>
         [
           "",

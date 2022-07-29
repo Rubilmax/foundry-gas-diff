@@ -8,13 +8,15 @@ import { context, getOctokit } from "@actions/github";
 
 import { formatMarkdownDiff, formatShellDiff } from "./format";
 import { loadReports, computeDiffs } from "./report";
+import { isSortCriteriaValid, isSortOrdersValid } from "./types";
 
-const workflowId = core.getInput("workflowId");
 const token = process.env.GITHUB_TOKEN || core.getInput("token");
 const report = core.getInput("report");
 const ignore = core.getInput("ignore").split(",");
 const match = (core.getInput("match") || undefined)?.split(",");
 const title = core.getInput("title");
+const sortCriteria = core.getInput("sortCriteria").split(",");
+const sortOrders = core.getInput("sortOrders").split(",");
 const baseBranch = core.getInput("base");
 const headBranch = core.getInput("head");
 
@@ -28,6 +30,9 @@ const localReportPath = resolve(report);
 let srcContent: string;
 
 async function run() {
+  if (!isSortCriteriaValid(sortCriteria)) return;
+  if (!isSortOrdersValid(sortOrders)) return;
+
   try {
     const headBranchEscaped = headBranch.replace(/[/\\]/g, "-");
     const outReport = `${headBranchEscaped}.${report}`;
@@ -58,34 +63,25 @@ async function run() {
 
     try {
       core.startGroup(
-        `Searching artifact "${baseReport}" of workflow with ID "${workflowId}" on repository "${owner}/${repo}" on branch "${baseBranch}"`
+        `Searching artifact "${baseReport}" on repository "${owner}/${repo}", on branch "${baseBranch}"`
       );
-      // Note that the runs are returned in most recent first order.
-      for await (const runs of octokit.paginate.iterator(octokit.rest.actions.listWorkflowRuns, {
+      // Note that the artifacts are returned in most recent first order.
+      for await (const res of octokit.paginate.iterator(octokit.rest.actions.listArtifactsForRepo, {
         owner,
         repo,
-        workflow_id: workflowId,
-        branch: baseBranch,
-        status: "completed",
       })) {
-        for (const run of runs.data) {
-          await new Promise((resolve) => setTimeout(resolve, 200)); // avoid reaching GitHub API rate limit
+        await new Promise((resolve) => setTimeout(resolve, 200)); // avoid reaching GitHub API rate limit
 
-          const res = await octokit.rest.actions.listWorkflowRunArtifacts({
-            owner,
-            repo,
-            run_id: run.id,
-          });
+        const artifact = res.data.find(
+          (artifact) => !artifact.expired && artifact.name === baseReport
+        );
+        if (!artifact) continue;
 
-          const artifact = res.data.artifacts.find((artifact) => artifact.name === baseReport);
-          if (!artifact) continue;
-
-          artifactId = artifact.id;
-          core.info(
-            `Found artifact named "${baseReport}" with ID "${artifactId}" in run with ID "${run.id}"`
-          );
-          break;
-        }
+        artifactId = artifact.id;
+        core.info(
+          `Found artifact named "${baseReport}" with ID "${artifactId}" from commit "${artifact.workflow_run?.head_sha}"`
+        );
+        break;
       }
       core.endGroup();
 
@@ -127,7 +123,7 @@ async function run() {
     core.endGroup();
 
     core.startGroup("Compute gas diff");
-    const diffRows = computeDiffs(sourceReports, compareReports);
+    const diffRows = computeDiffs(sourceReports, compareReports, sortCriteria, sortOrders);
     core.info(`Format markdown of ${diffRows.length} diffs`);
     const markdown = formatMarkdownDiff(title, diffRows);
     core.info(`Format shell of ${diffRows.length} diffs`);
