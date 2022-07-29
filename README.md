@@ -77,7 +77,7 @@ jobs:
 
       # Add any step generating a gas report to a temporary file named gasreport.ansi (can be changed)
       # For example:
-      - run: forge test --gas-report > gasreport.ansi
+      - run: forge test --gas-report | tee gasreport.ansi
 
       - name: Compare gas reports
         uses: Rubilmax/foundry-gas-diff@v3.8
@@ -91,7 +91,8 @@ jobs:
         if: github.event_name == 'pull_request' || github.event_name == 'pull_request_target'
         uses: marocchino/sticky-pull-request-comment@v2
         with:
-          delete: ${{ !steps.gas_diff.outputs.markdown }} # delete the comment in case changes no longer impacts gas costs
+          # delete the comment in case changes no longer impact gas costs
+          delete: ${{ !steps.gas_diff.outputs.markdown }}
           message: ${{ steps.gas_diff.outputs.markdown }}
 ```
 
