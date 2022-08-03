@@ -106,7 +106,9 @@ jobs:
 ### `report` _{string}_
 
 This should correspond to the path of a file where the output of forge's gas report has been logged.
-Only necessary when generating multiple gas reports in the same workflow.
+Only necessary when generating multiple gas reports on the same repository.
+
+⚠️ Make sure this file uniquely identifies a gas report, to avoid messing up with a gas report of another workflow on the same repository!
 
 _Defaults to: `gasreport.ansi`_
 
