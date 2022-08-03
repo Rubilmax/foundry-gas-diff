@@ -78,7 +78,11 @@ jobs:
       # Add any step generating a gas report to a temporary file named gasreport.ansi
       # For example:
       - name: Run tests
-        run: forge test --gas-report --fuzz-seed 0 | tee gasreport.ansi
+        run: forge test --gas-report | tee gasreport.ansi
+        env:
+          # make fuzzing semi-deterministic to avoid noisy gas cost estimation
+          # due to non-deterministic fuzzing, but keep it not always deterministic
+          FOUNDRY_FUZZ_SEED: 0x${{ github.event.pull_request.base.sha || github.sha }}
 
       - name: Compare gas reports
         uses: Rubilmax/foundry-gas-diff@v3.8
