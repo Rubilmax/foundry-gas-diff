@@ -18,12 +18,14 @@ You can then do whatever you want with the results!
 
 ### Changes to gas costs
 
+> Generated at commit: [d62d23148ca73df77cd4378ee1b3c17f1f303dbf](/Rubilmax/foundry-gas-diff/commit/d62d23148ca73df77cd4378ee1b3c17f1f303dbf), compared to commit: [d62d23148ca73df77cd4378ee1b3c17f1f303dbf](/Rubilmax/foundry-gas-diff/d62d23148ca73df77cd4378ee1b3c17f1f303dbf)
+
 #### 🧾 Summary
 
 | Contract             | Method                           |            Avg (+/-) |                          % |
 | :------------------- | :------------------------------- | -------------------: | -------------------------: |
-| **PositionsManager** | _supplyLogic_<br />_borrowLogic_ | +849 ❌<br />+702 ❌ | **+0.25%**<br />**+0.13%** |
-| **Morpho**           | _supply_                         |              +809 ❌ |                 **+0.23%** |
+| **PositionsManager** | _borrowLogic_<br />_supplyLogic_ | +702 ❌<br />+849 ❌ | **+0.13%**<br />**+0.23%** |
+| **Morpho**           | _supply_                         |              +809 ❌ |                 **+0.22%** |
 
 ---
 
@@ -33,8 +35,8 @@ You can then do whatever you want with the results!
 
 | Contract             |    Deployment Cost (+/-) | Method                           |                          Min (+/-) |                        % |                                    Avg (+/-) |                          % |                              Median (+/-) |                         % |                                     Max (+/-) |                         % |                  # Calls (+/-) |
 | :------------------- | -----------------------: | :------------------------------- | ---------------------------------: | -----------------------: | -------------------------------------------: | -------------------------: | ----------------------------------------: | ------------------------: | --------------------------------------------: | ------------------------: | -----------------------------: |
-| **PositionsManager** | 4,546,050&nbsp;(+14,617) | _supplyLogic_<br />_borrowLogic_ | 737&nbsp;(0)<br />148,437&nbsp;(0) | **0.00%**<br />**0.00%** | 365,894&nbsp;(+849)<br />542,977&nbsp;(+702) | **+0.25%**<br />**+0.13%** | 383,960&nbsp;(+995)<br />438,816&nbsp;(0) | **+0.27%**<br />**0.00%** | 2,121,294&nbsp;(+304)<br />1,090,968&nbsp;(0) | **+0.01%**<br />**0.00%** | 500&nbsp;(0)<br />292&nbsp;(0) |
-| **Morpho**           |       3,150,242&nbsp;(0) | _supply_                         |                     3,997&nbsp;(0) |                **0.00%** |                          371,586&nbsp;(+809) |                 **+0.23%** |                       395,247&nbsp;(+995) |                **+0.27%** |                         2,125,764&nbsp;(+304) |                **+0.01%** |                   502&nbsp;(0) |
+| **PositionsManager** | 4,546,050&nbsp;(+14,617) | _borrowLogic_<br />_supplyLogic_ | 148,437&nbsp;(0)<br />737&nbsp;(0) | **0.00%**<br />**0.00%** | 542,977&nbsp;(+702)<br />365,894&nbsp;(+849) | **+0.13%**<br />**+0.23%** | 438,816&nbsp;(0)<br />383,960&nbsp;(+995) | **0.00%**<br />**+0.26%** | 1,090,968&nbsp;(0)<br />2,121,294&nbsp;(+304) | **0.00%**<br />**+0.01%** | 292&nbsp;(0)<br />500&nbsp;(0) |
+| **Morpho**           |       3,150,242&nbsp;(0) | _supply_                         |                     3,997&nbsp;(0) |                **0.00%** |                          371,586&nbsp;(+809) |                 **+0.22%** |                       395,247&nbsp;(+995) |                **+0.25%** |                         2,125,764&nbsp;(+304) |                **+0.01%** |                   502&nbsp;(0) |
 
 </details>
 
@@ -85,7 +87,7 @@ jobs:
           FOUNDRY_FUZZ_SEED: 0x${{ github.event.pull_request.base.sha || github.sha }}
 
       - name: Compare gas reports
-        uses: Rubilmax/foundry-gas-diff@v3.8
+        uses: Rubilmax/foundry-gas-diff@v3.9
         with:
           sortCriteria: avg,max # optionnally sort diff rows by criteria
           sortOrders: desc,asc # and directions
@@ -134,11 +136,15 @@ The github token allowing the action to upload and download gas reports generate
 
 _Defaults to: `${{ github.token }}`_
 
-### `title` _{string}_
+### `header` _{string}_
 
-The title displayed in the markdown output. Can be used to identify multiple gas diffs in the same PR.
+The top section displayed in the markdown output. Can be used to identify multiple gas diffs in the same PR or add metadata/information to the markdown output.
 
-_Defaults to: `Changes to gas cost`_
+_Defaults to:_
+
+```markdown
+# Changes to gas cost
+```
 
 ### `sortCriteria` _{string[]}_
 
@@ -184,3 +190,7 @@ _No default assigned: optional opt-in_
 ![Status: Experimental](https://img.shields.io/badge/Status-Experimental-blue)
 
 This repository is maintained independently from [Foundry](https://github.com/foundry-rs/foundry) and may not work as expected with all versions of `forge`.
+
+```
+
+```

@@ -14,7 +14,7 @@ const token = process.env.GITHUB_TOKEN || core.getInput("token");
 const report = core.getInput("report");
 const ignore = core.getInput("ignore").split(",");
 const match = (core.getInput("match") || undefined)?.split(",");
-const title = core.getInput("title");
+const header = core.getInput("header");
 const sortCriteria = core.getInput("sortCriteria").split(",");
 const sortOrders = core.getInput("sortOrders").split(",");
 const baseBranch = core.getInput("base");
@@ -27,7 +27,11 @@ const octokit = getOctokit(token);
 const artifactClient = artifact.create();
 const localReportPath = resolve(report);
 
+const { owner, repo } = context.repo;
+const repository = owner + "/" + repo;
+
 let srcContent: string;
+let refCommitHash: string | undefined;
 
 async function run() {
   if (!isSortCriteriaValid(sortCriteria)) return;
@@ -59,11 +63,9 @@ async function run() {
   // cf. https://docs.github.com/en/actions/using-workflows/storing-workflow-data-as-artifacts#downloading-or-deleting-artifacts
   let artifactId: number | null = null;
   if (context.eventName === "pull_request") {
-    const { owner, repo } = context.repo;
-
     try {
       core.startGroup(
-        `Searching artifact "${baseReport}" on repository "${owner}/${repo}", on branch "${baseBranch}"`
+        `Searching artifact "${baseReport}" on repository "${repository}", on branch "${baseBranch}"`
       );
       // Note that the artifacts are returned in most recent first order.
       for await (const res of octokit.paginate.iterator(octokit.rest.actions.listArtifactsForRepo, {
@@ -78,8 +80,9 @@ async function run() {
         if (!artifact) continue;
 
         artifactId = artifact.id;
+        refCommitHash = artifact.workflow_run?.head_sha;
         core.info(
-          `Found artifact named "${baseReport}" with ID "${artifactId}" from commit "${artifact.workflow_run?.head_sha}"`
+          `Found artifact named "${baseReport}" with ID "${artifactId}" from commit "${refCommitHash}"`
         );
         break;
       }
@@ -87,7 +90,7 @@ async function run() {
 
       if (artifactId) {
         core.startGroup(
-          `Downloading artifact "${baseReport}" of repository "${owner}/${repo}" with ID "${artifactId}"`
+          `Downloading artifact "${baseReport}" of repository "${repository}" with ID "${artifactId}"`
         );
         const res = await octokit.rest.actions.downloadArtifact({
           owner,
@@ -125,7 +128,7 @@ async function run() {
     core.startGroup("Compute gas diff");
     const diffRows = computeDiffs(sourceReports, compareReports, sortCriteria, sortOrders);
     core.info(`Format markdown of ${diffRows.length} diffs`);
-    const markdown = formatMarkdownDiff(title, diffRows);
+    const markdown = formatMarkdownDiff(header, diffRows, repository, context.sha, refCommitHash);
     core.info(`Format shell of ${diffRows.length} diffs`);
     const shell = formatShellDiff(diffRows);
     core.endGroup();

@@ -36,7 +36,12 @@ describe("", () => {
     const loadOptions = { ignorePatterns: ["test-foundry/**/*"] };
     console.log(
       formatShellDiff(
-        computeDiffs(loadReports(srcContent, loadOptions), loadReports(cmpContent, loadOptions))
+        computeDiffs(
+          loadReports(srcContent, loadOptions),
+          loadReports(cmpContent, loadOptions),
+          [],
+          []
+        )
       )
     );
   });
@@ -48,7 +53,12 @@ describe("", () => {
     const loadOptions = { ignorePatterns: ["**/User.sol"] };
     console.log(
       formatShellDiff(
-        computeDiffs(loadReports(srcContent, loadOptions), loadReports(cmpContent, loadOptions))
+        computeDiffs(
+          loadReports(srcContent, loadOptions),
+          loadReports(cmpContent, loadOptions),
+          [],
+          []
+        )
       )
     );
   });
@@ -61,8 +71,15 @@ describe("", () => {
     fs.writeFileSync(
       "tests/mocks/output.md",
       formatMarkdownDiff(
-        "Changes to gas costs",
-        computeDiffs(loadReports(srcContent, loadOptions), loadReports(cmpContent, loadOptions))
+        "# Changes to gas cost",
+        computeDiffs(
+          loadReports(srcContent, loadOptions),
+          loadReports(cmpContent, loadOptions),
+          [],
+          []
+        ),
+        "Rubilmax/foundry-gas-diff",
+        "d62d23148ca73df77cd4378ee1b3c17f1f303dbf"
       )
     );
   });

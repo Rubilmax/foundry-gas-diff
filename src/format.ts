@@ -164,7 +164,13 @@ const MARKDOWN_DIFF_COLS = [
   { txt: "" },
 ];
 
-export const formatMarkdownDiff = (title: string, diffs: DiffReport[]) => {
+export const formatMarkdownDiff = (
+  header: string,
+  diffs: DiffReport[],
+  repository: string,
+  commitHash: string,
+  refCommitHash?: string
+) => {
   const summaryHeader = MARKDOWN_SUMMARY_COLS.map((entry) => entry.txt)
     .join(" | ")
     .trim();
@@ -184,7 +190,12 @@ export const formatMarkdownDiff = (title: string, diffs: DiffReport[]) => {
     .trim();
 
   return [
-    "# " + title,
+    header,
+    "",
+    `> Generated at commit: [${commitHash}](/${repository}/commit/${commitHash})` +
+      (refCommitHash
+        ? `, compared to commit: [${refCommitHash}](/${repository}/commit/${refCommitHash})`
+        : ""),
     "",
     "### 🧾 Summary",
     "",

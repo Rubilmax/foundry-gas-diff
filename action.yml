@@ -22,9 +22,10 @@ inputs:
     description: Report freshly generated to compare to reference.
     default: gasreport.ansi
     required: false
-  title:
-    description: The title displayed in the markdown output.
-    default: Changes to gas costs
+  header:
+    description: The top section displayed in the markdown output.
+    default: |
+      # Changes to gas cost
     required: false
   sortCriteria:
     description: The list of criteria to order diff rows by in the report (name | min | avg | median | max | calls), separated by a comma. Must have the same length as sortOrders.

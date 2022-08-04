@@ -136,7 +136,7 @@ const MARKDOWN_DIFF_COLS = [
     { txt: "# Calls (+/-)", align: TextAlign.RIGHT },
     { txt: "" },
 ];
-const formatMarkdownDiff = (title, diffs) => {
+const formatMarkdownDiff = (header, diffs, repository, commitHash, refCommitHash) => {
     const summaryHeader = MARKDOWN_SUMMARY_COLS.map((entry) => entry.txt)
         .join(" | ")
         .trim();
@@ -150,7 +150,12 @@ const formatMarkdownDiff = (title, diffs) => {
         .join("|")
         .trim();
     return [
-        "# " + title,
+        header,
+        "",
+        `> Generated at commit: [${commitHash}](/${repository}/commit/${commitHash})` +
+            (refCommitHash
+                ? `, compared to commit: [${refCommitHash}](/${repository}/commit/${refCommitHash})`
+                : ""),
         "",
         "### 🧾 Summary",
         "",
@@ -265,7 +270,7 @@ const token = process.env.GITHUB_TOKEN || core.getInput("token");
 const report = core.getInput("report");
 const ignore = core.getInput("ignore").split(",");
 const match = (_a = (core.getInput("match") || undefined)) === null || _a === void 0 ? void 0 : _a.split(",");
-const title = core.getInput("title");
+const header = core.getInput("header");
 const sortCriteria = core.getInput("sortCriteria").split(",");
 const sortOrders = core.getInput("sortOrders").split(",");
 const baseBranch = core.getInput("base");
@@ -275,7 +280,10 @@ const baseReport = `${baseBranchEscaped}.${report}`;
 const octokit = (0, github_1.getOctokit)(token);
 const artifactClient = artifact.create();
 const localReportPath = (0, path_1.resolve)(report);
+const { owner, repo } = github_1.context.repo;
+const repository = owner + "/" + repo;
 let srcContent;
+let refCommitHash;
 function run() {
     var e_1, _a;
     var _b;
@@ -303,9 +311,8 @@ function run() {
         // cf. https://docs.github.com/en/actions/using-workflows/storing-workflow-data-as-artifacts#downloading-or-deleting-artifacts
         let artifactId = null;
         if (github_1.context.eventName === "pull_request") {
-            const { owner, repo } = github_1.context.repo;
             try {
-                core.startGroup(`Searching artifact "${baseReport}" on repository "${owner}/${repo}", on branch "${baseBranch}"`);
+                core.startGroup(`Searching artifact "${baseReport}" on repository "${repository}", on branch "${baseBranch}"`);
                 try {
                     // Note that the artifacts are returned in most recent first order.
                     for (var _c = __asyncValues(octokit.paginate.iterator(octokit.rest.actions.listArtifactsForRepo, {
@@ -318,7 +325,8 @@ function run() {
                         if (!artifact)
                             continue;
                         artifactId = artifact.id;
-                        core.info(`Found artifact named "${baseReport}" with ID "${artifactId}" from commit "${(_b = artifact.workflow_run) === null || _b === void 0 ? void 0 : _b.head_sha}"`);
+                        refCommitHash = (_b = artifact.workflow_run) === null || _b === void 0 ? void 0 : _b.head_sha;
+                        core.info(`Found artifact named "${baseReport}" with ID "${artifactId}" from commit "${refCommitHash}"`);
                         break;
                     }
                 }
@@ -331,7 +339,7 @@ function run() {
                 }
                 core.endGroup();
                 if (artifactId) {
-                    core.startGroup(`Downloading artifact "${baseReport}" of repository "${owner}/${repo}" with ID "${artifactId}"`);
+                    core.startGroup(`Downloading artifact "${baseReport}" of repository "${repository}" with ID "${artifactId}"`);
                     const res = yield octokit.rest.actions.downloadArtifact({
                         owner,
                         repo,
@@ -367,7 +375,7 @@ function run() {
             core.startGroup("Compute gas diff");
             const diffRows = (0, report_1.computeDiffs)(sourceReports, compareReports, sortCriteria, sortOrders);
             core.info(`Format markdown of ${diffRows.length} diffs`);
-            const markdown = (0, format_1.formatMarkdownDiff)(title, diffRows);
+            const markdown = (0, format_1.formatMarkdownDiff)(header, diffRows, repository, github_1.context.sha, refCommitHash);
             core.info(`Format shell of ${diffRows.length} diffs`);
             const shell = (0, format_1.formatShellDiff)(diffRows);
             core.endGroup();
