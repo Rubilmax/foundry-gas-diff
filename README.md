@@ -185,12 +185,4 @@ _No default assigned: optional opt-in_
 > **Fuzzing impacts gas costs**<br/>
 > Fuzzing can lead differences in gas costs estimated each time a test suite is ran. We thus recommend setting a deterministic fuzzing seed via the `--fuzz-seed` argument.
 
-## Status
-
-![Status: Experimental](https://img.shields.io/badge/Status-Experimental-blue)
-
 This repository is maintained independently from [Foundry](https://github.com/foundry-rs/foundry) and may not work as expected with all versions of `forge`.
-
-```
-
-```
