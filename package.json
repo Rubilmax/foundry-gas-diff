@@ -31,7 +31,7 @@
   ],
   "dependencies": {
     "@actions/core": "^1.9.0",
-    "@octokit/core": "^4.0.4",
+    "@octokit/core": "^4.0.5",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
