@@ -1,12 +1,14 @@
 // import * as cp from "child_process";
 import * as fs from "fs";
-import * as path from "path";
-import * as process from "process";
 
-import { expect, test } from "@jest/globals";
-
+// import * as path from "path";
+// import * as process from "process";
+// import { expect, test } from "@jest/globals";
 import { formatMarkdownDiff, formatShellDiff } from "../src/format";
 import { loadReports, computeDiffs } from "../src/report";
+
+const srcContent = fs.readFileSync("tests/mocks/gas_report.2.ansi", "utf8");
+const cmpContent = fs.readFileSync("tests/mocks/gas_report.1.ansi", "utf8");
 
 describe("", () => {
   // shows how the runner will run a javascript action with env / stdout protocol
@@ -30,9 +32,6 @@ describe("", () => {
   // });
 
   it("should compare 1 to 2 with shell format", () => {
-    const srcContent = fs.readFileSync("tests/mocks/gas_report.2.ansi", "utf8");
-    const cmpContent = fs.readFileSync("tests/mocks/gas_report.1.ansi", "utf8");
-
     const loadOptions = { ignorePatterns: ["test-foundry/**/*"] };
     console.log(
       formatShellDiff(
@@ -47,9 +46,6 @@ describe("", () => {
   });
 
   it("should compare 2 to 1 with shell format", () => {
-    const srcContent = fs.readFileSync("tests/mocks/gas_report.1.ansi", "utf8");
-    const cmpContent = fs.readFileSync("tests/mocks/gas_report.2.ansi", "utf8");
-
     const loadOptions = { ignorePatterns: ["**/User.sol"] };
     console.log(
       formatShellDiff(
@@ -64,9 +60,6 @@ describe("", () => {
   });
 
   it("should compare 1 to 2 with markdown format", () => {
-    const srcContent = fs.readFileSync("tests/mocks/gas_report.2.ansi", "utf8");
-    const cmpContent = fs.readFileSync("tests/mocks/gas_report.1.ansi", "utf8");
-
     const loadOptions = { ignorePatterns: ["test-foundry/**/*"] };
     fs.writeFileSync(
       "tests/mocks/output.md",

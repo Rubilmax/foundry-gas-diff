@@ -56,7 +56,7 @@ on:
     branches:
       - main
   pull_request:
-    # Optionally configure to run only for specific files. For example:
+    # Optionally configure to run only for changes in specific files. For example:
     # paths:
     # - src/**
     # - test/**

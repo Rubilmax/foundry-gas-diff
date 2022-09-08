@@ -39,6 +39,7 @@
     "@typescript-eslint/promise-function-async": "error",
     "@typescript-eslint/require-array-sort-compare": "error",
     "@typescript-eslint/restrict-plus-operands": "error",
+    "filenames/match-regex": "off",
     "semi": "off",
     "no-shadow": "off",
     "no-console": "off",
