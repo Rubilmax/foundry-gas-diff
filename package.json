@@ -2,7 +2,11 @@
   "name": "foundry-gas-diff",
   "version": "3.9.1",
   "description": "Github Action reporting gas diff from Foundry gas reports",
-  "author": "Romain Milon (Rubilmax) <rmilon@gmail.com>",
+  "author": {
+    "name": "Romain (Rubilmax) Milon",
+    "email": "rmilon@gmail.com",
+    "url": "https://github.com/rubilmax"
+  },
   "license": "UNLICENSED",
   "main": "lib/index.js",
   "scripts": {
