@@ -80,7 +80,7 @@ jobs:
       # Add any step generating a gas report to a temporary file named gasreport.ansi
       # For example:
       - name: Run tests
-        run: forge test --gas-report | tee gasreport.ansi
+        run: forge test --gas-report | tee gasreport.ansi # <- this file name should be unique in your repository!
         env:
           # make fuzzing semi-deterministic to avoid noisy gas cost estimation
           # due to non-deterministic fuzzing, but keep it not always deterministic
