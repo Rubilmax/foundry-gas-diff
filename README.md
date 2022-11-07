@@ -162,14 +162,14 @@ _Defaults to: asc_
 
 ### `ignore` _{string[]}_
 
-The list of paths from which to ignore gas reports, separated by a comma.
+The list of contract paths from which to ignore gas reports, separated by a comma.
 This allows to clean out gas diffs from dependency contracts impacted by a change (e.g. Proxies, ERC20, ...).
 
 _No default assigned: optional opt-in (Please note that node dependencies are always discarded from gas reports)_
 
 ### `match` _{string[]}_
 
-The list of paths of which only to keep gas reports, separated by a comma.
+The list of contract paths of which only to keep gas reports, separated by a comma.
 This allows to only display gas diff of specific contracts.
 
 _No default assigned: optional opt-in_

@@ -36,10 +36,10 @@ inputs:
     required: false
     default: asc
   ignore:
-    description: The list of paths from which to ignore gas reports, separated by a comma.
+    description: The list of contract paths from which to ignore gas reports, separated by a comma.
     required: false
   match:
-    description: The list of paths of which only to keep gas reports, separated by a comma.
+    description: The list of contract paths of which only to keep gas reports, separated by a comma.
     required: false
 
 outputs:
