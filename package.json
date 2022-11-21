@@ -46,7 +46,7 @@
     "@trivago/prettier-plugin-sort-imports": "^3.4.0",
     "@types/adm-zip": "^0.5.0",
     "@types/jest": "^28.1.6",
-    "@types/lodash": "^4.14.188",
+    "@types/lodash": "^4.14.189",
     "@types/minimatch": "^5.1.2",
     "@types/node": "^18.11.9",
     "@typescript-eslint/parser": "^5.42.1",
