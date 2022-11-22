@@ -89,7 +89,7 @@ jobs:
           FOUNDRY_FUZZ_SEED: 0x${{ github.event.pull_request.base.sha || github.sha }}
 
       - name: Compare gas reports
-        uses: Rubilmax/foundry-gas-diff@v3.9
+        uses: Rubilmax/foundry-gas-diff@v3.10
         with:
           sortCriteria: avg,max # optionnally sort diff rows by criteria
           sortOrders: desc,asc # and directions
