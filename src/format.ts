@@ -1,4 +1,5 @@
 import colors from "colors";
+import _sortBy from "lodash/sortBy";
 
 import { DiffCell, DiffReport } from "./types";
 
@@ -15,7 +16,7 @@ export const formatShellCell = (cell: DiffCell, length = 10) => {
   const format = colors[cell.delta > 0 ? "red" : cell.delta < 0 ? "green" : "reset"];
 
   return [
-    cell.value.toLocaleString().padStart(length) +
+    cell.current.toLocaleString().padStart(length) +
       " " +
       format(("(" + (plusSign(cell.delta) + cell.delta.toLocaleString()) + ")").padEnd(length)),
     colors.bold(
@@ -123,7 +124,7 @@ const formatMarkdownFullCell = (rows: DiffCell[]) => [
   rows
     .map(
       (row) =>
-        row.value.toLocaleString() +
+        row.current.toLocaleString() +
         "&nbsp;(" +
         plusSign(row.delta) +
         row.delta.toLocaleString() +
@@ -169,7 +170,8 @@ export const formatMarkdownDiff = (
   diffs: DiffReport[],
   repository: string,
   commitHash: string,
-  refCommitHash?: string
+  refCommitHash?: string,
+  summaryQuantile = 0.8
 ) => {
   const summaryHeader = MARKDOWN_SUMMARY_COLS.map((entry) => entry.txt)
     .join(" | ")
@@ -189,6 +191,14 @@ export const formatMarkdownDiff = (
     .join("|")
     .trim();
 
+  const sortedMethods = _sortBy(
+    diffs.flatMap((diff) => diff.methods),
+    "avg.prcnt"
+  );
+  const avgQuantile = Math.abs(
+    sortedMethods[Math.floor((sortedMethods.length - 1) * summaryQuantile)].avg.prcnt
+  );
+
   return [
     header,
     "",
@@ -197,11 +207,20 @@ export const formatMarkdownDiff = (
         ? `, compared to commit: [${refCommitHash}](/${repository}/commit/${refCommitHash})`
         : ""),
     "",
-    "### 🧾 Summary",
+    `### 🧾 Summary (${Math.round((1 - summaryQuantile) * 100)}% most significant diffs)`,
     "",
     summaryHeader,
     summaryHeaderSeparator,
     diffs
+      .map(({ methods, ...diff }) => ({
+        ...diff,
+        methods: methods.filter(
+          (method) =>
+            method.min.current >= 500 &&
+            Math.abs(method.avg.prcnt) >= avgQuantile &&
+            (method.min.delta > 0 || method.median.delta > 0 || method.max.delta > 0)
+        ),
+      }))
       .filter((diff) => diff.methods.length > 0)
       .flatMap((diff) =>
         [

@@ -1,363 +1,327 @@
-Compiling 96 files with 0.8.13
-Solc 0.8.13 finished in 28.84s
+Compiling 95 files with 0.8.13
+Solc 0.8.13 finished in 40.41s
 Compiler run successful
 
 Running 6 tests for test-foundry/compound/TestInterestRates.t.sol:TestInterestRates
-[32m[PASS][0m testIndexComputation() (gas: 22871)
-[32m[PASS][0m testIndexComputationWhenPoolSupplyIndexHasJumpedWithDelta() (gas: 23368)
-[32m[PASS][0m testIndexComputationWhenPoolSupplyIndexHasJumpedWithoutDelta() (gas: 19073)
-[32m[PASS][0m testIndexComputationWithDelta() (gas: 27079)
-[32m[PASS][0m testIndexComputationWithDeltaAndReserveFactor() (gas: 27188)
-[32m[PASS][0m testIndexComputationWithReserveFactor() (gas: 22915)
-Test result: [32mok[0m. 6 passed; 0 failed; finished in 22.10ms
-
-Running 8 tests for test-foundry/compound/TestPausableMarket.t.sol:TestPausableMarket
-[32m[PASS][0m testAllMarketsPauseUnpause() (gas: 266458)
-[32m[PASS][0m testOnlyOwnerShouldDisableBorrow() (gas: 85478)
-[32m[PASS][0m testOnlyOwnerShouldDisableLiquidateOnBorrow() (gas: 90774)
-[32m[PASS][0m testOnlyOwnerShouldDisableLiquidateOnCollateral() (gas: 86128)
-[32m[PASS][0m testOnlyOwnerShouldDisableRepay() (gas: 86000)
-[32m[PASS][0m testOnlyOwnerShouldDisableSupply() (gas: 85816)
-[32m[PASS][0m testOnlyOwnerShouldDisableWithdraw() (gas: 85772)
-[32m[PASS][0m testShouldDisableAllMarketsWhenGloballyPaused() (gas: 872862)
-Test result: [32mok[0m. 8 passed; 0 failed; finished in 13.35s
-
-Running 12 tests for test-foundry/compound/TestUpgradeable.t.sol:TestUpgradeable
-[32m[PASS][0m testLensImplementationsShouldBeInitialized() (gas: 15162)
-[32m[PASS][0m testOnlyProxyOwnerCanUpgradeAndCallLens() (gas: 5112128)
-[32m[PASS][0m testOnlyProxyOwnerCanUpgradeAndCallMorpho() (gas: 3451843)
-[32m[PASS][0m testOnlyProxyOwnerCanUpgradeAndCallRewardsManager() (gas: 1041352)
-[32m[PASS][0m testOnlyProxyOwnerCanUpgradeLens() (gas: 5109332)
-[32m[PASS][0m testOnlyProxyOwnerCanUpgradeMorpho() (gas: 3449853)
-[32m[PASS][0m testOnlyProxyOwnerCanUpgradeRewardsManager() (gas: 1038531)
-[32m[PASS][0m testPositionsManagerImplementationsShouldBeInitialized() (gas: 21621)
-[32m[PASS][0m testRewardsManagerImplementationsShouldBeInitialized() (gas: 15181)
-[32m[PASS][0m testUpgradeLens() (gas: 5107958)
-[32m[PASS][0m testUpgradeMorpho() (gas: 3957141)
-[32m[PASS][0m testUpgradeRewardsManager() (gas: 1037158)
-Test result: [32mok[0m. 12 passed; 0 failed; finished in 14.15s
-
-Running 9 tests for test-foundry/compound/TestIncentivesVault.t.sol:TestIncentivesVault
-[32m[PASS][0m testFailWhenContractNotActive() (gas: 39157)
-[32m[PASS][0m testOnlyMorphoShouldTriggerCompConvertFunction() (gas: 239353)
-[32m[PASS][0m testOnlyOwnerShouldSetBonus() (gas: 40136)
-[32m[PASS][0m testOnlyOwnerShouldSetIncentivesTreasuryVault() (gas: 23478)
-[32m[PASS][0m testOnlyOwnerShouldSetOracle() (gas: 23478)
-[32m[PASS][0m testOnlyOwnerShouldSetPauseStatus() (gas: 30750)
-[32m[PASS][0m testOnlyOwnerShouldTransferTokensToDao() (gas: 57823)
-[32m[PASS][0m testShouldGiveTheRightAmountOfRewards() (gas: 274850)
-[32m[PASS][0m testShouldNotSetBonusAboveMaxBasisPoints() (gas: 13155)
-Test result: [32mok[0m. 9 passed; 0 failed; finished in 14.60s
-
-Running 4 tests for test-foundry/compound/TestMarketMember.t.sol:TestMarketMember
-[32m[PASS][0m testShouldNotLiquidateUserNotOnMemberOfMarketAsBorrow() (gas: 1280453)
-[32m[PASS][0m testShouldNotLiquidateUserNotOnMemberOfMarketAsCollateral() (gas: 1280688)
-[32m[PASS][0m testShouldNotRepayWhenNotMarketMember() (gas: 71960)
-[32m[PASS][0m testShouldNotWithdrawWhenNotMarketMember() (gas: 43514)
-Test result: [32mok[0m. 4 passed; 0 failed; finished in 15.70s
-
-Running 2 tests for test-foundry/compound/TestP2PDisable.t.sol:TestP2PDisable
-[32m[PASS][0m testShouldMatchBorrowDeltaWithP2PDisabled() (gas: 3669209)
-[32m[PASS][0m testShouldMatchSupplyDeltaWithP2PDisabled() (gas: 2736461)
-Test result: [32mok[0m. 2 passed; 0 failed; finished in 16.18s
-
-Running 4 tests for test-foundry/compound/TestMarketStrategy.t.sol:TestMarketStrategy
-[32m[PASS][0m testShouldPutBorrowerOnPool() (gas: 1630164)
-[32m[PASS][0m testShouldPutBorrowersOnPool() (gas: 2925657)
-[32m[PASS][0m testShouldPutSupplierOnPool() (gas: 1630239)
-[32m[PASS][0m testShouldPutSuppliersOnPool() (gas: 2168861)
-Test result: [32mok[0m. 4 passed; 0 failed; finished in 16.21s
-
-Running 10 tests for test-foundry/compound/TestFees.t.sol:TestFees
-[32m[PASS][0m testOnlyOwnerCanSetTreasuryVault() (gas: 27636)
-[32m[PASS][0m testOwnerShouldBeAbleToClaimFees() (gas: 3674978)
-[32m[PASS][0m testShouldCollectTheRightAmountOfFees() (gas: 3684220)
-[32m[PASS][0m testShouldNotBePossibleToSetFeesHigherThan100Percent() (gas: 22898)
-[32m[PASS][0m testShouldNotBePossibleToSetP2PIndexCursorHigherThan100Percent() (gas: 22832)
-[32m[PASS][0m testShouldNotClaimCompRewards() (gas: 3488555)
-[32m[PASS][0m testShouldNotClaimFeesIfFactorIsZero() (gas: 3640155)
-[32m[PASS][0m testShouldPayFee() (gas: 4284059)
-[32m[PASS][0m testShouldReduceTheFeeToRepay() (gas: 4309537)
-[32m[PASS][0m testShouldRevertWhenClaimingToZeroAddress() (gas: 3660940)
-Test result: [32mok[0m. 10 passed; 0 failed; finished in 16.48s
-
-Running 40 tests for test-foundry/compound/TestRatesLens.t.sol:TestRatesLens
-[32m[PASS][0m testAverageBorrowRateShouldEqual0WhenNoBorrow() (gas: 138722)
-[32m[PASS][0m testAverageBorrowRateShouldEqualMidrateWhenHalfMatched() (gas: 1776356)
-[32m[PASS][0m testAverageBorrowRateShouldEqualPoolRateWhenNoMatch() (gas: 1300099)
-[32m[PASS][0m testAverageBorrowRateShouldEqualPoolRateWithFullBorrowDelta() (gas: 1832384)
-[32m[PASS][0m testAverageRatesShouldEqualP2PRatesWhenFullyMatched() (gas: 2239693)
-[32m[PASS][0m testAverageSupplyRateShouldEqual0WhenNoSupply() (gas: 137552)
-[32m[PASS][0m testAverageSupplyRateShouldEqualMidrateWhenHalfMatched() (gas: 1769156)
-[32m[PASS][0m testAverageSupplyRateShouldEqualPoolRateWhenNoMatch() (gas: 583545)
-[32m[PASS][0m testAverageSupplyRateShouldEqualPoolRateWithFullSupplyDelta() (gas: 2124654)
-[32m[PASS][0m testBorrowRateShouldEqual0WhenNoBorrow() (gas: 114809)
-[32m[PASS][0m testBorrowRateShouldEqualPoolRateWithFullBorrowDelta() (gas: 1818475)
-[32m[PASS][0m testGetRatesPerBlock() (gas: 158320)
-[32m[PASS][0m testNextBorrowRateShouldEqual0WhenNoBorrow() (gas: 115784)
-[32m[PASS][0m testNextBorrowRateShouldEqualCurrentRateWhenNoNewBorrow() (gas: 1437790)
-[32m[PASS][0m testNextBorrowRateShouldEqualMidrateWhenHalfMatch() (gas: 669265)
-[32m[PASS][0m testNextBorrowRateShouldEqualMidrateWithHalfSupplyDeltaAndNoSupplierOnPool() (gas: 1882187)
-[32m[PASS][0m testNextBorrowRateShouldEqualP2PRateWhenDoubleBorrow() (gas: 1898570)
-[32m[PASS][0m testNextBorrowRateShouldEqualP2PRateWhenFullMatch() (gas: 693459)
-[32m[PASS][0m testNextBorrowRateShouldEqualP2PRateWithFullSupplyDeltaAndNoSupplierOnPool() (gas: 1861391)
-[32m[PASS][0m testNextBorrowRateShouldEqualPoolRateWhenFullMatchButP2PDisabled() (gas: 657001)
-[32m[PASS][0m testNextBorrowRateShouldEqualPoolRateWhenNoSupplierOnPool() (gas: 182921)
-[32m[PASS][0m testNextSupplyRateShouldEqual0WhenNoSupply() (gas: 115804)
-[32m[PASS][0m testNextSupplyRateShouldEqualCurrentRateWhenNoNewSupply() (gas: 721147)
-[32m[PASS][0m testNextSupplyRateShouldEqualMidrateWhenHalfMatch() (gas: 1369360)
-[32m[PASS][0m testNextSupplyRateShouldEqualMidrateWithHalfBorrowDeltaAndNoBorrowerOnPool() (gas: 1903658)
-[32m[PASS][0m testNextSupplyRateShouldEqualP2PRateWhenDoubleSupply() (gas: 1999409)
-[32m[PASS][0m testNextSupplyRateShouldEqualP2PRateWhenFullMatch() (gas: 1410085)
-[32m[PASS][0m testNextSupplyRateShouldEqualP2PRateWithFullBorrowDeltaAndNoBorrowerOnPool() (gas: 1882897)
-[32m[PASS][0m testNextSupplyRateShouldEqualPoolRateWhenFullMatchButP2PDisabled() (gas: 1389027)
-[32m[PASS][0m testNextSupplyRateShouldEqualPoolRateWhenNoBorrowerOnPool() (gas: 211287)
-[32m[PASS][0m testPoolBorrowAmountShouldBeEqualToPoolAmount() (gas: 1330139)
-[32m[PASS][0m testPoolSupplyAmountShouldBeEqualToPoolAmount() (gas: 617332)
-[32m[PASS][0m testRatesShouldBeConstantWhenSupplyDeltaWithoutInteraction() (gas: 2674662)
-[32m[PASS][0m testSupplyRateShouldEqual0WhenNoSupply() (gas: 114926)
-[32m[PASS][0m testSupplyRateShouldEqualPoolRateWithFullSupplyDelta() (gas: 1796963)
-[32m[PASS][0m testUserBorrowRateShouldEqualMidrateWhenHalfMatched() (gas: 2205908)
-[32m[PASS][0m testUserBorrowRateShouldEqualPoolRateWhenNotMatched() (gas: 1309259)
-[32m[PASS][0m testUserRatesShouldEqualP2PRatesWhenFullyMatched() (gas: 2259184)
-[32m[PASS][0m testUserSupplyRateShouldEqualMidrateWhenHalfMatched() (gas: 2022427)
-[32m[PASS][0m testUserSupplyRateShouldEqualPoolRateWhenNotMatched() (gas: 594509)
-Test result: [32mok[0m. 40 passed; 0 failed; finished in 3.16s
-
-Running 32 tests for test-foundry/compound/TestGovernance.t.sol:TestGovernance
-[32m[PASS][0m testFailCallIncreaseP2PDeltasFromImplementation() (gas: 7969)
-[32m[PASS][0m testIncreaseP2PDeltas() (gas: 1882919)
-[32m[PASS][0m testIncreaseP2PDeltasMoreThanWhatIsPossibleBorrow() (gas: 2104091)
-[32m[PASS][0m testIncreaseP2PDeltasMoreThanWhatIsPossibleSupply() (gas: 2063329)
-[32m[PASS][0m testIncreaseP2PDeltasWithMaxBorrowDelta() (gas: 1865304)
-[32m[PASS][0m testOnlyOwnerCanCreateMarkets() (gas: 536162)
-[32m[PASS][0m testOnlyOwnerCanIncreaseP2PDeltas() (gas: 1456341)
-[32m[PASS][0m testOnlyOwnerCanSetIsClaimRewardsPaused() (gas: 55977)
-[32m[PASS][0m testOnlyOwnerCanSetMaxSortedUsers() (gas: 46773)
-[32m[PASS][0m testOnlyOwnerCanSetReserveFactor() (gas: 337699)
-[32m[PASS][0m testOnlyOwnerShouldDisableBorrow() (gas: 61546)
-[32m[PASS][0m testOnlyOwnerShouldDisableLiquidateOnBorrow() (gas: 61634)
-[32m[PASS][0m testOnlyOwnerShouldDisableLiquidateOnCollateral() (gas: 61638)
-[32m[PASS][0m testOnlyOwnerShouldDisableRepay() (gas: 61742)
-[32m[PASS][0m testOnlyOwnerShouldDisableSupply() (gas: 61620)
-[32m[PASS][0m testOnlyOwnerShouldDisableWithdraw() (gas: 61616)
-[32m[PASS][0m testOnlyOwnerShouldFlipMarketStrategy() (gas: 90277)
-[32m[PASS][0m testOnlyOwnerShouldSetDeprecatedMarket() (gas: 63100)
-[32m[PASS][0m testOnlyOwnerShouldSetDustThreshold() (gas: 38775)
-[32m[PASS][0m testOnlyOwnerShouldSetIncentivesVault() (gas: 702051)
-[32m[PASS][0m testOnlyOwnerShouldSetInterestRatesManager() (gas: 917206)
-[32m[PASS][0m testOnlyOwnerShouldSetPositionsManager() (gas: 4669436)
-[32m[PASS][0m testOnlyOwnerShouldSetRewardsManager() (gas: 1044705)
-[32m[PASS][0m testOnlyOwnerShouldSetTreasuryVault() (gas: 39099)
-[32m[PASS][0m testReserveFactorShouldBeUpdatedWithRightValue() (gas: 123567)
-[32m[PASS][0m testSetP2PIndexCursor() (gas: 153273)
-[32m[PASS][0m testShouldCreateMarketWithRightParams() (gas: 331034)
-[32m[PASS][0m testShouldCreateMarketWithTheRightValues() (gas: 312954)
-[32m[PASS][0m testShouldDeployContractWithTheRightValues() (gas: 30437)
-[32m[PASS][0m testShouldNotIncreaseP2PDeltasWhenMarketNotCreated() (gas: 28271)
-[32m[PASS][0m testShouldRevertWhenCreatingMarketWithAnImproperMarket() (gas: 60372)
-[32m[PASS][0m testShouldSetMaxGasWithRightValues() (gas: 52119)
-Test result: [32mok[0m. 32 passed; 0 failed; finished in 18.31s
+[PASS] testIndexComputation() (gas: 23197)
+[PASS] testIndexComputationWhenPoolSupplyIndexHasJumpedWithDelta() (gas: 23374)
+[PASS] testIndexComputationWhenPoolSupplyIndexHasJumpedWithoutDelta() (gas: 19079)
+[PASS] testIndexComputationWithDelta() (gas: 27405)
+[PASS] testIndexComputationWithDeltaAndReserveFactor() (gas: 27514)
+[PASS] testIndexComputationWithReserveFactor() (gas: 23241)
+Test result: ok. 6 passed; 0 failed; finished in 1.18s
 
 Running 1 test for test-foundry/compound/TestMorphoUtils.t.sol:TestMorphoUtils
-[32m[PASS][0m testUserShouldNotUpdateP2PIndexesOfMarketNotCreated() (gas: 21024)
-Test result: [32mok[0m. 1 passed; 0 failed; finished in 201.27ms
+[PASS] testUserShouldNotUpdateP2PIndexesOfMarketNotCreated() (gas: 21091)
+Test result: ok. 1 passed; 0 failed; finished in 31.83s
 
-Running 9 tests for test-foundry/compound/TestLiquidate.t.sol:TestLiquidate
-[32m[PASS][0m testCannotBorrowLiquidateInSameBlock() (gas: 1776808)
-[32m[PASS][0m testCannotLiquidateMoreThanCloseFactor() (gas: 1823438)
-[32m[PASS][0m testFailLiquidateZero() (gas: 31517)
-[32m[PASS][0m testLiquidateUpdateIndexesSameAsCompound() (gas: 5114296)
-[32m[PASS][0m testLiquidateWhenMarketDeprecated() (gas: 1695941)
-[32m[PASS][0m testShouldLiquidateUser() (gas: 2214623)
-[32m[PASS][0m testShouldLiquidateWhileInP2PAndPool() (gas: 3473231)
-[32m[PASS][0m testShouldNotBePossibleToLiquidateUserAboveWater() (gas: 1334536)
-[32m[PASS][0m testShouldPartiallyLiquidateWhileInP2PAndPool() (gas: 3460696)
-Test result: [32mok[0m. 9 passed; 0 failed; finished in 20.93s
+Running 12 tests for test-foundry/compound/TestUpgradeable.t.sol:TestUpgradeable
+[PASS] testLensImplementationsShouldBeInitialized() (gas: 15184)
+[PASS] testOnlyProxyOwnerCanUpgradeAndCallLens() (gas: 4949299)
+[PASS] testOnlyProxyOwnerCanUpgradeAndCallMorpho() (gas: 3337874)
+[PASS] testOnlyProxyOwnerCanUpgradeAndCallRewardsManager() (gas: 1041352)
+[PASS] testOnlyProxyOwnerCanUpgradeLens() (gas: 4946393)
+[PASS] testOnlyProxyOwnerCanUpgradeMorpho() (gas: 3335994)
+[PASS] testOnlyProxyOwnerCanUpgradeRewardsManager() (gas: 1038531)
+[PASS] testPositionsManagerImplementationsShouldBeInitialized() (gas: 21578)
+[PASS] testRewardsManagerImplementationsShouldBeInitialized() (gas: 15181)
+[PASS] testUpgradeLens() (gas: 4945107)
+[PASS] testUpgradeMorpho() (gas: 3848175)
+[PASS] testUpgradeRewardsManager() (gas: 1037158)
+Test result: ok. 12 passed; 0 failed; finished in 33.04s
 
-Running 21 tests for test-foundry/compound/TestRewards.t.sol:TestRewards
-[32m[PASS][0m testFailShouldNotClaimRewardsWhenRewardsManagerIsAddressZero() (gas: 3514305)
-[32m[PASS][0m testGetAccruedBorrowComp() (gas: 1315633)
-[32m[PASS][0m testGetAccruedSupplyComp() (gas: 582071)
-[32m[PASS][0m testShouldAllowClaimingRewardsOfMarketAlreadyClaimed() (gas: 1854632)
-[32m[PASS][0m testShouldClaimOnSeveralMarkets() (gas: 1585709)
-[32m[PASS][0m testShouldClaimRewardsAndTradeForMorpkoTokens() (gas: 832032)
-[32m[PASS][0m testShouldClaimRewardsOnSeveralMarketsAtOnce() (gas: 2132831)
-[32m[PASS][0m testShouldClaimRightAmountOfBorrowRewards() (gas: 1467163)
-[32m[PASS][0m testShouldClaimRightAmountOfSupplyRewards() (gas: 1068385)
-[32m[PASS][0m testShouldClaimTheSameAmountOfRewards() (gas: 4264254)
-[32m[PASS][0m testShouldComputeCorrectBorrowIndex() (gas: 1684225)
-[32m[PASS][0m testShouldComputeCorrectSupplyIndex() (gas: 825418)
-[32m[PASS][0m testShouldGetRightAmountOfBorrowRewards() (gas: 1522430)
-[32m[PASS][0m testShouldGetRightAmountOfSupplyRewards() (gas: 1096661)
-[32m[PASS][0m testShouldNotBePossibleToClaimRewardsOnOtherMarket() (gas: 1136630)
-[32m[PASS][0m testShouldRevertWhenClaimRewardsIsPaused() (gas: 51251)
-[32m[PASS][0m testShouldUpdateCorrectBorrowIndex() (gas: 2020886)
-[32m[PASS][0m testShouldUpdateCorrectBorrowIndexWhenSpeedIs0() (gas: 1726231)
-[32m[PASS][0m testShouldUpdateCorrectSupplyIndex() (gas: 1436309)
-[32m[PASS][0m testShouldUpdateCorrectSupplyIndexWhenSpeedIs0() (gas: 1259700)
-[32m[PASS][0m testUsersShouldClaimRewardsIndependently() (gas: 4577550)
-Test result: [32mok[0m. 21 passed; 0 failed; finished in 23.94s
+Running 4 tests for test-foundry/compound/TestMarketMember.t.sol:TestMarketMember
+[PASS] testShouldNotLiquidateUserNotOnMemberOfMarketAsBorrow() (gas: 1281816)
+[PASS] testShouldNotLiquidateUserNotOnMemberOfMarketAsCollateral() (gas: 1282029)
+[PASS] testShouldNotRepayWhenNotMarketMember() (gas: 69917)
+[PASS] testShouldNotWithdrawWhenNotMarketMember() (gas: 41425)
+Test result: ok. 4 passed; 0 failed; finished in 34.35s
 
-Running 3 tests for test-foundry/compound/TestRoundings.t.sol:TestRounding
-[32m[PASS][0m testRoundingError1() (gas: 523035)
-[32m[PASS][0m testRoundingError2() (gas: 408704)
-[32m[PASS][0m testRoundingError3() (gas: 580811)
-Test result: [32mok[0m. 3 passed; 0 failed; finished in 1.57s
+Running 16 tests for test-foundry/compound/TestGovernance.t.sol:TestGovernance
+[PASS] testOnlyOwnerCanCreateMarkets() (gas: 538212)
+[PASS] testOnlyOwnerCanSetClaimRewardsStatus() (gas: 56030)
+[PASS] testOnlyOwnerCanSetMaxSortedUsers() (gas: 46630)
+[PASS] testOnlyOwnerCanSetReserveFactor() (gas: 340275)
+[PASS] testOnlyOwnerShouldFlipMarketStrategy() (gas: 89931)
+[PASS] testOnlyOwnerShouldSetIncentivesVault() (gas: 719067)
+[PASS] testOnlyOwnerShouldSetInterestRatesManager() (gas: 878760)
+[PASS] testOnlyOwnerShouldSetPositionsManager() (gas: 4377220)
+[PASS] testOnlyOwnerShouldSetRewardsManager() (gas: 1044749)
+[PASS] testOnlyOwnerShouldSetTreasuryVault() (gas: 39055)
+[PASS] testReserveFactorShouldBeUpdatedWithRightValue() (gas: 126155)
+[PASS] testShouldCreateMarketWithRightParams() (gas: 333238)
+[PASS] testShouldCreateMarketWithTheRightValues() (gas: 315158)
+[PASS] testShouldDeployContractWithTheRightValues() (gas: 30349)
+[PASS] testShouldRevertWhenCreatingMarketWithAnImproperMarket() (gas: 60328)
+[PASS] testShouldSetMaxGasWithRightValues() (gas: 52385)
+Test result: ok. 16 passed; 0 failed; finished in 36.14s
 
-Running 5 tests for test-foundry/compound/TestMorphoGetters.t.sol:TestMorphoGetters
-[32m[PASS][0m testEnteredMarkets() (gas: 1187279)
-[32m[PASS][0m testFailUserLeftMarkets() (gas: 938588)
-[32m[PASS][0m testGetAllMarkets() (gas: 48327)
-[32m[PASS][0m testGetHead() (gas: 1729859)
-[32m[PASS][0m testGetNext() (gas: 41807226)
-Test result: [32mok[0m. 5 passed; 0 failed; finished in 54.30s
+Running 2 tests for test-foundry/compound/TestP2PDisable.t.sol:TestP2PDisable
+[PASS] testShouldMatchBorrowDeltaWithP2PDisabled() (gas: 3700337)
+[PASS] testShouldMatchSupplyDeltaWithP2PDisabled() (gas: 2763816)
+Test result: ok. 2 passed; 0 failed; finished in 37.53s
 
-Running 55 tests for test-foundry/compound/TestLens.t.sol:TestLens
-[32m[PASS][0m testComputeLiquidation() (gas: 1794032)
-[32m[PASS][0m testComputeLiquidation2() (gas: 1327251)
-[32m[PASS][0m testComputeLiquidation3() (gas: 2191617)
-[32m[PASS][0m testComputeLiquidation4() (gas: 1852846)
-[32m[PASS][0m testFuzzLiquidation(uint64,uint80) (runs: 1024, μ: 2401526, ~: 2391031)
-[32m[PASS][0m testFuzzLiquidationAboveIncentiveThreshold(uint64) (runs: 1024, μ: 3896692, ~: 3904960)
-[32m[PASS][0m testFuzzLiquidationUnderIncentiveThreshold(uint64) (runs: 1024, μ: 4394615, ~: 4390305)
-[32m[PASS][0m testGetAllMarkets() (gas: 54137)
-[32m[PASS][0m testGetEnteredMarkets() (gas: 1432996)
-[32m[PASS][0m testGetMainMarketData() (gas: 1249692)
-[32m[PASS][0m testGetMarketConfiguration() (gas: 80101)
-[32m[PASS][0m testGetMarketPauseStatusesDeprecatedMarket() (gas: 60198)
-[32m[PASS][0m testGetMarketPauseStatusesPauseBorrow() (gas: 60153)
-[32m[PASS][0m testGetMarketPauseStatusesPauseLiquidateOnBorrow() (gas: 60264)
-[32m[PASS][0m testGetMarketPauseStatusesPauseLiquidateOnCollateral() (gas: 60199)
-[32m[PASS][0m testGetMarketPauseStatusesPauseRepay() (gas: 60284)
-[32m[PASS][0m testGetMarketPauseStatusesPauseSupply() (gas: 60181)
-[32m[PASS][0m testGetMarketPauseStatusesPauseWithdraw() (gas: 60199)
-[32m[PASS][0m testGetOutdatedIndexes() (gas: 1278709)
-[32m[PASS][0m testGetUpdatedIndexes() (gas: 1320386)
-[32m[PASS][0m testGetUpdatedIndexesWithTransferToCTokenContract() (gas: 192381)
-[32m[PASS][0m testGetUpdatedP2PBorrowIndex() (gas: 167403)
-[32m[PASS][0m testGetUpdatedP2PBorrowIndexWithDelta() (gas: 1710500)
-[32m[PASS][0m testGetUpdatedP2PIndexesWithBorrowDelta() (gas: 1714554)
-[32m[PASS][0m testGetUpdatedP2PIndexesWithSupplyDelta() (gas: 1620478)
-[32m[PASS][0m testGetUpdatedP2PSupplyIndex() (gas: 167467)
-[32m[PASS][0m testHealthFactorAbove1() (gas: 1745901)
-[32m[PASS][0m testHealthFactorAbove1WhenHalfMatched() (gas: 2361587)
-[32m[PASS][0m testHealthFactorAbove1WithUpdatedMarkets() (gas: 1894511)
-[32m[PASS][0m testHealthFactorBelow1() (gas: 1807369)
-[32m[PASS][0m testHealthFactorEqual1() (gas: 2430737)
-[32m[PASS][0m testHealthFactorEqual1WhenBorrowingMaxCapacity() (gas: 1648315)
-[32m[PASS][0m testHealthFactorShouldBeInfinityForPureSuppliers() (gas: 606161)
-[32m[PASS][0m testIsLiquidatableFalse() (gas: 1324298)
-[32m[PASS][0m testIsLiquidatableTrue() (gas: 1751537)
-[32m[PASS][0m testLiquidatableWithUpdatedP2PIndexes() (gas: 2035889)
-[32m[PASS][0m testLiquidationWithUpdatedPoolIndexes() (gas: 1568012)
-[32m[PASS][0m testLiquidityDataFailsWhenOracleFails() (gas: 977293)
-[32m[PASS][0m testLiquidityDataForUSDT() (gas: 773331)
-[32m[PASS][0m testLiquidityDataWithMultipleAssetsAndUSDT() (gas: 2351568)
-[32m[PASS][0m testMaxCapacitiesWithNothing() (gas: 167890)
-[32m[PASS][0m testMaxCapacitiesWithNothingWithSupplyWithMultipleAssetsAndBorrow() (gas: 2152851)
-[32m[PASS][0m testMaxCapacitiesWithSupply() (gas: 845609)
-[32m[PASS][0m testMaxCapacitiesWithSupplyAndBorrow() (gas: 1556603)
-[32m[PASS][0m testNoRepayLiquidation() (gas: 4390157)
-[32m[PASS][0m testTotalSupplyBorrowWithHalfBorrowDelta() (gas: 3046784)
-[32m[PASS][0m testTotalSupplyBorrowWithHalfSupplyDelta() (gas: 2986636)
-[32m[PASS][0m testUserBalanceStatesWithSupplyAndBorrow() (gas: 1338823)
-[32m[PASS][0m testUserBalanceStatesWithSupplyAndBorrowWithMultipleAssets() (gas: 2417861)
-[32m[PASS][0m testUserBalanceWithMatching() (gas: 1817487)
-[32m[PASS][0m testUserBalanceWithoutMatching() (gas: 1309288)
-[32m[PASS][0m testUserLiquidityDataForAssetWithNothing() (gas: 161560)
-[32m[PASS][0m testUserLiquidityDataForAssetWithSupply() (gas: 588514)
-[32m[PASS][0m testUserLiquidityDataForAssetWithSupplyAndBorrow() (gas: 1219049)
-[32m[PASS][0m testUserLiquidityDataForAssetWithSupplyAndBorrowWithMultipleAssets() (gas: 1338015)
-Test result: [32mok[0m. 55 passed; 0 failed; finished in 103.39s
+Running 4 tests for test-foundry/compound/TestMarketStrategy.t.sol:TestMarketStrategy
+[PASS] testShouldPutBorrowerOnPool() (gas: 1640976)
+[PASS] testShouldPutBorrowersOnPool() (gas: 2952983)
+[PASS] testShouldPutSupplierOnPool() (gas: 1641073)
+[PASS] testShouldPutSuppliersOnPool() (gas: 2188191)
+Test result: ok. 4 passed; 0 failed; finished in 1.99s
 
 Running 11 tests for test-foundry/compound/TestEth.t.sol:TestEth
-[32m[PASS][0m testBorrowEthInP2P() (gas: 1659536)
-[32m[PASS][0m testBorrowEthOnPool() (gas: 1274610)
-[32m[PASS][0m testRepayEthInP2P() (gas: 2044799)
-[32m[PASS][0m testRepayEthOnPool() (gas: 1392616)
-[32m[PASS][0m testShouldGetEthMarketConfiguration() (gas: 62693)
-[32m[PASS][0m testShouldLiquidateUserWithEthAsCollateral() (gas: 2654212)
-[32m[PASS][0m testShouldLiquidateUserWithEthBorrowed() (gas: 2509014)
-[32m[PASS][0m testSupplyEthInP2P() (gas: 1756293)
-[32m[PASS][0m testSupplyEthOnPool() (gas: 540051)
-[32m[PASS][0m testWithdrawEthInP2P() (gas: 1925849)
-[32m[PASS][0m testWithdrawEthOnPool() (gas: 749741)
-Test result: [32mok[0m. 11 passed; 0 failed; finished in 106.38s
+[PASS] testBorrowEthInP2P() (gas: 1671732)
+[PASS] testBorrowEthOnPool() (gas: 1280154)
+[PASS] testRepayEthInP2P() (gas: 2114965)
+[PASS] testRepayEthOnPool() (gas: 1450846)
+[PASS] testShouldGetEthMarketConfiguration() (gas: 62784)
+[PASS] testShouldLiquidateUserWithEthAsCollateral() (gas: 2681002)
+[PASS] testShouldLiquidateUserWithEthBorrowed() (gas: 2533744)
+[PASS] testSupplyEthInP2P() (gas: 1769181)
+[PASS] testSupplyEthOnPool() (gas: 543015)
+[PASS] testWithdrawEthInP2P() (gas: 1942079)
+[PASS] testWithdrawEthOnPool() (gas: 756578)
+Test result: ok. 11 passed; 0 failed; finished in 37.75s
+
+Running 9 tests for test-foundry/compound/TestIncentivesVault.t.sol:TestIncentivesVault
+[PASS] testFailWhenContractNotActive() (gas: 39047)
+[PASS] testOnlyMorphoShouldTriggerCompConvertFunction() (gas: 239422)
+[PASS] testOnlyOwnerShouldSetBonus() (gas: 40136)
+[PASS] testOnlyOwnerShouldSetIncentivesTreasuryVault() (gas: 23500)
+[PASS] testOnlyOwnerShouldSetOracle() (gas: 23478)
+[PASS] testOnlyOwnerShouldSetPauseStatus() (gas: 30768)
+[PASS] testOnlyOwnerShouldTransferTokensToDao() (gas: 57845)
+[PASS] testShouldGiveTheRightAmountOfRewards() (gas: 275005)
+[PASS] testShouldNotSetBonusAboveMaxBasisPoints() (gas: 13934)
+Test result: ok. 9 passed; 0 failed; finished in 1.72s
+
+Running 7 tests for test-foundry/compound/TestPausableMarket.t.sol:TestPausableMarket
+[PASS] testOnlyOwnerShouldTriggerPartialPauseFunction() (gas: 50052)
+[PASS] testOnlyOwnerShouldTriggerPauseFunction() (gas: 50120)
+[PASS] testPartialPausePartialUnpause() (gas: 28161)
+[PASS] testPauseUnpause() (gas: 28138)
+[PASS] testShouldDisableMarketWhenPaused() (gas: 3488221)
+[PASS] testShouldOnlyEnableRepayWithdrawLiquidateWhenPartiallyPaused() (gas: 4095974)
+[PASS] testShouldTriggerFunctionsWhenNotPaused() (gas: 2725953)
+Test result: ok. 7 passed; 0 failed; finished in 38.42s
+
+Running 10 tests for test-foundry/compound/TestFees.t.sol:TestFees
+[PASS] testOnlyOwnerCanSetTreasuryVault() (gas: 27636)
+[PASS] testOwnerShouldBeAbleToClaimFees() (gas: 3964440)
+[PASS] testShouldCollectTheRightAmountOfFees() (gas: 3971181)
+[PASS] testShouldNotBePossibleToSetFeesHigherThan100Percent() (gas: 22965)
+[PASS] testShouldNotBePossibleToSetP2PIndexCursorHigherThan100Percent() (gas: 22898)
+[PASS] testShouldNotClaimCompRewards() (gas: 3763399)
+[PASS] testShouldNotClaimFeesIfFactorIsZero() (gas: 3929661)
+[PASS] testShouldPayFee() (gas: 4581806)
+[PASS] testShouldReduceTheFeeToRepay() (gas: 4612967)
+[PASS] testShouldRevertWhenClaimingToZeroAddress() (gas: 3950381)
+Test result: ok. 10 passed; 0 failed; finished in 38.59s
+
+Running 3 tests for test-foundry/compound/TestRoundings.t.sol:TestRounding
+[PASS] testRoundingError1() (gas: 529193)
+[PASS] testRoundingError2() (gas: 414862)
+[PASS] testRoundingError3() (gas: 595486)
+Test result: ok. 3 passed; 0 failed; finished in 1.68s
+
+Running 40 tests for test-foundry/compound/TestRatesLens.t.sol:TestRatesLens
+[PASS] testAverageBorrowRateShouldEqual0WhenNoBorrow() (gas: 139298)
+[PASS] testAverageBorrowRateShouldEqualMidrateWhenHalfMatched() (gas: 1790646)
+[PASS] testAverageBorrowRateShouldEqualPoolRateWhenNoMatch() (gas: 1310310)
+[PASS] testAverageBorrowRateShouldEqualPoolRateWithFullBorrowDelta() (gas: 1860327)
+[PASS] testAverageRatesShouldEqualP2PRatesWhenFullyMatched() (gas: 2266758)
+[PASS] testAverageSupplyRateShouldEqual0WhenNoSupply() (gas: 138034)
+[PASS] testAverageSupplyRateShouldEqualMidrateWhenHalfMatched() (gas: 1788024)
+[PASS] testAverageSupplyRateShouldEqualPoolRateWhenNoMatch() (gas: 589542)
+[PASS] testAverageSupplyRateShouldEqualPoolRateWithFullSupplyDelta() (gas: 2130617)
+[PASS] testBorrowRateShouldEqual0WhenNoBorrow() (gas: 115216)
+[PASS] testBorrowRateShouldEqualPoolRateWithFullBorrowDelta() (gas: 1846073)
+[PASS] testGetRatesPerBlock() (gas: 159624)
+[PASS] testNextBorrowRateShouldEqual0WhenNoBorrow() (gas: 116180)
+[PASS] testNextBorrowRateShouldEqualCurrentRateWhenNoNewBorrow() (gas: 1449908)
+[PASS] testNextBorrowRateShouldEqualMidrateWhenHalfMatch() (gas: 677084)
+[PASS] testNextBorrowRateShouldEqualMidrateWithHalfSupplyDeltaAndNoSupplierOnPool() (gas: 1910500)
+[PASS] testNextBorrowRateShouldEqualP2PRateWhenDoubleBorrow() (gas: 1917172)
+[PASS] testNextBorrowRateShouldEqualP2PRateWhenFullMatch() (gas: 703437)
+[PASS] testNextBorrowRateShouldEqualP2PRateWithFullSupplyDeltaAndNoSupplierOnPool() (gas: 1888773)
+[PASS] testNextBorrowRateShouldEqualPoolRateWhenFullMatchButP2PDisabled() (gas: 663391)
+[PASS] testNextBorrowRateShouldEqualPoolRateWhenNoSupplierOnPool() (gas: 184375)
+[PASS] testNextSupplyRateShouldEqual0WhenNoSupply() (gas: 116067)
+[PASS] testNextSupplyRateShouldEqualCurrentRateWhenNoNewSupply() (gas: 729238)
+[PASS] testNextSupplyRateShouldEqualMidrateWhenHalfMatch() (gas: 1382115)
+[PASS] testNextSupplyRateShouldEqualMidrateWithHalfBorrowDeltaAndNoBorrowerOnPool() (gas: 1934137)
+[PASS] testNextSupplyRateShouldEqualP2PRateWhenDoubleSupply() (gas: 2023373)
+[PASS] testNextSupplyRateShouldEqualP2PRateWhenFullMatch() (gas: 1423980)
+[PASS] testNextSupplyRateShouldEqualP2PRateWithFullBorrowDeltaAndNoBorrowerOnPool() (gas: 1912401)
+[PASS] testNextSupplyRateShouldEqualPoolRateWhenFullMatchButP2PDisabled() (gas: 1401598)
+[PASS] testNextSupplyRateShouldEqualPoolRateWhenNoBorrowerOnPool() (gas: 215049)
+[PASS] testPoolBorrowAmountShouldBeEqualToPoolAmount() (gas: 1341349)
+[PASS] testPoolSupplyAmountShouldBeEqualToPoolAmount() (gas: 625018)
+[PASS] testRatesShouldBeConstantWhenSupplyDeltaWithoutInteraction() (gas: 2719936)
+[PASS] testSupplyRateShouldEqual0WhenNoSupply() (gas: 115223)
+[PASS] testSupplyRateShouldEqualPoolRateWithFullSupplyDelta() (gas: 1822395)
+[PASS] testUserBorrowRateShouldEqualMidrateWhenHalfMatched() (gas: 2232643)
+[PASS] testUserBorrowRateShouldEqualPoolRateWhenNotMatched() (gas: 1320142)
+[PASS] testUserRatesShouldEqualP2PRatesWhenFullyMatched() (gas: 2287753)
+[PASS] testUserSupplyRateShouldEqualMidrateWhenHalfMatched() (gas: 2044864)
+[PASS] testUserSupplyRateShouldEqualPoolRateWhenNotMatched() (gas: 601447)
+Test result: ok. 40 passed; 0 failed; finished in 42.60s
+
+Running 7 tests for test-foundry/compound/TestLiquidate.t.sol:TestLiquidate
+[PASS] testCannotBorrowLiquidateInSameBlock() (gas: 1785286)
+[PASS] testFailLiquidateZero() (gas: 29108)
+[PASS] testLiquidateUpdateIndexesSameAsCompound() (gas: 5196888)
+[PASS] testShouldLiquidateUser() (gas: 2231999)
+[PASS] testShouldLiquidateWhileInP2PAndPool() (gas: 3491945)
+[PASS] testShouldNotBePossibleToLiquidateUserAboveWater() (gas: 1342386)
+[PASS] testShouldPartiallyLiquidateWhileInP2PAndPool() (gas: 3500148)
+Test result: ok. 7 passed; 0 failed; finished in 43.19s
+
+Running 19 tests for test-foundry/compound/TestRewards.t.sol:TestRewards
+[PASS] testFailShouldNotClaimRewardsWhenRewardsManagerIsAddressZero() (gas: 3549514)
+[PASS] testShouldAllowClaimingRewardsOfMarketAlreadyClaimed() (gas: 1838613)
+[PASS] testShouldClaimOnSeveralMarkets() (gas: 1593885)
+[PASS] testShouldClaimRewardsAndTradeForMorpkoTokens() (gas: 836705)
+[PASS] testShouldClaimRewardsOnSeveralMarketsAtOnce() (gas: 2146792)
+[PASS] testShouldClaimRightAmountOfBorrowRewards() (gas: 1475514)
+[PASS] testShouldClaimRightAmountOfSupplyRewards() (gas: 1077285)
+[PASS] testShouldClaimTheSameAmountOfRewards() (gas: 4303721)
+[PASS] testShouldComputeCorrectBorrowIndex() (gas: 1702880)
+[PASS] testShouldComputeCorrectSupplyIndex() (gas: 838612)
+[PASS] testShouldGetRightAmountOfBorrowRewards() (gas: 1530824)
+[PASS] testShouldGetRightAmountOfSupplyRewards() (gas: 1105680)
+[PASS] testShouldNotBePossibleToClaimRewardsOnOtherMarket() (gas: 1140124)
+[PASS] testShouldRevertWhenClaimRewardsIsPaused() (gas: 51327)
+[PASS] testShouldUpdateCorrectBorrowIndex() (gas: 2041505)
+[PASS] testShouldUpdateCorrectBorrowIndexWhenSpeedIs0() (gas: 1740759)
+[PASS] testShouldUpdateCorrectSupplyIndex() (gas: 1458311)
+[PASS] testShouldUpdateCorrectSupplyIndexWhenSpeedIs0() (gas: 1277580)
+[PASS] testUsersShouldClaimRewardsIndependently() (gas: 4616239)
+Test result: ok. 19 passed; 0 failed; finished in 45.70s
+
+Running 5 tests for test-foundry/compound/TestMorphoGetters.t.sol:TestMorphoGetters
+[PASS] testEnteredMarkets() (gas: 1201763)
+[PASS] testFailUserLeftMarkets() (gas: 953791)
+[PASS] testGetAllMarkets() (gas: 48327)
+[PASS] testGetHead() (gas: 1748827)
+[PASS] testGetNext() (gas: 39673437)
+Test result: ok. 5 passed; 0 failed; finished in 69.92s
+    
+Running 11 tests for test-foundry/compound/TestSupply.t.sol:TestSupply
+[PASS] testFailSupplyZero() (gas: 26462)
+[PASS] testSupply1() (gas: 536616)
+[PASS] testSupply2() (gas: 1708434)
+[PASS] testSupply3() (gas: 1823713)
+[PASS] testSupply4() (gas: 74816497)
+[PASS] testSupply5() (gas: 74935488)
+[PASS] testSupplyMultipleTimes() (gas: 616865)
+[PASS] testSupplyOnBehalf() (gas: 542532)
+[PASS] testSupplyOnPoolThreshold() (gas: 419860)
+[PASS] testSupplyRepayOnBehalf() (gas: 1714768)
+[PASS] testSupplyUpdateIndexesSameAsCompound() (gas: 1626194)
+Test result: ok. 11 passed; 0 failed; finished in 110.80s
+
+Running 8 tests for test-foundry/compound/TestBorrow.t.sol:TestBorrow
+[PASS] testBorrow1() (gas: 888535)
+[PASS] testBorrow2() (gas: 1264502)
+[PASS] testBorrow3() (gas: 1644098)
+[PASS] testBorrow4() (gas: 1907702)
+[PASS] testBorrow5() (gas: 9945040)
+[PASS] testBorrow6() (gas: 10209702)
+[PASS] testBorrowMultipleAssets() (gas: 1440991)
+[PASS] testBorrowOnPoolThreshold() (gas: 1183252)
+Test result: ok. 8 passed; 0 failed; finished in 112.34s
+
+Running 44 tests for test-foundry/compound/TestLens.t.sol:TestLens
+[PASS] testComputeLiquidation() (gas: 1802209)
+[PASS] testComputeLiquidation2() (gas: 1334556)
+[PASS] testComputeLiquidation3() (gas: 2199816)
+[PASS] testComputeLiquidation4() (gas: 1861807)
+[PASS] testFuzzLiquidation(uint64,uint80) (runs: 1024, μ: 2420440, ~: 2401447)
+[PASS] testFuzzLiquidationAboveIncentiveThreshold(uint64) (runs: 1024, μ: 4047053, ~: 3958960)
+[PASS] testFuzzLiquidationUnderIncentiveThreshold(uint64) (runs: 1024, μ: 4461214, ~: 4458560)
+[PASS] testGetAllMarkets() (gas: 54137)
+[PASS] testGetEnteredMarkets() (gas: 1441603)
+[PASS] testGetMainMarketData() (gas: 1267124)
+[PASS] testGetMarketConfiguration() (gas: 80170)
+[PASS] testGetOutdatedIndexes() (gas: 1289285)
+[PASS] testGetUpdatedIndexes() (gas: 1333199)
+[PASS] testGetUpdatedIndexesWithTransferToCTokenContract() (gas: 196296)
+[PASS] testGetUpdatedP2PBorrowIndex() (gas: 170467)
+[PASS] testGetUpdatedP2PSupplyIndex() (gas: 170509)
+[PASS] testGetterUserWithNothing() (gas: 168087)
+[PASS] testHealthFactorAbove1() (gas: 1753272)
+[PASS] testHealthFactorAbove1WhenHalfMatched() (gas: 2381274)
+[PASS] testHealthFactorAbove1WithUpdatedMarkets() (gas: 1903207)
+[PASS] testHealthFactorBelow1() (gas: 1815502)
+[PASS] testHealthFactorEqual1() (gas: 2447116)
+[PASS] testHealthFactorEqual1WhenBorrowingMaxCapacity() (gas: 1666276)
+[PASS] testHealthFactorShouldBeInfinityForPureSuppliers() (gas: 604926)
+[PASS] testIsLiquidatableFalse() (gas: 1331591)
+[PASS] testIsLiquidatableTrue() (gas: 1758919)
+[PASS] testLiquidatableWithUpdatedP2PIndexes() (gas: 2056354)
+[PASS] testLiquidationWithUpdatedPoolIndexes() (gas: 1578662)
+[PASS] testLiquidityDataFailsWhenOracleFails() (gas: 982164)
+[PASS] testLiquidityDataForUSDT() (gas: 781149)
+[PASS] testLiquidityDataWithMultipleAssetsAndUSDT() (gas: 2383371)
+[PASS] testMaxCapacitiesWithNothingWithSupplyWithMultipleAssetsAndBorrow() (gas: 2172103)
+[PASS] testMaxCapacitiesWithSupply() (gas: 844737)
+[PASS] testNoRepayLiquidation() (gas: 4916426)
+[PASS] testTotalSupplyBorrowWithHalfBorrowDelta() (gas: 3095325)
+[PASS] testTotalSupplyBorrowWithHalfSupplyDelta() (gas: 3033000)
+[PASS] testUserBalanceStatesWithSupplyAndBorrow() (gas: 1348929)
+[PASS] testUserBalanceStatesWithSupplyAndBorrowWithMultipleAssets() (gas: 2457912)
+[PASS] testUserBalanceWithMatching() (gas: 1828644)
+[PASS] testUserBalanceWithoutMatching() (gas: 1319574)
+[PASS] testUserLiquidityDataForAssetWithNothing() (gas: 161934)
+[PASS] testUserLiquidityDataForAssetWithSupply() (gas: 595131)
+[PASS] testUserLiquidityDataForAssetWithSupplyAndBorrow() (gas: 1237029)
+[PASS] testUserLiquidityDataForAssetWithSupplyAndBorrowWithMultipleAssets() (gas: 1350454)
+Test result: ok. 44 passed; 0 failed; finished in 127.60s
 
 Running 16 tests for test-foundry/compound/TestRepay.t.sol:TestRepay
-[32m[PASS][0m testCannotBorrowRepayInSameBlock() (gas: 1295926)
-[32m[PASS][0m testCannotBorrowRepayOnBehalfInSameBlock() (gas: 1302371)
-[32m[PASS][0m testDeltaRepay() (gas: 118358655)
-[32m[PASS][0m testDeltaRepayAll() (gas: 116887850)
-[32m[PASS][0m testFailRepayZero() (gas: 26165)
-[32m[PASS][0m testRepay1() (gas: 1398966)
-[32m[PASS][0m testRepay2_1() (gas: 2559276)
-[32m[PASS][0m testRepay2_2() (gas: 81011704)
-[32m[PASS][0m testRepay2_3() (gas: 2009184)
-[32m[PASS][0m testRepay2_4() (gas: 81163854)
-[32m[PASS][0m testRepayAll() (gas: 1295793)
-[32m[PASS][0m testRepayOnBehalf() (gas: 1413070)
-[32m[PASS][0m testRepayOnPoolThreshold() (gas: 1414877)
-[32m[PASS][0m testRepayRepayOnBehalf() (gas: 1442083)
-[32m[PASS][0m testRepayUpdateIndexesSameAsCompound() (gas: 3267424)
-[32m[PASS][0m testRepayWithMaxP2PSupplyDelta() (gas: 1417445)
-Test result: [32mok[0m. 16 passed; 0 failed; finished in 152.93s
+[PASS] testCannotBorrowRepayInSameBlock() (gas: 1303041)
+[PASS] testCannotBorrowRepayOnBehalfInSameBlock() (gas: 1309508)
+[PASS] testDeltaRepay() (gas: 109541916)
+[PASS] testDeltaRepayAll() (gas: 107509144)
+[PASS] testFailRepayZero() (gas: 28544)
+[PASS] testRepay1() (gas: 1411307)
+[PASS] testRepay2_1() (gas: 2584249)
+[PASS] testRepay2_2() (gas: 75379737)
+[PASS] testRepay2_3() (gas: 2025953)
+[PASS] testRepay2_4() (gas: 75537340)
+[PASS] testRepayAll() (gas: 1327886)
+[PASS] testRepayOnBehalf() (gas: 1425444)
+[PASS] testRepayOnPoolThreshold() (gas: 1427782)
+[PASS] testRepayRepayOnBehalf() (gas: 1456175)
+[PASS] testRepayUpdateIndexesSameAsCompound() (gas: 3328237)
+[PASS] testRepayWithMaxP2PSupplyDelta() (gas: 1451529)
+Test result: ok. 16 passed; 0 failed; finished in 151.90s
 
-Running 18 tests for test-foundry/compound/TestWithdraw.t.sol:TestWithdraw
-[32m[PASS][0m testDeltaWithdraw() (gas: 124514714)
-[32m[PASS][0m testDeltaWithdrawAll() (gas: 88313512)
-[32m[PASS][0m testFailInfiniteWithdraw() (gas: 2877796)
-[32m[PASS][0m testShouldBeAbleToWithdrawAfterDelayWhenPartiallyMatched() (gas: 1949101)
-[32m[PASS][0m testShouldNotFreezeMarketWithExchangeRatePump() (gas: 836167)
-[32m[PASS][0m testShouldNotWithdrawWhenUnderCollaterized() (gas: 1561799)
-[32m[PASS][0m testShouldNotWithdrawZero() (gas: 31031)
-[32m[PASS][0m testShouldPreventWithdrawWhenBorrowCapReached() (gas: 2828723)
-[32m[PASS][0m testShouldWithdrawToReceiver() (gas: 845703)
-[32m[PASS][0m testWithdraw1() (gas: 1303109)
-[32m[PASS][0m testWithdraw2() (gas: 908772)
-[32m[PASS][0m testWithdraw3_1() (gas: 2106853)
-[32m[PASS][0m testWithdraw3_2() (gas: 73567123)
-[32m[PASS][0m testWithdraw3_3() (gas: 2126484)
-[32m[PASS][0m testWithdraw3_4() (gas: 73888061)
-[32m[PASS][0m testWithdrawAll() (gas: 795083)
-[32m[PASS][0m testWithdrawWhileAttackerSendsCToken() (gas: 2262479)
-[32m[PASS][0m testWithdrawnOnPoolThreshold() (gas: 579661)
-Test result: [32mok[0m. 18 passed; 0 failed; finished in 138.82s
-
-Running 11 tests for test-foundry/compound/TestBorrow.t.sol:TestBorrow
-[32m[PASS][0m testBorrow1() (gas: 887003)
-[32m[PASS][0m testBorrow2() (gas: 1257860)
-[32m[PASS][0m testBorrow3() (gas: 1628640)
-[32m[PASS][0m testBorrow4() (gas: 1887835)
-[32m[PASS][0m testBorrow5() (gas: 10583853)
-[32m[PASS][0m testBorrow6() (gas: 10844058)
-[32m[PASS][0m testBorrowLargerThanDeltaShouldClearDelta() (gas: 73626608)
-[32m[PASS][0m testBorrowMultipleAssets() (gas: 1426613)
-[32m[PASS][0m testBorrowOnPoolThreshold() (gas: 1176397)
-[32m[PASS][0m testShouldMatchBorrowWithCorrectAmountOfGas() (gas: 125104899)
-[32m[PASS][0m testShouldNotBorrowZero() (gas: 28736)
-Test result: [32mok[0m. 11 passed; 0 failed; finished in 154.37s
-
-Running 12 tests for test-foundry/compound/TestSupply.t.sol:TestSupply
-[32m[PASS][0m testShouldMatchSupplyWithCorrectAmountOfGas() (gas: 147059409)
-[32m[PASS][0m testShouldNotSupplyZero() (gas: 29131)
-[32m[PASS][0m testSupply1() (gas: 530773)
-[32m[PASS][0m testSupply2() (gas: 1695058)
-[32m[PASS][0m testSupply3() (gas: 1809276)
-[32m[PASS][0m testSupply4() (gas: 80451451)
-[32m[PASS][0m testSupply5() (gas: 80569452)
-[32m[PASS][0m testSupplyMultipleTimes() (gas: 608728)
-[32m[PASS][0m testSupplyOnBehalf() (gas: 536667)
-[32m[PASS][0m testSupplyOnPoolThreshold() (gas: 415037)
-[32m[PASS][0m testSupplyRepayOnBehalf() (gas: 1701501)
-[32m[PASS][0m testSupplyUpdateIndexesSameAsCompound() (gas: 1606966)
-Test result: [32mok[0m. 12 passed; 0 failed; finished in 156.24s
+Running 17 tests for test-foundry/compound/TestWithdraw.t.sol:TestWithdraw
+[PASS] testDeltaWithdraw() (gas: 115663600)
+[PASS] testDeltaWithdrawAll() (gas: 81821866)
+[PASS] testFailInfiniteWithdraw() (gas: 2911336)
+[PASS] testFailWithdrawZero() (gas: 28398)
+[PASS] testShouldBeAbleToWithdrawAfterDelayWhenPartiallyMatched() (gas: 1976348)
+[PASS] testShouldNotFreezeMarketWithExchangeRatePump() (gas: 837898)
+[PASS] testShouldNotWithdrawWhenUnderCollaterized() (gas: 1577514)
+[PASS] testShouldWithdrawToReceiver() (gas: 860995)
+[PASS] testWithdraw1() (gas: 1311588)
+[PASS] testWithdraw2() (gas: 910838)
+[PASS] testWithdraw3_1() (gas: 2131635)
+[PASS] testWithdraw3_2() (gas: 67873628)
+[PASS] testWithdraw3_3() (gas: 2157323)
+[PASS] testWithdraw3_4() (gas: 68231234)
+[PASS] testWithdrawAll() (gas: 796657)
+[PASS] testWithdrawWhileAttackerSendsCToken() (gas: 2286449)
+[PASS] testWithdrawnOnPoolThreshold() (gas: 587851)
+Test result: ok. 17 passed; 0 failed; finished in 118.90s
 | contracts/compound/IncentivesVault.sol:IncentivesVault contract |                 |       |        |       |         |
 |-----------------------------------------------------------------|-----------------|-------|--------|-------|---------|
 | Deployment Cost                                                 | Deployment Size |       |        |       |         |
-| 623575                                                          | 3345            |       |        |       |         |
+| 640594                                                          | 3430            |       |        |       |         |
 | Function Name                                                   | min             | avg   | median | max   | # calls |
+| MAX_BASIS_POINTS                                                | 305             | 305   | 305    | 305   | 1       |
 | bonus                                                           | 318             | 318   | 318    | 318   | 1       |
 | incentivesTreasuryVault                                         | 415             | 415   | 415    | 415   | 1       |
 | isPaused                                                        | 377             | 377   | 377    | 377   | 2       |
@@ -366,100 +330,89 @@ Test result: [32mok[0m. 12 passed; 0 failed; finished in 156.24s
 | setIncentivesTreasuryVault                                      | 2605            | 7111  | 8614   | 8614  | 4       |
 | setOracle                                                       | 2606            | 5610  | 5610   | 8615  | 2       |
 | setPauseStatus                                                  | 1436            | 13858 | 14151  | 25694 | 4       |
-| tradeCompForMorphoTokens                                        | 443             | 33621 | 36308  | 65565 | 6       |
+| tradeCompForMorphoTokens                                        | 443             | 33672 | 36386  | 65651 | 6       |
 | transferTokensToDao                                             | 2604            | 20542 | 20542  | 38481 | 2       |
 
 
 | contracts/compound/InterestRatesManager.sol:InterestRatesManager contract |                 |       |        |        |         |
 |---------------------------------------------------------------------------|-----------------|-------|--------|--------|---------|
 | Deployment Cost                                                           | Deployment Size |       |        |        |         |
-| 845047                                                                    | 4377            |       |        |        |         |
+| 806808                                                                    | 4186            |       |        |        |         |
 | Function Name                                                             | min             | avg   | median | max    | # calls |
-| updateP2PIndexes                                                          | 618             | 24182 | 20674  | 102527 | 2551    |
+| updateP2PIndexes                                                          | 618             | 27186 | 23286  | 102847 | 2314    |
 
 
 | contracts/compound/Morpho.sol:Morpho contract |                 |        |        |         |         |
 |-----------------------------------------------|-----------------|--------|--------|---------|---------|
 | Deployment Cost                               | Deployment Size |        |        |         |         |
-| 3381129                                       | 17056           |        |        |         |         |
+| 3267385                                       | 16488           |        |        |         |         |
 | Function Name                                 | min             | avg    | median | max     | # calls |
-| borrow(address,uint256)                       | 13703           | 508848 | 398171 | 1084878 | 331     |
-| borrow(address,uint256,uint256)               | 11078           | 453367 | 430755 | 926748  | 43      |
-| borrowBalanceInOf                             | 894             | 1410   | 894    | 4894    | 519     |
-| cEth                                          | 405             | 655    | 405    | 2405    | 24      |
-| claimRewards                                  | 5871            | 162715 | 177285 | 314724  | 17      |
-| claimToTreasury                               | 1194            | 12420  | 7913   | 23501   | 5       |
-| comptroller                                   | 450             | 456    | 450    | 2450    | 3113    |
-| createMarket                                  | 2736            | 259951 | 254459 | 305124  | 1717    |
-| defaultMaxGasForMatching                      | 568             | 568    | 568    | 568     | 4       |
-| deltas                                        | 1050            | 2171   | 1050   | 9050    | 214     |
-| dustThreshold                                 | 395             | 395    | 395    | 395     | 1       |
-| enteredMarkets                                | 616             | 834    | 889    | 889     | 5       |
+| borrow(address,uint256)                       | 3918            | 555787 | 634689 | 1099004 | 257     |
+| borrow(address,uint256,uint256)               | 393501          | 449088 | 439235 | 681884  | 40      |
+| borrowBalanceInOf                             | 894             | 1424   | 894    | 4894    | 520     |
+| cEth                                          | 405             | 665    | 405    | 2405    | 23      |
+| claimRewards                                  | 5871            | 162687 | 177263 | 314658  | 17      |
+| claimToTreasury                               | 1172            | 8457   | 4996   | 23536   | 10      |
+| comptroller                                   | 450             | 456    | 450    | 2450    | 2637    |
+| createMarket                                  | 2714            | 260753 | 255389 | 307394  | 1494    |
+| defaultMaxGasForMatching                      | 635             | 635    | 635    | 635     | 1       |
+| deltas                                        | 1050            | 2248   | 1050   | 9050    | 207     |
+| enteredMarkets                                | 594             | 812    | 867    | 867     | 5       |
 | fallback                                      | 55              | 55     | 55     | 55      | 71      |
 | getAllMarkets                                 | 2433            | 10433  | 16433  | 16433   | 7       |
-| getEnteredMarkets                             | 1256            | 1514   | 1530   | 2911    | 87      |
+| getEnteredMarkets                             | 1234            | 1489   | 1508   | 2889    | 88      |
 | getHead                                       | 830             | 1341   | 966    | 2966    | 19      |
-| getNext                                       | 1057            | 1127   | 1130   | 1193    | 36      |
+| getNext                                       | 1035            | 1105   | 1108   | 1171    | 36      |
 | incentivesVault                               | 427             | 427    | 427    | 427     | 1       |
-| increaseP2PDeltas                             | 2693            | 145847 | 178459 | 271882  | 7       |
-| initialize                                    | 3765            | 247044 | 247904 | 247904  | 284     |
-| interestRatesManager                          | 471             | 476    | 471    | 2471    | 2546    |
-| isClaimRewardsPaused                          | 443             | 443    | 443    | 443     | 1       |
-| lastPoolIndexes                               | 742             | 914    | 742    | 2742    | 347     |
-| liquidate                                     | 11771           | 253108 | 379725 | 546086  | 32      |
-| marketParameters                              | 669             | 1079   | 669    | 2669    | 156     |
-| marketPauseStatus                             | 913             | 1276   | 913    | 2913    | 33      |
-| marketStatus                                  | 774             | 1774   | 1774   | 2774    | 4       |
-| maxSortedUsers                                | 373             | 373    | 373    | 373     | 1       |
-| p2pBorrowIndex                                | 593             | 705    | 593    | 2593    | 482     |
+| initialize                                    | 3810            | 246960 | 247949 | 247949  | 247     |
+| interestRatesManager                          | 449             | 453    | 449    | 2449    | 2145    |
+| isClaimRewardsPaused                          | 399             | 399    | 399    | 399     | 1       |
+| lastPoolIndexes                               | 742             | 919    | 742    | 2742    | 349     |
+| liquidate                                     | 4065            | 322433 | 388716 | 556854  | 28      |
+| marketParameters                              | 669             | 1100   | 669    | 2669    | 153     |
+| marketStatus                                  | 752             | 1152   | 752    | 2752    | 10      |
+| maxSortedUsers                                | 351             | 351    | 351    | 351     | 1       |
+| p2pBorrowIndex                                | 571             | 687    | 571    | 2571    | 480     |
 | p2pDisabled                                   | 638             | 1138   | 638    | 2638    | 16      |
-| p2pSupplyIndex                                | 591             | 710    | 591    | 2591    | 453     |
-| positionsManager                              | 493             | 493    | 493    | 493     | 1       |
-| repay(address,address,uint256)                | 8542            | 53644  | 11007  | 200020  | 4       |
-| repay(address,uint256)                        | 13873           | 233500 | 148456 | 2293327 | 69      |
-| rewardsManager                                | 471             | 676    | 471    | 2471    | 2829    |
-| setDefaultMaxGasForMatching                   | 1113            | 7779   | 8238   | 10238   | 39      |
-| setDustThreshold                              | 2620            | 5597   | 5597   | 8575    | 2       |
-| setIncentivesVault                            | 2695            | 23750  | 23878  | 23878   | 285     |
-| setInterestRatesManager                       | 2673            | 5732   | 5732   | 8791    | 2       |
-| setIsBorrowPaused                             | 2718            | 17790  | 26505  | 28505   | 5       |
-| setIsClaimRewardsPaused                       | 2628            | 18010  | 25702  | 25702   | 3       |
-| setIsDeprecated                               | 2103            | 15528  | 15634  | 28528   | 6       |
-| setIsLiquidateBorrowPaused                    | 2720            | 17792  | 26507  | 28507   | 5       |
-| setIsLiquidateCollateralPaused                | 2764            | 17836  | 26551  | 28551   | 5       |
-| setIsP2PDisabled                              | 2807            | 22287  | 24583  | 28583   | 12      |
-| setIsPausedForAllMarkets                      | 46731           | 152785 | 205813 | 205813  | 3       |
-| setIsRepayPaused                              | 2784            | 17856  | 26571  | 28571   | 5       |
-| setIsSupplyPaused                             | 2740            | 17805  | 26516  | 28516   | 5       |
-| setIsWithdrawPaused                           | 2742            | 17814  | 26529  | 28529   | 5       |
-| setMaxSortedUsers                             | 621             | 4598   | 4598   | 8576    | 4       |
-| setP2PIndexCursor                             | 2717            | 30297  | 4881   | 108709  | 4       |
-| setPositionsManager                           | 2697            | 5756   | 5756   | 8815    | 2       |
-| setReserveFactor                              | 2717            | 42724  | 2717   | 108692  | 21      |
-| setRewardsManager                             | 2631            | 21643  | 21814  | 21814   | 286     |
-| setTreasuryVault                              | 2629            | 23553  | 23812  | 23812   | 287     |
-| supply(address,address,uint256)               | 469051          | 469051 | 469051 | 469051  | 1       |
-| supply(address,address,uint256,uint256)       | 11502           | 416452 | 540732 | 697123  | 3       |
-| supply(address,uint256)                       | 13923           | 348636 | 345216 | 2095559 | 673     |
-| supplyBalanceInOf                             | 980             | 1181   | 980    | 4980    | 476     |
-| treasuryVault                                 | 493             | 1293   | 493    | 2493    | 5       |
-| updateP2PIndexes                              | 1766            | 22820  | 21822  | 51876   | 1313    |
-| wEth                                          | 2426            | 2426   | 2426   | 2426    | 1       |
-| withdraw(address,uint256)                     | 5649            | 249208 | 182413 | 1930391 | 93      |
-| withdraw(address,uint256,address)             | 327424          | 327424 | 327424 | 327424  | 1       |
+| p2pSupplyIndex                                | 569             | 692    | 569    | 2569    | 453     |
+| positionsManager                              | 471             | 471    | 471    | 471     | 1       |
+| repay(address,address,uint256)                | 9059            | 59664  | 12478  | 204641  | 4       |
+| repay(address,uint256)                        | 3924            | 256434 | 166038 | 2302095 | 64      |
+| rewardsManager                                | 449             | 658    | 449    | 2449    | 2391    |
+| setClaimRewardsPauseStatus                    | 2693            | 18083  | 25778  | 25778   | 3       |
+| setDefaultMaxGasForMatching                   | 1179            | 8651   | 8304   | 10304   | 29      |
+| setIncentivesVault                            | 2695            | 23731  | 23878  | 23878   | 248     |
+| setInterestRatesManager                       | 2629            | 5670   | 5670   | 8712    | 2       |
+| setMaxSortedUsers                             | 577             | 4549   | 4549   | 8521    | 4       |
+| setP2PDisabled                                | 2762            | 22242  | 24538  | 28538   | 12      |
+| setP2PIndexCursor                             | 4947            | 4947   | 4947   | 4947    | 1       |
+| setPartialPauseStatus                         | 2103            | 6092   | 6428   | 9428    | 6       |
+| setPauseStatus                                | 2086            | 6072   | 6407   | 9407    | 6       |
+| setPositionsManager                           | 2630            | 5671   | 5671   | 8713    | 2       |
+| setReserveFactor                              | 2784            | 43786  | 2784   | 111371  | 21      |
+| setRewardsManager                             | 2631            | 21618  | 21814  | 21814   | 249     |
+| setTreasuryVault                              | 2629            | 23514  | 23812  | 23812   | 250     |
+| supply(address,address,uint256)               | 473988          | 473988 | 473988 | 473988  | 1       |
+| supply(address,address,uint256,uint256)       | 13891           | 13891  | 13891  | 13891   | 1       |
+| supply(address,uint256)                       | 3917            | 370992 | 394844 | 2101104 | 508     |
+| supplyBalanceInOf                             | 936             | 1146   | 936    | 4936    | 476     |
+| treasuryVault                                 | 471             | 1271   | 471    | 2471    | 5       |
+| updateP2PIndexes                              | 1811            | 25120  | 24479  | 54533   | 1310    |
+| wEth                                          | 2404            | 2404   | 2404   | 2404    | 1       |
+| withdraw(address,uint256)                     | 3877            | 265176 | 185246 | 1943502 | 85      |
+| withdraw(address,uint256,address)             | 335708          | 335708 | 335708 | 335708  | 1       |
 
 
 | contracts/compound/PositionsManager.sol:PositionsManager contract |                 |        |        |         |         |
 |-------------------------------------------------------------------|-----------------|--------|--------|---------|---------|
 | Deployment Cost                                                   | Deployment Size |        |        |         |         |
-| 4592720                                                           | 23106           |        |        |         |         |
+| 4301120                                                           | 21650           |        |        |         |         |
 | Function Name                                                     | min             | avg    | median | max     | # calls |
-| borrowLogic                                                       | 556             | 503082 | 426548 | 1081377 | 374     |
-| increaseP2PDeltasLogic                                            | 2621            | 142993 | 177536 | 268728  | 7       |
-| liquidateLogic                                                    | 1046            | 247375 | 376224 | 542584  | 32      |
-| repayLogic                                                        | 679             | 219166 | 141582 | 2289787 | 73      |
-| supplyLogic                                                       | 759             | 344282 | 342120 | 2092034 | 677     |
-| withdrawLogic                                                     | 657             | 244934 | 178893 | 1926871 | 94      |
+| borrowLogic                                                       | 148089          | 542124 | 442196 | 1095172 | 295     |
+| liquidateLogic                                                    | 2901            | 329402 | 384583 | 552720  | 27      |
+| repayLogic                                                        | 679             | 244226 | 161563 | 2298230 | 67      |
+| supplyLogic                                                       | 737             | 365318 | 395215 | 2097248 | 508     |
+| withdrawLogic                                                     | 657             | 264992 | 181419 | 1939675 | 85      |
 
 
 | contracts/compound/RewardsManager.sol:RewardsManager contract |                 |       |        |        |         |
@@ -467,59 +420,54 @@ Test result: [32mok[0m. 12 passed; 0 failed; finished in 156.24s
 | Deployment Cost                                               | Deployment Size |       |        |        |         |
 | 972578                                                        | 5015            |       |        |        |         |
 | Function Name                                                 | min             | avg   | median | max    | # calls |
-| accrueUserBorrowUnclaimedRewards                              | 2107            | 23043 | 23802  | 56277  | 669     |
-| accrueUserSupplyUnclaimedRewards                              | 2129            | 28068 | 25824  | 57058  | 959     |
-| claimRewards                                                  | 20828           | 68539 | 67447  | 182933 | 24      |
-| compBorrowerIndex                                             | 708             | 1088  | 708    | 2708   | 21      |
-| compSupplierIndex                                             | 731             | 912   | 731    | 2731   | 22      |
+| accrueUserBorrowUnclaimedRewards                              | 2107            | 23228 | 23802  | 56277  | 576     |
+| accrueUserSupplyUnclaimedRewards                              | 2129            | 28041 | 25824  | 57058  | 785     |
+| claimRewards                                                  | 20740           | 68575 | 67376  | 184999 | 24      |
+| compBorrowerIndex                                             | 708             | 1152  | 708    | 2708   | 18      |
+| compSupplierIndex                                             | 731             | 941   | 731    | 2731   | 19      |
 | fallback                                                      | 70              | 70    | 70     | 70     | 1       |
-| getLocalCompBorrowState                                       | 826             | 1270  | 826    | 2826   | 18      |
-| getLocalCompSupplyState                                       | 849             | 1071  | 849    | 2849   | 18      |
-| initialize                                                    | 2753            | 68914 | 69148  | 69148  | 284     |
+| getLocalCompBorrowState                                       | 826             | 1359  | 826    | 2826   | 15      |
+| getLocalCompSupplyState                                       | 849             | 1115  | 849    | 2849   | 15      |
+| initialize                                                    | 2753            | 68879 | 69148  | 69148  | 247     |
 | userUnclaimedCompRewards                                      | 601             | 601   | 601    | 601    | 10      |
 
 
-| contracts/compound/lens/Lens.sol:Lens contract           |                 |        |        |        |         |
-|----------------------------------------------------------|-----------------|--------|--------|--------|---------|
-| Deployment Cost                                          | Deployment Size |        |        |        |         |
-| 5038336                                                  | 25331           |        |        |        |         |
-| Function Name                                            | min             | avg    | median | max    | # calls |
-| computeLiquidationRepayAmount                            | 56582           | 107868 | 95073  | 168711 | 19      |
-| fallback                                                 | 70              | 70     | 70     | 70     | 1       |
-| getAccruedBorrowerComp(address,address)(uint256)         | 19968           | 19968  | 19968  | 19968  | 1       |
-| getAccruedBorrowerComp(address,address,uint256)(uint256) | 11505           | 11505  | 11505  | 11505  | 1       |
-| getAccruedSupplierComp(address,address)(uint256)         | 18839           | 18839  | 18839  | 18839  | 1       |
-| getAccruedSupplierComp(address,address,uint256)(uint256) | 10354           | 10354  | 10354  | 10354  | 1       |
-| getAllMarkets                                            | 31231           | 31231  | 31231  | 31231  | 1       |
-| getAverageBorrowRatePerBlock                             | 45579           | 63276  | 47579  | 125931 | 6       |
-| getAverageSupplyRatePerBlock                             | 40161           | 61078  | 45937  | 124748 | 6       |
-| getCurrentBorrowBalanceInOf                              | 13719           | 20763  | 13719  | 34852  | 3       |
-| getCurrentCompBorrowIndex                                | 9005            | 11038  | 11038  | 13071  | 2       |
-| getCurrentCompSupplyIndex                                | 7809            | 9809   | 9809   | 11809  | 2       |
-| getCurrentP2PBorrowIndex                                 | 35121           | 63893  | 63893  | 92665  | 2       |
-| getCurrentP2PSupplyIndex                                 | 11002           | 51850  | 51850  | 92699  | 2       |
-| getCurrentSupplyBalanceInOf                              | 13792           | 21092  | 17836  | 34905  | 4       |
-| getCurrentUserBorrowRatePerBlock                         | 54976           | 68345  | 56976  | 99989  | 5       |
-| getCurrentUserSupplyRatePerBlock                         | 56438           | 68703  | 57068  | 100061 | 5       |
-| getEnteredMarkets                                        | 6942            | 6942   | 6942   | 6942   | 1       |
-| getIndexes                                               | 15791           | 44014  | 37682  | 92709  | 5       |
-| getMainMarketData                                        | 90113           | 90113  | 90113  | 90113  | 1       |
-| getMarketConfiguration                                   | 49352           | 50122  | 50122  | 50892  | 2       |
-| getMarketPauseStatus                                     | 5955            | 5955   | 5955   | 5955   | 7       |
-| getNextUserBorrowRatePerBlock                            | 61611           | 87213  | 75810  | 158653 | 9       |
-| getNextUserSupplyRatePerBlock                            | 61634           | 87093  | 75807  | 158646 | 9       |
-| getRatesPerBlock                                         | 38277           | 42021  | 38277  | 99277  | 21      |
-| getTotalBorrow                                           | 224694          | 224694 | 224694 | 224694 | 2       |
-| getTotalMarketBorrow                                     | 22924           | 25531  | 25531  | 28138  | 4       |
-| getTotalMarketSupply                                     | 21263           | 24107  | 24107  | 26952  | 4       |
-| getTotalSupply                                           | 338240          | 338240 | 338240 | 338240 | 2       |
-| getUserBalanceStates                                     | 53745           | 65796  | 57745  | 109136 | 9       |
-| getUserHealthFactor                                      | 45883           | 58997  | 58187  | 75210  | 10      |
-| getUserLiquidityDataForAsset                             | 24787           | 59939  | 39287  | 136952 | 10      |
-| getUserMaxCapacitiesForAsset                             | 11926           | 94500  | 85085  | 165329 | 23      |
-| getUserUnclaimedRewards                                  | 20058           | 44422  | 41887  | 101399 | 10      |
-| initialize                                               | 2776            | 71274  | 71517  | 71517  | 284     |
-| isLiquidatable                                           | 53725           | 58632  | 54553  | 93044  | 24      |
+| contracts/compound/lens/Lens.sol:Lens contract |                 |        |        |        |         |
+|------------------------------------------------|-----------------|--------|--------|--------|---------|
+| Deployment Cost                                | Deployment Size |        |        |        |         |
+| 4875711                                        | 24519           |        |        |        |         |
+| Function Name                                  | min             | avg    | median | max    | # calls |
+| computeLiquidationRepayAmount                  | 57311           | 108634 | 96652  | 169848 | 20      |
+| fallback                                       | 70              | 70     | 70     | 70     | 1       |
+| getAllMarkets                                  | 31231           | 31231  | 31231  | 31231  | 1       |
+| getAverageBorrowRatePerBlock                   | 46872           | 64362  | 48872  | 126507 | 6       |
+| getAverageSupplyRatePerBlock                   | 40106           | 61730  | 46939  | 125230 | 6       |
+| getCurrentBorrowBalanceInOf                    | 13686           | 20869  | 13686  | 35237  | 3       |
+| getCurrentCompBorrowIndex                      | 13060           | 13060  | 13060  | 13060  | 1       |
+| getCurrentCompSupplyIndex                      | 11798           | 11798  | 11798  | 11798  | 1       |
+| getCurrentP2PBorrowIndex                       | 93072           | 93072  | 93072  | 93072  | 1       |
+| getCurrentP2PSupplyIndex                       | 10991           | 52048  | 52048  | 93106  | 2       |
+| getCurrentSupplyBalanceInOf                    | 13715           | 21588  | 18697  | 35246  | 4       |
+| getCurrentUserBorrowRatePerBlock               | 56919           | 69872  | 58919  | 100374 | 5       |
+| getCurrentUserSupplyRatePerBlock               | 58381           | 70230  | 59011  | 100446 | 5       |
+| getEnteredMarkets                              | 6920            | 6920   | 6920   | 6920   | 1       |
+| getIndexes                                     | 16685           | 48783  | 36583  | 93083  | 3       |
+| getMainMarketData                              | 92255           | 92255  | 92255  | 92255  | 1       |
+| getMarketConfiguration                         | 49443           | 50224  | 50224  | 51005  | 2       |
+| getNextUserBorrowRatePerBlock                  | 63561           | 88737  | 77244  | 160043 | 9       |
+| getNextUserSupplyRatePerBlock                  | 63540           | 88598  | 77197  | 160036 | 9       |
+| getRatesPerBlock                               | 39293           | 43035  | 39293  | 100293 | 21      |
+| getTotalBorrow                                 | 229732          | 229732 | 229732 | 229732 | 2       |
+| getTotalMarketBorrow                           | 24173           | 27413  | 27413  | 30654  | 4       |
+| getTotalMarketSupply                           | 22154           | 25766  | 25766  | 29379  | 4       |
+| getTotalSupply                                 | 342843          | 342843 | 342843 | 342843 | 2       |
+| getUserBalanceStates                           | 54452           | 66682  | 58452  | 110605 | 9       |
+| getUserHealthFactor                            | 45806           | 59663  | 58960  | 75463  | 10      |
+| getUserLiquidityDataForAsset                   | 24721           | 60374  | 39221  | 137304 | 10      |
+| getUserMaxCapacitiesForAsset                   | 11882           | 102461 | 90775  | 165527 | 22      |
+| getUserUnclaimedRewards                        | 20025           | 44589  | 41854  | 103449 | 10      |
+| initialize                                     | 2776            | 71216  | 71495  | 71495  | 247     |
+| isLiquidatable                                 | 54487           | 59180  | 54487  | 93585  | 25      |
 
 
 | node_modules/@openzeppelin/contracts/proxy/transparent/ProxyAdmin.sol:ProxyAdmin contract |                 |      |        |       |         |
@@ -536,114 +484,99 @@ Test result: [32mok[0m. 12 passed; 0 failed; finished in 156.24s
 | Deployment Cost                                                                                                             | Deployment Size |        |        |         |         |
 | 467312                                                                                                                      | 4010            |        |        |         |         |
 | Function Name                                                                                                               | min             | avg    | median | max     | # calls |
-| accrueUserBorrowUnclaimedRewards                                                                                            | 2911            | 23847  | 24606  | 57081   | 669     |
-| accrueUserSupplyUnclaimedRewards                                                                                            | 2933            | 30173  | 26628  | 63253   | 959     |
-| borrow(address,uint256)                                                                                                     | 14505           | 512643 | 398969 | 1085516 | 331     |
-| borrow(address,uint256,uint256)                                                                                             | 18386           | 454176 | 431398 | 927392  | 43      |
-| borrowBalanceInOf                                                                                                           | 1698            | 2239   | 1698   | 12198   | 519     |
-| cEth                                                                                                                        | 1200            | 1991   | 1200   | 9700    | 24      |
-| changeAdmin                                                                                                                 | 2419            | 2419   | 2419   | 2419    | 283     |
-| claimRewards(address[],address)(uint256)                                                                                    | 21647           | 69246  | 68102  | 183758  | 24      |
-| claimRewards(address[],bool)(uint256)                                                                                       | 6685            | 163481 | 178098 | 315543  | 17      |
-| claimToTreasury                                                                                                             | 2020            | 13177  | 8735   | 24159   | 5       |
-| compBorrowerIndex                                                                                                           | 1509            | 1889   | 1509   | 3509    | 21      |
-| compSupplierIndex                                                                                                           | 1532            | 1713   | 1532   | 3532    | 22      |
-| comptroller                                                                                                                 | 1245            | 1251   | 1245   | 3245    | 3113    |
-| computeLiquidationRepayAmount                                                                                               | 57401           | 109713 | 95892  | 169530  | 19      |
-| createMarket                                                                                                                | 10053           | 260827 | 255263 | 305928  | 1717    |
-| defaultMaxGasForMatching                                                                                                    | 1375            | 1375   | 1375   | 1375    | 4       |
-| deltas                                                                                                                      | 1860            | 2981   | 1860   | 9860    | 214     |
-| dustThreshold                                                                                                               | 1190            | 1190   | 1190   | 1190    | 1       |
-| enteredMarkets                                                                                                              | 1415            | 1635   | 1690   | 1690    | 5       |
+| accrueUserBorrowUnclaimedRewards                                                                                            | 2911            | 24032  | 24606  | 57081   | 576     |
+| accrueUserSupplyUnclaimedRewards                                                                                            | 2933            | 30302  | 26628  | 63253   | 785     |
+| borrow(address,uint256)                                                                                                     | 4720            | 556580 | 635487 | 1099643 | 257     |
+| borrow(address,uint256,uint256)                                                                                             | 394144          | 449739 | 439879 | 682688  | 40      |
+| borrowBalanceInOf                                                                                                           | 1698            | 2253   | 1698   | 12198   | 520     |
+| cEth                                                                                                                        | 1200            | 2026   | 1200   | 9700    | 23      |
+| changeAdmin                                                                                                                 | 2419            | 2419   | 2419   | 2419    | 246     |
+| claimRewards(address[],address)(uint256)                                                                                    | 21559           | 69282  | 68032  | 185824  | 24      |
+| claimRewards(address[],bool)(uint256)                                                                                       | 6685            | 163444 | 178076 | 315477  | 17      |
+| claimToTreasury                                                                                                             | 1998            | 9247   | 5818   | 24193   | 10      |
+| compBorrowerIndex                                                                                                           | 1509            | 1953   | 1509   | 3509    | 18      |
+| compSupplierIndex                                                                                                           | 1532            | 1742   | 1532   | 3532    | 19      |
+| comptroller                                                                                                                 | 1245            | 1251   | 1245   | 3245    | 2637    |
+| computeLiquidationRepayAmount                                                                                               | 58130           | 110428 | 97471  | 170667  | 20      |
+| createMarket                                                                                                                | 10031           | 261636 | 256193 | 308198  | 1494    |
+| defaultMaxGasForMatching                                                                                                    | 1442            | 1442   | 1442   | 1442    | 1       |
+| deltas                                                                                                                      | 1860            | 3058   | 1860   | 9860    | 207     |
+| enteredMarkets                                                                                                              | 1393            | 1613   | 1668   | 1668    | 5       |
 | fallback                                                                                                                    | 726             | 726    | 726    | 726     | 70      |
-| getAccruedBorrowerComp(address,address)(uint256)                                                                            | 27269           | 27269  | 27269  | 27269   | 1       |
-| getAccruedBorrowerComp(address,address,uint256)(uint256)                                                                    | 12312           | 12312  | 12312  | 12312   | 1       |
-| getAccruedSupplierComp(address,address)(uint256)                                                                            | 26140           | 26140  | 26140  | 26140   | 1       |
-| getAccruedSupplierComp(address,address,uint256)(uint256)                                                                    | 11161           | 11161  | 11161  | 11161   | 1       |
 | getAllMarkets                                                                                                               | 3264            | 16301  | 17264  | 38562   | 8       |
-| getAverageBorrowRatePerBlock                                                                                                | 46383           | 69496  | 54883  | 133235  | 6       |
-| getAverageSupplyRatePerBlock                                                                                                | 47465           | 68382  | 53241  | 132052  | 6       |
-| getCurrentBorrowBalanceInOf                                                                                                 | 14526           | 21570  | 14526  | 35659   | 3       |
-| getCurrentCompBorrowIndex                                                                                                   | 9803            | 15086  | 15086  | 20369   | 2       |
-| getCurrentCompSupplyIndex                                                                                                   | 8607            | 13857  | 13857  | 19107   | 2       |
-| getCurrentP2PBorrowIndex                                                                                                    | 42419           | 71191  | 71191  | 99963   | 2       |
-| getCurrentP2PSupplyIndex                                                                                                    | 18300           | 59148  | 59148  | 99997   | 2       |
-| getCurrentSupplyBalanceInOf                                                                                                 | 14599           | 25149  | 25143  | 35712   | 4       |
-| getCurrentUserBorrowRatePerBlock                                                                                            | 55777           | 73046  | 64277  | 107290  | 5       |
-| getCurrentUserSupplyRatePerBlock                                                                                            | 63739           | 74704  | 64369  | 107362  | 5       |
-| getEnteredMarkets                                                                                                           | 2060            | 2533   | 2340   | 14258   | 88      |
+| getAverageBorrowRatePerBlock                                                                                                | 47676           | 70583  | 56176  | 133811  | 6       |
+| getAverageSupplyRatePerBlock                                                                                                | 47410           | 69034  | 54243  | 132534  | 6       |
+| getCurrentBorrowBalanceInOf                                                                                                 | 14493           | 21676  | 14493  | 36044   | 3       |
+| getCurrentCompBorrowIndex                                                                                                   | 20358           | 20358  | 20358  | 20358   | 1       |
+| getCurrentCompSupplyIndex                                                                                                   | 19096           | 19096  | 19096  | 19096   | 1       |
+| getCurrentP2PBorrowIndex                                                                                                    | 100370          | 100370 | 100370 | 100370  | 1       |
+| getCurrentP2PSupplyIndex                                                                                                    | 18289           | 59346  | 59346  | 100404  | 2       |
+| getCurrentSupplyBalanceInOf                                                                                                 | 14522           | 25645  | 26004  | 36053   | 4       |
+| getCurrentUserBorrowRatePerBlock                                                                                            | 57720           | 74573  | 66220  | 107675  | 5       |
+| getCurrentUserSupplyRatePerBlock                                                                                            | 65682           | 76231  | 66312  | 107747  | 5       |
+| getEnteredMarkets                                                                                                           | 2038            | 2505   | 2318   | 14236   | 89      |
 | getHead                                                                                                                     | 1631            | 2142   | 1767   | 3767    | 19      |
-| getIndexes                                                                                                                  | 23104           | 51327  | 44995  | 100022  | 5       |
-| getLocalCompBorrowState                                                                                                     | 1627            | 2071   | 1627   | 3627    | 18      |
-| getLocalCompSupplyState                                                                                                     | 1650            | 1872   | 1650   | 3650    | 18      |
-| getMainMarketData                                                                                                           | 97435           | 97435  | 97435  | 97435   | 1       |
-| getMarketConfiguration                                                                                                      | 56686           | 57456  | 57456  | 58226   | 2       |
-| getMarketPauseStatus                                                                                                        | 13283           | 13283  | 13283  | 13283   | 7       |
-| getNext                                                                                                                     | 1864            | 1934   | 1937   | 2000    | 36      |
-| getNextUserBorrowRatePerBlock                                                                                               | 68927           | 94529  | 83126  | 165969  | 9       |
-| getNextUserSupplyRatePerBlock                                                                                               | 68950           | 94409  | 83123  | 165962  | 9       |
-| getRatesPerBlock                                                                                                            | 39087           | 44069  | 39087  | 106587  | 21      |
-| getTotalBorrow                                                                                                              | 225495          | 225495 | 225495 | 225495  | 2       |
-| getTotalMarketBorrow                                                                                                        | 23725           | 26332  | 26332  | 28939   | 4       |
-| getTotalMarketSupply                                                                                                        | 22064           | 24908  | 24908  | 27753   | 4       |
-| getTotalSupply                                                                                                              | 345541          | 345541 | 345541 | 345541  | 2       |
-| getUserBalanceStates                                                                                                        | 54558           | 71665  | 65058  | 116449  | 9       |
-| getUserHealthFactor                                                                                                         | 53190           | 63056  | 65494  | 76023   | 10      |
-| getUserLiquidityDataForAsset                                                                                                | 25612           | 64664  | 46612  | 144277  | 10      |
-| getUserMaxCapacitiesForAsset                                                                                                | 19228           | 98413  | 88002  | 172633  | 23      |
-| getUserUnclaimedRewards                                                                                                     | 20871           | 48487  | 49200  | 102224  | 10      |
+| getIndexes                                                                                                                  | 23998           | 56096  | 43896  | 100396  | 3       |
+| getLocalCompBorrowState                                                                                                     | 1627            | 2160   | 1627   | 3627    | 15      |
+| getLocalCompSupplyState                                                                                                     | 1650            | 1916   | 1650   | 3650    | 15      |
+| getMainMarketData                                                                                                           | 99577           | 99577  | 99577  | 99577   | 1       |
+| getMarketConfiguration                                                                                                      | 56777           | 57558  | 57558  | 58339   | 2       |
+| getNext                                                                                                                     | 1842            | 1912   | 1915   | 1978    | 36      |
+| getNextUserBorrowRatePerBlock                                                                                               | 70877           | 96053  | 84560  | 167359  | 9       |
+| getNextUserSupplyRatePerBlock                                                                                               | 70856           | 95914  | 84513  | 167352  | 9       |
+| getRatesPerBlock                                                                                                            | 40103           | 45083  | 40103  | 107603  | 21      |
+| getTotalBorrow                                                                                                              | 230533          | 230533 | 230533 | 230533  | 2       |
+| getTotalMarketBorrow                                                                                                        | 24974           | 28214  | 28214  | 31455   | 4       |
+| getTotalMarketSupply                                                                                                        | 22955           | 26567  | 26567  | 30180   | 4       |
+| getTotalSupply                                                                                                              | 350144          | 350144 | 350144 | 350144  | 2       |
+| getUserBalanceStates                                                                                                        | 55265           | 72551  | 65765  | 117918  | 9       |
+| getUserHealthFactor                                                                                                         | 53113           | 63721  | 66267  | 76276   | 10      |
+| getUserLiquidityDataForAsset                                                                                                | 25546           | 65099  | 46546  | 144629  | 10      |
+| getUserMaxCapacitiesForAsset                                                                                                | 19184           | 107106 | 96337  | 172831  | 22      |
+| getUserUnclaimedRewards                                                                                                     | 20838           | 48654  | 49167  | 104274  | 10      |
 | incentivesVault                                                                                                             | 1222            | 1222   | 1222   | 1222    | 1       |
-| increaseP2PDeltas                                                                                                           | 10007           | 148483 | 179097 | 272680  | 7       |
-| initialize(address)                                                                                                         | 69943           | 71127  | 71127  | 72312   | 566     |
-| initialize(address,address,address,(uint64,uint64,uint64,uint64),uint256,uint256,address,address)                           | 248756          | 248756 | 248756 | 248756  | 283     |
-| interestRatesManager                                                                                                        | 1266            | 1276   | 1266   | 9766    | 2546    |
-| isClaimRewardsPaused                                                                                                        | 1238            | 1238   | 1238   | 1238    | 1       |
-| isLiquidatable                                                                                                              | 54532           | 61067  | 55360  | 93863   | 24      |
-| lastPoolIndexes                                                                                                             | 1546            | 1868   | 1546   | 10046   | 347     |
-| liquidate                                                                                                                   | 12585           | 254032 | 380373 | 546734  | 32      |
-| marketParameters                                                                                                            | 1470            | 1921   | 1470   | 9970    | 156     |
-| marketPauseStatus                                                                                                           | 1741            | 3286   | 1741   | 10241   | 33      |
-| marketStatus                                                                                                                | 1578            | 2578   | 2578   | 3578    | 4       |
-| maxSortedUsers                                                                                                              | 1168            | 1168   | 1168   | 1168    | 1       |
-| p2pBorrowIndex                                                                                                              | 1391            | 1503   | 1391   | 3391    | 482     |
+| initialize(address)                                                                                                         | 69943           | 71116  | 71116  | 72290   | 492     |
+| initialize(address,address,address,(uint64,uint64,uint64,uint64),uint256,uint256,address,address)                           | 248801          | 248801 | 248801 | 248801  | 246     |
+| interestRatesManager                                                                                                        | 1244            | 1248   | 1244   | 3244    | 2145    |
+| isClaimRewardsPaused                                                                                                        | 1194            | 1194   | 1194   | 1194    | 1       |
+| isLiquidatable                                                                                                              | 55294           | 61550  | 55294  | 94404   | 25      |
+| lastPoolIndexes                                                                                                             | 1546            | 1872   | 1546   | 10046   | 349     |
+| liquidate                                                                                                                   | 4879            | 323361 | 389364 | 557502  | 28      |
+| marketParameters                                                                                                            | 1470            | 1943   | 1470   | 9970    | 153     |
+| marketStatus                                                                                                                | 1556            | 1956   | 1556   | 3556    | 10      |
+| maxSortedUsers                                                                                                              | 1146            | 1146   | 1146   | 1146    | 1       |
+| p2pBorrowIndex                                                                                                              | 1369            | 1485   | 1369   | 3369    | 480     |
 | p2pDisabled                                                                                                                 | 1436            | 1936   | 1436   | 3436    | 16      |
-| p2pSupplyIndex                                                                                                              | 1389            | 1522   | 1389   | 9889    | 453     |
-| positionsManager                                                                                                            | 1288            | 1288   | 1288   | 1288    | 1       |
-| repay(address,address,uint256)                                                                                              | 9350            | 60036  | 15065  | 200664  | 4       |
-| repay(address,uint256)                                                                                                      | 14675           | 234251 | 149095 | 2293965 | 69      |
-| rewardsManager                                                                                                              | 1266            | 1471   | 1266   | 3266    | 2829    |
-| setDefaultMaxGasForMatching                                                                                                 | 1936            | 10711  | 9048   | 17548   | 39      |
-| setDustThreshold                                                                                                            | 9931            | 12900  | 12900  | 15870   | 2       |
-| setIncentivesVault                                                                                                          | 10006           | 24591  | 24673  | 24673   | 285     |
-| setInterestRatesManager                                                                                                     | 9984            | 13035  | 13035  | 16086   | 2       |
-| setIsBorrowPaused                                                                                                           | 3532            | 22494  | 27303  | 35803   | 5       |
-| setIsClaimRewardsPaused                                                                                                     | 9939            | 25311  | 32997  | 32997   | 3       |
-| setIsDeprecated                                                                                                             | 2741            | 21721  | 22940  | 35826   | 6       |
-| setIsLiquidateBorrowPaused                                                                                                  | 3534            | 22496  | 27305  | 35805   | 5       |
-| setIsLiquidateCollateralPaused                                                                                              | 3578            | 22540  | 27349  | 35849   | 5       |
-| setIsP2PDisabled                                                                                                            | 10121           | 26879  | 25381  | 35881   | 12      |
-| setIsPausedForAllMarkets                                                                                                    | 47367           | 157861 | 213108 | 213108  | 3       |
-| setIsRepayPaused                                                                                                            | 3598            | 22560  | 27369  | 35869   | 5       |
-| setIsSupplyPaused                                                                                                           | 3554            | 22510  | 27314  | 35814   | 5       |
-| setIsWithdrawPaused                                                                                                         | 3556            | 22518  | 27327  | 35827   | 5       |
-| setMaxSortedUsers                                                                                                           | 1432            | 8651   | 8651   | 15871   | 4       |
-| setP2PIndexCursor                                                                                                           | 10031           | 37601  | 12183  | 116007  | 4       |
-| setPositionsManager                                                                                                         | 10008           | 13059  | 13059  | 16110   | 2       |
-| setReserveFactor                                                                                                            | 10031           | 49413  | 10031  | 115990  | 21      |
-| setRewardsManager                                                                                                           | 6008            | 22483  | 22609  | 22609   | 286     |
-| setTreasuryVault                                                                                                            | 9940            | 24433  | 24607  | 24607   | 287     |
-| supply(address,address,uint256)                                                                                             | 476355          | 476355 | 476355 | 476355  | 1       |
-| supply(address,address,uint256,uint256)                                                                                     | 18816           | 419322 | 541380 | 697771  | 3       |
-| supply(address,uint256)                                                                                                     | 14725           | 350930 | 345854 | 2096197 | 673     |
-| supplyBalanceInOf                                                                                                           | 1784            | 2012   | 1784   | 12284   | 476     |
-| treasuryVault                                                                                                               | 1288            | 3388   | 1288   | 9788    | 5       |
-| updateP2PIndexes                                                                                                            | 2561            | 23620  | 22617  | 52671   | 1313    |
+| p2pSupplyIndex                                                                                                              | 1367            | 1504   | 1367   | 9867    | 453     |
+| positionsManager                                                                                                            | 1266            | 1266   | 1266   | 1266    | 1       |
+| repay(address,address,uint256)                                                                                              | 9867            | 62055  | 16536  | 205284  | 4       |
+| repay(address,uint256)                                                                                                      | 4726            | 257179 | 166676 | 2302733 | 64      |
+| rewardsManager                                                                                                              | 1244            | 1453   | 1244   | 3244    | 2391    |
+| setClaimRewardsPauseStatus                                                                                                  | 10004           | 25383  | 33073  | 33073   | 3       |
+| setDefaultMaxGasForMatching                                                                                                 | 2002            | 12371  | 9114   | 17614   | 29      |
+| setIncentivesVault                                                                                                          | 10006           | 24579  | 24673  | 24673   | 248     |
+| setInterestRatesManager                                                                                                     | 9940            | 12973  | 12973  | 16007   | 2       |
+| setMaxSortedUsers                                                                                                           | 1388            | 8602   | 8602   | 15816   | 4       |
+| setP2PDisabled                                                                                                              | 10076           | 26834  | 25336  | 35836   | 12      |
+| setP2PIndexCursor                                                                                                           | 12249           | 12249  | 12249  | 12249   | 1       |
+| setPartialPauseStatus                                                                                                       | 2741            | 10116  | 9140   | 16726   | 6       |
+| setPauseStatus                                                                                                              | 2724            | 10096  | 9119   | 16705   | 6       |
+| setPositionsManager                                                                                                         | 9941            | 12974  | 12974  | 16008   | 2       |
+| setReserveFactor                                                                                                            | 10098           | 50475  | 10098  | 118669  | 21      |
+| setRewardsManager                                                                                                           | 6008            | 22464  | 22609  | 22609   | 249     |
+| setTreasuryVault                                                                                                            | 9940            | 24408  | 24607  | 24607   | 250     |
+| supply(address,address,uint256)                                                                                             | 481292          | 481292 | 481292 | 481292  | 1       |
+| supply(address,address,uint256,uint256)                                                                                     | 21205           | 21205  | 21205  | 21205   | 1       |
+| supply(address,uint256)                                                                                                     | 4719            | 373650 | 395877 | 2101743 | 508     |
+| supplyBalanceInOf                                                                                                           | 1740            | 1977   | 1740   | 12240   | 476     |
+| treasuryVault                                                                                                               | 1266            | 3366   | 1266   | 9766    | 5       |
+| updateP2PIndexes                                                                                                            | 2606            | 25920  | 25274  | 55328   | 1310    |
 | upgradeTo                                                                                                                   | 5047            | 8380   | 9047   | 9047    | 6       |
 | upgradeToAndCall                                                                                                            | 10174           | 10400  | 10514  | 10514   | 3       |
 | userUnclaimedCompRewards                                                                                                    | 1399            | 1399   | 1399   | 1399    | 10      |
-| wEth                                                                                                                        | 3221            | 3221   | 3221   | 3221    | 1       |
-| withdraw(address,uint256)                                                                                                   | 6451            | 250014 | 183052 | 1931029 | 93      |
-| withdraw(address,uint256,address)                                                                                           | 328067          | 328067 | 328067 | 328067  | 1       |
+| wEth                                                                                                                        | 3199            | 3199   | 3199   | 3199    | 1       |
+| withdraw(address,uint256)                                                                                                   | 4679            | 265984 | 185884 | 1944140 | 85      |
+| withdraw(address,uint256,address)                                                                                           | 336351          | 336351 | 336351 | 336351  | 1       |
 
 
 | test-foundry/common/helpers/MorphoToken.sol:MorphoToken contract |                 |       |        |       |         |
@@ -652,7 +585,7 @@ Test result: [32mok[0m. 12 passed; 0 failed; finished in 156.24s
 | 792324                                                           | 4514            |       |        |       |         |
 | Function Name                                                    | min             | avg   | median | max   | # calls |
 | balanceOf                                                        | 608             | 941   | 608    | 2608  | 6       |
-| transfer                                                         | 2921            | 24804 | 24821  | 29621 | 288     |
+| transfer                                                         | 2921            | 24802 | 24821  | 29621 | 251     |
 
 
 | test-foundry/compound/helpers/Attacker.sol:Attacker contract |                 |        |        |        |         |
@@ -661,7 +594,7 @@ Test result: [32mok[0m. 12 passed; 0 failed; finished in 156.24s
 | 155602                                                       | 809             |        |        |        |         |
 | Function Name                                                | min             | avg    | median | max    | # calls |
 | approve                                                      | 25269           | 25269  | 25269  | 25269  | 1       |
-| deposit                                                      | 138460          | 138460 | 138460 | 138460 | 1       |
+| deposit                                                      | 142627          | 142627 | 142627 | 142627 | 1       |
 | transfer                                                     | 26107           | 26107  | 26107  | 26107  | 1       |
 
 
@@ -678,45 +611,37 @@ Test result: [32mok[0m. 12 passed; 0 failed; finished in 156.24s
 | Deployment Cost                                                                | Deployment Size |       |        |       |         |
 | 195438                                                                         | 1008            |       |        |       |         |
 | Function Name                                                                  | min             | avg   | median | max   | # calls |
-| getUnderlyingPrice                                                             | 618             | 1483  | 1570   | 1592  | 436     |
+| getUnderlyingPrice                                                             | 618             | 1472  | 1570   | 1592  | 517     |
 | setDirectPrice                                                                 | 384             | 474   | 479    | 479   | 23      |
-| setUnderlyingPrice                                                             | 486             | 22017 | 23443  | 27965 | 174     |
+| setUnderlyingPrice                                                             | 486             | 21641 | 23443  | 27965 | 189     |
 
 
 | test-foundry/compound/helpers/User.sol:User contract |                 |        |        |         |         |
 |------------------------------------------------------|-----------------|--------|--------|---------|---------|
 | Deployment Cost                                      | Deployment Size |        |        |         |         |
-| 1352351                                              | 6888            |        |        |         |         |
+| 1276426                                              | 6509            |        |        |         |         |
 | Function Name                                        | min             | avg    | median | max     | # calls |
-| approve(address,address,uint256)                     | 23134           | 31015  | 25328  | 41681   | 33      |
-| approve(address,uint256)                             | 25319           | 29217  | 28672  | 43672   | 651     |
-| approve(address,uint256)(bool)                       | 25319           | 31482  | 29725  | 43672   | 59      |
-| balanceOf                                            | 1363            | 2902   | 1617   | 6117    | 37      |
-| borrow(address,uint256)                              | 17382           | 513561 | 399849 | 1086220 | 331     |
-| borrow(address,uint256,uint256)                      | 428741          | 465340 | 432172 | 928165  | 42      |
-| claimRewards                                         | 11263           | 174675 | 183197 | 317181  | 16      |
-| compoundBorrow                                       | 70516           | 173588 | 190473 | 279903  | 11      |
-| compoundClaimRewards                                 | 91796           | 91796  | 91796  | 91796   | 3       |
-| compoundRepay                                        | 86150           | 86150  | 86150  | 86150   | 1       |
-| compoundSupply                                       | 67160           | 166533 | 168962 | 264362  | 16      |
-| createMarket                                         | 15752           | 15752  | 15752  | 15752   | 12      |
-| liquidate                                            | 15707           | 276719 | 381276 | 547637  | 29      |
-| repay                                                | 17619           | 235270 | 149852 | 2294723 | 69      |
-| setDefaultMaxGasForMatching                          | 5252            | 5252   | 5252   | 5252    | 2       |
-| setIsBorrowPaused                                    | 6535            | 11035  | 11035  | 15535   | 2       |
-| setIsLiquidateBorrowPaused                           | 6559            | 11059  | 11059  | 15559   | 2       |
-| setIsLiquidateCollateralPaused                       | 6604            | 11104  | 11104  | 15604   | 2       |
-| setIsP2PDisabled                                     | 15625           | 15625  | 15625  | 15625   | 2       |
-| setIsRepayPaused                                     | 6667            | 11167  | 11167  | 15667   | 2       |
-| setIsSupplyPaused                                    | 6623            | 11123  | 11123  | 15623   | 2       |
-| setIsWithdrawPaused                                  | 6582            | 11082  | 11082  | 15582   | 2       |
-| setMaxSortedUsers                                    | 4243            | 4243   | 4243   | 4243    | 2       |
-| setReserveFactor                                     | 15511           | 15511  | 15511  | 15511   | 12      |
+| approve(address,address,uint256)                     | 23134           | 30855  | 25328  | 41681   | 31      |
+| approve(address,uint256)                             | 25319           | 29756  | 28672  | 43672   | 492     |
+| approve(address,uint256)(bool)                       | 25319           | 31294  | 28672  | 43672   | 65      |
+| balanceOf                                            | 1298            | 2837   | 1552   | 6052    | 37      |
+| borrow(address,uint256)                              | 5619            | 557477 | 636389 | 1100364 | 257     |
+| borrow(address,uint256,uint256)                      | 394918          | 450522 | 440652 | 683655  | 40      |
+| claimRewards                                         | 11196           | 174555 | 183109 | 317048  | 16      |
+| compoundBorrow                                       | 72966           | 177507 | 193358 | 280870  | 10      |
+| compoundClaimRewards                                 | 91818           | 91818  | 91818  | 91818   | 3       |
+| compoundRepay                                        | 89260           | 89260  | 89260  | 89260   | 1       |
+| compoundSupply                                       | 71305           | 166572 | 173107 | 268507  | 15      |
+| createMarket                                         | 15730           | 15730  | 15730  | 15730   | 12      |
+| liquidate                                            | 6001            | 346908 | 390268 | 558405  | 26      |
+| repay                                                | 5659            | 257973 | 167425 | 2303482 | 64      |
+| setDefaultMaxGasForMatching                          | 5318            | 5318   | 5318   | 5318    | 2       |
+| setMaxSortedUsers                                    | 4177            | 4177   | 4177   | 4177    | 2       |
+| setP2PDisabled                                       | 15600           | 15600  | 15600  | 15600   | 2       |
+| setPartialPauseStatus                                | 15513           | 15513  | 15513  | 15513   | 1       |
+| setPauseStatus                                       | 15536           | 15536  | 15536  | 15536   | 1       |
+| setReserveFactor                                     | 15578           | 15578  | 15578  | 15578   | 12      |
 | setTreasuryVault                                     | 15284           | 15284  | 15284  | 15284   | 1       |
-| supply(address,uint256)                              | 17601           | 352406 | 346557 | 2096900 | 673     |
-| supply(address,uint256,uint256)                      | 542226          | 620421 | 620421 | 698616  | 2       |
-| withdraw(address,uint256)                            | 7349            | 253458 | 183772 | 1931750 | 92      |
-| withdraw(address,uint256,address)                    | 328907          | 328907 | 328907 | 328907  | 1       |
-
-
-
+| supply                                               | 5595            | 375253 | 398006 | 2102446 | 508     |
+| withdraw(address,uint256)                            | 5577            | 269668 | 186605 | 1944861 | 84      |
+| withdraw(address,uint256,address)                    | 337208          | 337208 | 337208 | 337208  | 1       |

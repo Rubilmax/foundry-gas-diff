@@ -41,7 +41,8 @@ export interface DiffReport {
 }
 
 export interface DiffCell {
-  value: number;
+  previous: number;
+  current: number;
   delta: number;
   prcnt: number;
 }

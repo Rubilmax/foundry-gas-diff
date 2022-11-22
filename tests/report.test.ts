@@ -72,7 +72,9 @@ describe("", () => {
           []
         ),
         "Rubilmax/foundry-gas-diff",
-        "d62d23148ca73df77cd4378ee1b3c17f1f303dbf"
+        "d62d23148ca73df77cd4378ee1b3c17f1f303dbf",
+        undefined,
+        0.9
       )
     );
   });

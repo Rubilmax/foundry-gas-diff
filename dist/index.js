@@ -6,12 +6,24 @@ require('./sourcemap-register.js');/******/ (() => { // webpackBootstrap
 
 "use strict";
 
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.formatMarkdownDiff = exports.formatShellDiff = exports.formatShellCell = exports.TextAlign = void 0;
 const colors_1 = __importDefault(__nccwpck_require__(3045));
+const sortBy_1 = __importDefault(__nccwpck_require__(9774));
 var TextAlign;
 (function (TextAlign) {
     TextAlign["LEFT"] = "left";
@@ -22,7 +34,7 @@ const center = (text, length) => text.padStart((text.length + length) / 2).padEn
 const formatShellCell = (cell, length = 10) => {
     const format = colors_1.default[cell.delta > 0 ? "red" : cell.delta < 0 ? "green" : "reset"];
     return [
-        cell.value.toLocaleString().padStart(length) +
+        cell.current.toLocaleString().padStart(length) +
             " " +
             format(("(" + (plusSign(cell.delta) + cell.delta.toLocaleString()) + ")").padEnd(length)),
         colors_1.default.bold(format((plusSign(cell.prcnt) +
@@ -102,7 +114,7 @@ const formatMarkdownSummaryCell = (rows) => [
 ];
 const formatMarkdownFullCell = (rows) => [
     rows
-        .map((row) => row.value.toLocaleString() +
+        .map((row) => row.current.toLocaleString() +
         "&nbsp;(" +
         plusSign(row.delta) +
         row.delta.toLocaleString() +
@@ -136,7 +148,7 @@ const MARKDOWN_DIFF_COLS = [
     { txt: "# Calls (+/-)", align: TextAlign.RIGHT },
     { txt: "" },
 ];
-const formatMarkdownDiff = (header, diffs, repository, commitHash, refCommitHash) => {
+const formatMarkdownDiff = (header, diffs, repository, commitHash, refCommitHash, summaryQuantile = 0.8) => {
     const summaryHeader = MARKDOWN_SUMMARY_COLS.map((entry) => entry.txt)
         .join(" | ")
         .trim();
@@ -149,6 +161,8 @@ const formatMarkdownDiff = (header, diffs, repository, commitHash, refCommitHash
     const diffHeaderSeparator = MARKDOWN_DIFF_COLS.map((entry) => entry.txt ? alignPattern(entry.align) : "")
         .join("|")
         .trim();
+    const sortedMethods = (0, sortBy_1.default)(diffs.flatMap((diff) => diff.methods), "avg.prcnt");
+    const avgQuantile = Math.abs(sortedMethods[Math.floor((sortedMethods.length - 1) * summaryQuantile)].avg.prcnt);
     return [
         header,
         "",
@@ -157,11 +171,17 @@ const formatMarkdownDiff = (header, diffs, repository, commitHash, refCommitHash
                 ? `, compared to commit: [${refCommitHash}](/${repository}/commit/${refCommitHash})`
                 : ""),
         "",
-        "### 🧾 Summary",
+        `### 🧾 Summary (${Math.round((1 - summaryQuantile) * 100)}% most significant diffs)`,
         "",
         summaryHeader,
         summaryHeaderSeparator,
         diffs
+            .map((_a) => {
+            var { methods } = _a, diff = __rest(_a, ["methods"]);
+            return (Object.assign(Object.assign({}, diff), { methods: methods.filter((method) => method.min.current >= 500 &&
+                    Math.abs(method.avg.prcnt) >= avgQuantile &&
+                    (method.min.delta > 0 || method.median.delta > 0 || method.max.delta > 0)) }));
+        })
             .filter((diff) => diff.methods.length > 0)
             .flatMap((diff) => [
             "",
@@ -271,6 +291,7 @@ const report = core.getInput("report");
 const ignore = core.getInput("ignore").split(",");
 const match = (_a = (core.getInput("match") || undefined)) === null || _a === void 0 ? void 0 : _a.split(",");
 const header = core.getInput("header");
+const summaryQuantile = parseFloat(core.getInput("summaryQuantile"));
 const sortCriteria = core.getInput("sortCriteria").split(",");
 const sortOrders = core.getInput("sortOrders").split(",");
 const baseBranch = core.getInput("base");
@@ -382,7 +403,7 @@ function run() {
             core.startGroup("Compute gas diff");
             const diffRows = (0, report_1.computeDiffs)(sourceReports, compareReports, sortCriteria, sortOrders);
             core.info(`Format markdown of ${diffRows.length} diffs`);
-            const markdown = (0, format_1.formatMarkdownDiff)(header, diffRows, repository, github_1.context.sha, refCommitHash);
+            const markdown = (0, format_1.formatMarkdownDiff)(header, diffRows, repository, github_1.context.sha, refCommitHash, summaryQuantile);
             core.info(`Format shell of ${diffRows.length} diffs`);
             const shell = (0, format_1.formatShellDiff)(diffRows);
             core.endGroup();
@@ -415,11 +436,15 @@ exports.computeDiffs = exports.loadReports = exports.variation = void 0;
 const orderBy_1 = __importDefault(__nccwpck_require__(4791));
 const minimatch_1 = __nccwpck_require__(3973);
 const reportHeaderRegex = /^\| .+:.+ contract \|/;
-const variation = (current, previous) => ({
-    value: current,
-    delta: current - previous,
-    prcnt: previous !== 0 ? (100 * (current - previous)) / previous : Infinity,
-});
+const variation = (current, previous) => {
+    const delta = current - previous;
+    return {
+        previous,
+        current,
+        delta,
+        prcnt: previous !== 0 ? (100 * delta) / previous : Infinity,
+    };
+};
 exports.variation = variation;
 const loadReports = (content, { ignorePatterns, matchPatterns, }) => {
     const ignoreMinimatchs = (ignorePatterns !== null && ignorePatterns !== void 0 ? ignorePatterns : [])
@@ -14830,6 +14855,34 @@ module.exports = WeakMap;
 
 /***/ }),
 
+/***/ 9647:
+/***/ ((module) => {
+
+/**
+ * A faster alternative to `Function#apply`, this function invokes `func`
+ * with the `this` binding of `thisArg` and the arguments of `args`.
+ *
+ * @private
+ * @param {Function} func The function to invoke.
+ * @param {*} thisArg The `this` binding of `func`.
+ * @param {Array} args The arguments to invoke `func` with.
+ * @returns {*} Returns the result of `func`.
+ */
+function apply(func, thisArg, args) {
+  switch (args.length) {
+    case 0: return func.call(thisArg);
+    case 1: return func.call(thisArg, args[0]);
+    case 2: return func.call(thisArg, args[0], args[1]);
+    case 3: return func.call(thisArg, args[0], args[1], args[2]);
+  }
+  return func.apply(thisArg, args);
+}
+
+module.exports = apply;
+
+
+/***/ }),
+
 /***/ 8388:
 /***/ ((module) => {
 
@@ -15048,6 +15101,51 @@ var baseForOwn = __nccwpck_require__(5712),
 var baseEach = createBaseEach(baseForOwn);
 
 module.exports = baseEach;
+
+
+/***/ }),
+
+/***/ 9588:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+var arrayPush = __nccwpck_require__(82),
+    isFlattenable = __nccwpck_require__(9299);
+
+/**
+ * The base implementation of `_.flatten` with support for restricting flattening.
+ *
+ * @private
+ * @param {Array} array The array to flatten.
+ * @param {number} depth The maximum recursion depth.
+ * @param {boolean} [predicate=isFlattenable] The function invoked per iteration.
+ * @param {boolean} [isStrict] Restrict to values that pass `predicate` checks.
+ * @param {Array} [result=[]] The initial result value.
+ * @returns {Array} Returns the new flattened array.
+ */
+function baseFlatten(array, depth, predicate, isStrict, result) {
+  var index = -1,
+      length = array.length;
+
+  predicate || (predicate = isFlattenable);
+  result || (result = []);
+
+  while (++index < length) {
+    var value = array[index];
+    if (depth > 0 && predicate(value)) {
+      if (depth > 1) {
+        // Recursively flatten arrays (susceptible to call stack limits).
+        baseFlatten(value, depth - 1, predicate, isStrict, result);
+      } else {
+        arrayPush(result, value);
+      }
+    } else if (!isStrict) {
+      result[result.length] = value;
+    }
+  }
+  return result;
+}
+
+module.exports = baseFlatten;
 
 
 /***/ }),
@@ -15824,6 +15922,59 @@ module.exports = basePropertyDeep;
 
 /***/ }),
 
+/***/ 5979:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+var identity = __nccwpck_require__(7822),
+    overRest = __nccwpck_require__(2417),
+    setToString = __nccwpck_require__(8416);
+
+/**
+ * The base implementation of `_.rest` which doesn't validate or coerce arguments.
+ *
+ * @private
+ * @param {Function} func The function to apply a rest parameter to.
+ * @param {number} [start=func.length-1] The start position of the rest parameter.
+ * @returns {Function} Returns the new function.
+ */
+function baseRest(func, start) {
+  return setToString(overRest(func, start, identity), func + '');
+}
+
+module.exports = baseRest;
+
+
+/***/ }),
+
+/***/ 979:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+var constant = __nccwpck_require__(5946),
+    defineProperty = __nccwpck_require__(416),
+    identity = __nccwpck_require__(7822);
+
+/**
+ * The base implementation of `setToString` without support for hot loop shorting.
+ *
+ * @private
+ * @param {Function} func The function to modify.
+ * @param {Function} string The `toString` result.
+ * @returns {Function} Returns `func`.
+ */
+var baseSetToString = !defineProperty ? identity : function(func, string) {
+  return defineProperty(func, 'toString', {
+    'configurable': true,
+    'enumerable': false,
+    'value': constant(string),
+    'writable': true
+  });
+};
+
+module.exports = baseSetToString;
+
+
+/***/ }),
+
 /***/ 9241:
 /***/ ((module) => {
 
@@ -16171,6 +16322,24 @@ function createBaseFor(fromRight) {
 }
 
 module.exports = createBaseFor;
+
+
+/***/ }),
+
+/***/ 416:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+var getNative = __nccwpck_require__(4479);
+
+var defineProperty = (function() {
+  try {
+    var func = getNative(Object, 'defineProperty');
+    func({}, '', {});
+    return func;
+  } catch (e) {}
+}());
+
+module.exports = defineProperty;
 
 
 /***/ }),
@@ -16960,6 +17129,33 @@ module.exports = hashSet;
 
 /***/ }),
 
+/***/ 9299:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+var Symbol = __nccwpck_require__(9213),
+    isArguments = __nccwpck_require__(8495),
+    isArray = __nccwpck_require__(4869);
+
+/** Built-in value references. */
+var spreadableSymbol = Symbol ? Symbol.isConcatSpreadable : undefined;
+
+/**
+ * Checks if `value` is a flattenable `arguments` object or array.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is flattenable, else `false`.
+ */
+function isFlattenable(value) {
+  return isArray(value) || isArguments(value) ||
+    !!(spreadableSymbol && value && value[spreadableSymbol]);
+}
+
+module.exports = isFlattenable;
+
+
+/***/ }),
+
 /***/ 2936:
 /***/ ((module) => {
 
@@ -16988,6 +17184,43 @@ function isIndex(value, length) {
 }
 
 module.exports = isIndex;
+
+
+/***/ }),
+
+/***/ 2482:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+var eq = __nccwpck_require__(1901),
+    isArrayLike = __nccwpck_require__(8017),
+    isIndex = __nccwpck_require__(2936),
+    isObject = __nccwpck_require__(3334);
+
+/**
+ * Checks if the given arguments are from an iteratee call.
+ *
+ * @private
+ * @param {*} value The potential iteratee value argument.
+ * @param {*} index The potential iteratee index or key argument.
+ * @param {*} object The potential iteratee object argument.
+ * @returns {boolean} Returns `true` if the arguments are from an iteratee call,
+ *  else `false`.
+ */
+function isIterateeCall(value, index, object) {
+  if (!isObject(object)) {
+    return false;
+  }
+  var type = typeof index;
+  if (type == 'number'
+        ? (isArrayLike(object) && isIndex(index, object.length))
+        : (type == 'string' && index in object)
+      ) {
+    return eq(object[index], value);
+  }
+  return false;
+}
+
+module.exports = isIterateeCall;
 
 
 /***/ }),
@@ -17596,6 +17829,49 @@ module.exports = overArg;
 
 /***/ }),
 
+/***/ 2417:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+var apply = __nccwpck_require__(9647);
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeMax = Math.max;
+
+/**
+ * A specialized version of `baseRest` which transforms the rest array.
+ *
+ * @private
+ * @param {Function} func The function to apply a rest parameter to.
+ * @param {number} [start=func.length-1] The start position of the rest parameter.
+ * @param {Function} transform The rest array transform.
+ * @returns {Function} Returns the new function.
+ */
+function overRest(func, start, transform) {
+  start = nativeMax(start === undefined ? (func.length - 1) : start, 0);
+  return function() {
+    var args = arguments,
+        index = -1,
+        length = nativeMax(args.length - start, 0),
+        array = Array(length);
+
+    while (++index < length) {
+      array[index] = args[start + index];
+    }
+    index = -1;
+    var otherArgs = Array(start + 1);
+    while (++index < start) {
+      otherArgs[index] = args[index];
+    }
+    otherArgs[start] = transform(array);
+    return apply(func, this, otherArgs);
+  };
+}
+
+module.exports = overRest;
+
+
+/***/ }),
+
 /***/ 9882:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
@@ -17680,6 +17956,71 @@ function setToArray(set) {
 }
 
 module.exports = setToArray;
+
+
+/***/ }),
+
+/***/ 8416:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+var baseSetToString = __nccwpck_require__(979),
+    shortOut = __nccwpck_require__(7882);
+
+/**
+ * Sets the `toString` method of `func` to return `string`.
+ *
+ * @private
+ * @param {Function} func The function to modify.
+ * @param {Function} string The `toString` result.
+ * @returns {Function} Returns `func`.
+ */
+var setToString = shortOut(baseSetToString);
+
+module.exports = setToString;
+
+
+/***/ }),
+
+/***/ 7882:
+/***/ ((module) => {
+
+/** Used to detect hot functions by number of calls within a span of milliseconds. */
+var HOT_COUNT = 800,
+    HOT_SPAN = 16;
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeNow = Date.now;
+
+/**
+ * Creates a function that'll short out and invoke `identity` instead
+ * of `func` when it's called `HOT_COUNT` or more times in `HOT_SPAN`
+ * milliseconds.
+ *
+ * @private
+ * @param {Function} func The function to restrict.
+ * @returns {Function} Returns the new shortable function.
+ */
+function shortOut(func) {
+  var count = 0,
+      lastCalled = 0;
+
+  return function() {
+    var stamp = nativeNow(),
+        remaining = HOT_SPAN - (stamp - lastCalled);
+
+    lastCalled = stamp;
+    if (remaining > 0) {
+      if (++count >= HOT_COUNT) {
+        return arguments[0];
+      }
+    } else {
+      count = 0;
+    }
+    return func.apply(undefined, arguments);
+  };
+}
+
+module.exports = shortOut;
 
 
 /***/ }),
@@ -17905,6 +18246,39 @@ function toSource(func) {
 }
 
 module.exports = toSource;
+
+
+/***/ }),
+
+/***/ 5946:
+/***/ ((module) => {
+
+/**
+ * Creates a function that returns `value`.
+ *
+ * @static
+ * @memberOf _
+ * @since 2.4.0
+ * @category Util
+ * @param {*} value The value to return from the new function.
+ * @returns {Function} Returns the new constant function.
+ * @example
+ *
+ * var objects = _.times(2, _.constant({ 'a': 1 }));
+ *
+ * console.log(objects);
+ * // => [{ 'a': 1 }, { 'a': 1 }]
+ *
+ * console.log(objects[0] === objects[1]);
+ * // => true
+ */
+function constant(value) {
+  return function() {
+    return value;
+  };
+}
+
+module.exports = constant;
 
 
 /***/ }),
@@ -18667,6 +19041,61 @@ function property(path) {
 }
 
 module.exports = property;
+
+
+/***/ }),
+
+/***/ 9774:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+var baseFlatten = __nccwpck_require__(9588),
+    baseOrderBy = __nccwpck_require__(2850),
+    baseRest = __nccwpck_require__(5979),
+    isIterateeCall = __nccwpck_require__(2482);
+
+/**
+ * Creates an array of elements, sorted in ascending order by the results of
+ * running each element in a collection thru each iteratee. This method
+ * performs a stable sort, that is, it preserves the original sort order of
+ * equal elements. The iteratees are invoked with one argument: (value).
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Collection
+ * @param {Array|Object} collection The collection to iterate over.
+ * @param {...(Function|Function[])} [iteratees=[_.identity]]
+ *  The iteratees to sort by.
+ * @returns {Array} Returns the new sorted array.
+ * @example
+ *
+ * var users = [
+ *   { 'user': 'fred',   'age': 48 },
+ *   { 'user': 'barney', 'age': 36 },
+ *   { 'user': 'fred',   'age': 30 },
+ *   { 'user': 'barney', 'age': 34 }
+ * ];
+ *
+ * _.sortBy(users, [function(o) { return o.user; }]);
+ * // => objects for [['barney', 36], ['barney', 34], ['fred', 48], ['fred', 30]]
+ *
+ * _.sortBy(users, ['user', 'age']);
+ * // => objects for [['barney', 34], ['barney', 36], ['fred', 30], ['fred', 48]]
+ */
+var sortBy = baseRest(function(collection, iteratees) {
+  if (collection == null) {
+    return [];
+  }
+  var length = iteratees.length;
+  if (length > 1 && isIterateeCall(collection, iteratees[0], iteratees[1])) {
+    iteratees = [];
+  } else if (length > 2 && isIterateeCall(iteratees[0], iteratees[1], iteratees[2])) {
+    iteratees = [iteratees[0]];
+  }
+  return baseOrderBy(collection, baseFlatten(iteratees, 1), []);
+});
+
+module.exports = sortBy;
 
 
 /***/ }),

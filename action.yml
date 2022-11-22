@@ -27,6 +27,10 @@ inputs:
     default: |
       # Changes to gas cost
     required: false
+  summaryQuantile:
+    description: The quantile threshold to filter avg gas cost diffs to display in the summary top section.
+    default: 0.8
+    required: false
   sortCriteria:
     description: The list of criteria to order diff rows by in the report (name | min | avg | median | max | calls), separated by a comma. Must have the same length as sortOrders.
     required: false

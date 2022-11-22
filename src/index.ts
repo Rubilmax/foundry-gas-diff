@@ -15,6 +15,7 @@ const report = core.getInput("report");
 const ignore = core.getInput("ignore").split(",");
 const match = (core.getInput("match") || undefined)?.split(",");
 const header = core.getInput("header");
+const summaryQuantile = parseFloat(core.getInput("summaryQuantile"));
 const sortCriteria = core.getInput("sortCriteria").split(",");
 const sortOrders = core.getInput("sortOrders").split(",");
 const baseBranch = core.getInput("base");
@@ -128,7 +129,14 @@ async function run() {
     core.startGroup("Compute gas diff");
     const diffRows = computeDiffs(sourceReports, compareReports, sortCriteria, sortOrders);
     core.info(`Format markdown of ${diffRows.length} diffs`);
-    const markdown = formatMarkdownDiff(header, diffRows, repository, context.sha, refCommitHash);
+    const markdown = formatMarkdownDiff(
+      header,
+      diffRows,
+      repository,
+      context.sha,
+      refCommitHash,
+      summaryQuantile
+    );
     core.info(`Format shell of ${diffRows.length} diffs`);
     const shell = formatShellDiff(diffRows);
     core.endGroup();
