@@ -3,6 +3,8 @@ import { Minimatch } from "minimatch";
 
 import { DiffReport, GasReport, SortCriterion, SortOrder } from "./types";
 
+const reportHeaderRegex = /^\| .+:.+ contract \|/;
+
 export const variation = (current: number, previous: number) => ({
   value: current,
   delta: current - previous,
@@ -27,28 +29,25 @@ export const loadReports = (
   const lines = content.split("\n");
 
   const reportHeaderIndexes = lines
-    .map((line, index) => ({ isHeader: line.startsWith("╭"), index }))
+    .map((line, index) => ({ isHeader: reportHeaderRegex.test(line), index }))
     .filter(({ isHeader }) => isHeader)
     .map(({ index }) => index);
 
   return Object.fromEntries(
     reportHeaderIndexes
       .map((reportHeaderIndex) =>
-        lines
-          .slice(
-            reportHeaderIndex + 1,
-            reportHeaderIndex +
-              lines.slice(reportHeaderIndex).findIndex((line) => line.startsWith("╰"))
-          )
-          .filter((line) => !line.startsWith("├") && !line.startsWith("╞"))
+        lines.slice(
+          reportHeaderIndex,
+          reportHeaderIndex + lines.slice(reportHeaderIndex).findIndex((line) => line === "")
+        )
       )
       .map((reportLines) => {
-        const [filePath, name] = reportLines[0].split(" ")[1].split(":");
+        const [filePath, name] = reportLines[0].split("|")[1].trim().split(":");
 
         return {
           name,
           filePath,
-          reportLines: reportLines.slice(1),
+          reportLines: reportLines.slice(3),
         };
       })
       .filter(
@@ -57,9 +56,9 @@ export const loadReports = (
           : ({ filePath }) => !ignoreMinimatchs.some((minimatch) => minimatch.match(filePath))
       )
       .map(({ name, filePath, reportLines }) => {
-        const [deploymentCost, deploymentSize] = reportLines[1].match(/\d+/g) || [];
+        const [deploymentCost, deploymentSize] = reportLines[0].match(/\d+/g) || [];
         if (!deploymentCost || !deploymentSize)
-          throw Error("No depoyment cost or deployment size found. Is this a Foundry gas report?");
+          throw Error("No depoyment cost or deployment size found. Is this a forge gas report?");
 
         return {
           name,
@@ -68,12 +67,12 @@ export const loadReports = (
           deploymentSize: parseFloat(deploymentSize),
           methods: Object.fromEntries(
             reportLines
-              .slice(3)
+              .slice(2)
               .map((line) => {
-                const [method, min, avg, median, max, calls] = line.split("┆");
+                const [method, min, avg, median, max, calls] = line.split("|").slice(1);
 
                 return {
-                  name: method.split(" ")[1],
+                  name: method.trim(),
                   min: parseFloat(min),
                   avg: parseFloat(avg),
                   median: parseFloat(median),

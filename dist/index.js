@@ -285,8 +285,8 @@ const repository = owner + "/" + repo;
 let srcContent;
 let refCommitHash;
 function run() {
-    var e_1, _a;
-    var _b;
+    var _a, e_1, _b, _c;
+    var _d;
     return __awaiter(this, void 0, void 0, function* () {
         if (!(0, types_1.isSortCriteriaValid)(sortCriteria))
             return;
@@ -315,25 +315,32 @@ function run() {
                 core.startGroup(`Searching artifact "${baseReport}" on repository "${repository}", on branch "${baseBranch}"`);
                 try {
                     // Note that the artifacts are returned in most recent first order.
-                    for (var _c = __asyncValues(octokit.paginate.iterator(octokit.rest.actions.listArtifactsForRepo, {
+                    for (var _e = true, _f = __asyncValues(octokit.paginate.iterator(octokit.rest.actions.listArtifactsForRepo, {
                         owner,
                         repo,
-                    })), _d; _d = yield _c.next(), !_d.done;) {
-                        const res = _d.value;
-                        yield new Promise((resolve) => setTimeout(resolve, 200)); // avoid reaching GitHub API rate limit
-                        const artifact = res.data.find((artifact) => !artifact.expired && artifact.name === baseReport);
-                        if (!artifact)
-                            continue;
-                        artifactId = artifact.id;
-                        refCommitHash = (_b = artifact.workflow_run) === null || _b === void 0 ? void 0 : _b.head_sha;
-                        core.info(`Found artifact named "${baseReport}" with ID "${artifactId}" from commit "${refCommitHash}"`);
-                        break;
+                    })), _g; _g = yield _f.next(), _a = _g.done, !_a;) {
+                        _c = _g.value;
+                        _e = false;
+                        try {
+                            const res = _c;
+                            yield new Promise((resolve) => setTimeout(resolve, 200)); // avoid reaching GitHub API rate limit
+                            const artifact = res.data.find((artifact) => !artifact.expired && artifact.name === baseReport);
+                            if (!artifact)
+                                continue;
+                            artifactId = artifact.id;
+                            refCommitHash = (_d = artifact.workflow_run) === null || _d === void 0 ? void 0 : _d.head_sha;
+                            core.info(`Found artifact named "${baseReport}" with ID "${artifactId}" from commit "${refCommitHash}"`);
+                            break;
+                        }
+                        finally {
+                            _e = true;
+                        }
                     }
                 }
                 catch (e_1_1) { e_1 = { error: e_1_1 }; }
                 finally {
                     try {
-                        if (_d && !_d.done && (_a = _c.return)) yield _a.call(_c);
+                        if (!_e && !_a && (_b = _f.return)) yield _b.call(_f);
                     }
                     finally { if (e_1) throw e_1.error; }
                 }
@@ -407,6 +414,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.computeDiffs = exports.loadReports = exports.variation = void 0;
 const orderBy_1 = __importDefault(__nccwpck_require__(4791));
 const minimatch_1 = __nccwpck_require__(3973);
+const reportHeaderRegex = /^\| .+:.+ contract \|/;
 const variation = (current, previous) => ({
     value: current,
     delta: current - previous,
@@ -420,40 +428,37 @@ const loadReports = (content, { ignorePatterns, matchPatterns, }) => {
     const matchMinimatchs = matchPatterns === null || matchPatterns === void 0 ? void 0 : matchPatterns.map((pattern) => new minimatch_1.Minimatch(pattern));
     const lines = content.split("\n");
     const reportHeaderIndexes = lines
-        .map((line, index) => ({ isHeader: line.startsWith("╭"), index }))
+        .map((line, index) => ({ isHeader: reportHeaderRegex.test(line), index }))
         .filter(({ isHeader }) => isHeader)
         .map(({ index }) => index);
     return Object.fromEntries(reportHeaderIndexes
-        .map((reportHeaderIndex) => lines
-        .slice(reportHeaderIndex + 1, reportHeaderIndex +
-        lines.slice(reportHeaderIndex).findIndex((line) => line.startsWith("╰")))
-        .filter((line) => !line.startsWith("├") && !line.startsWith("╞")))
+        .map((reportHeaderIndex) => lines.slice(reportHeaderIndex, reportHeaderIndex + lines.slice(reportHeaderIndex).findIndex((line) => line === "")))
         .map((reportLines) => {
-        const [filePath, name] = reportLines[0].split(" ")[1].split(":");
+        const [filePath, name] = reportLines[0].split("|")[1].trim().split(":");
         return {
             name,
             filePath,
-            reportLines: reportLines.slice(1),
+            reportLines: reportLines.slice(3),
         };
     })
         .filter(matchMinimatchs
         ? ({ filePath }) => matchMinimatchs.some((minimatch) => minimatch.match(filePath))
         : ({ filePath }) => !ignoreMinimatchs.some((minimatch) => minimatch.match(filePath)))
         .map(({ name, filePath, reportLines }) => {
-        const [deploymentCost, deploymentSize] = reportLines[1].match(/\d+/g) || [];
+        const [deploymentCost, deploymentSize] = reportLines[0].match(/\d+/g) || [];
         if (!deploymentCost || !deploymentSize)
-            throw Error("No depoyment cost or deployment size found. Is this a Foundry gas report?");
+            throw Error("No depoyment cost or deployment size found. Is this a forge gas report?");
         return {
             name,
             filePath,
             deploymentCost: parseFloat(deploymentCost),
             deploymentSize: parseFloat(deploymentSize),
             methods: Object.fromEntries(reportLines
-                .slice(3)
+                .slice(2)
                 .map((line) => {
-                const [method, min, avg, median, max, calls] = line.split("┆");
+                const [method, min, avg, median, max, calls] = line.split("|").slice(1);
                 return {
-                    name: method.split(" ")[1],
+                    name: method.trim(),
                     min: parseFloat(min),
                     avg: parseFloat(avg),
                     median: parseFloat(median),

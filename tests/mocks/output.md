@@ -6,8 +6,7 @@
 
 | Contract | Method | Avg (+/-) | % |
 |:-|:-|-:|-:|
-| **PositionsManager** | _borrowLogic_<br />_supplyLogic_ | +702 ❌<br />+849 ❌ | **+0.13%**<br />**+0.23%** |
-| **Morpho** | _supply_ | +809 ❌ | **+0.22%** |
+| **Morpho contract** | _borrow(address,uint256)_<br />_repay(address,address,uint256)_ | +3,000 ❌<br />+4,000 ❌ | **+0.59%**<br />**+7.46%** |
 ---
 
 <details>
@@ -16,6 +15,5 @@
 
 | Contract | Deployment Cost (+/-) | Method | Min (+/-) | % | Avg (+/-) | % | Median (+/-) | % | Max (+/-) | % | # Calls (+/-) |
 |:-|-:|:-|-:|-:|-:|-:|-:|-:|-:|-:|-:|
-| **PositionsManager** | 4,546,050&nbsp;(+14,617) | _borrowLogic_<br />_supplyLogic_ | 148,437&nbsp;(0)<br />737&nbsp;(0) | **0.00%**<br />**0.00%** | 542,977&nbsp;(+702)<br />365,894&nbsp;(+849) | **+0.13%**<br />**+0.23%** | 438,816&nbsp;(0)<br />383,960&nbsp;(+995) | **0.00%**<br />**+0.26%** | 1,090,968&nbsp;(0)<br />2,121,294&nbsp;(+304) | **0.00%**<br />**+0.01%** | 292&nbsp;(0)<br />500&nbsp;(0) |
-| **Morpho** | 3,150,242&nbsp;(0) | _supply_ | 3,997&nbsp;(0) | **0.00%** | 371,586&nbsp;(+809) | **+0.22%** | 395,247&nbsp;(+995) | **+0.25%** | 2,125,764&nbsp;(+304) | **+0.01%** | 502&nbsp;(0) |
+| **Morpho contract** | 3,381,129&nbsp;(0) | _borrow(address,uint256)_<br />_repay(address,address,uint256)_ | 13,703&nbsp;(0)<br />8,542&nbsp;(0) | **0.00%**<br />**0.00%** | 511,848&nbsp;(+3,000)<br />57,644&nbsp;(+4,000) | **+0.59%**<br />**+7.46%** | 398,171&nbsp;(0)<br />11,007&nbsp;(0) | **0.00%**<br />**0.00%** | 1,084,878&nbsp;(0)<br />200,020&nbsp;(0) | **0.00%**<br />**0.00%** | 331&nbsp;(0)<br />4&nbsp;(0) |
 </details>

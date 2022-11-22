@@ -12,6 +12,8 @@ You can then do whatever you want with the results!
 
 > **Our recommandation:** Automatically submit a sticky comment displaying the gas diff!
 
+### ⚠️ v3.9+ is no longer working with the latest release of Foundry. Please use v3.10+ if a message displays "Is this a Foundry gas report?"
+
 ## Live Example
 
 ---

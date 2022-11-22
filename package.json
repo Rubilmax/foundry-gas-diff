@@ -1,6 +1,6 @@
 {
   "name": "foundry-gas-diff",
-  "version": "3.9.1",
+  "version": "3.10.0",
   "description": "Github Action reporting gas diff from Foundry gas reports",
   "author": {
     "name": "Romain (Rubilmax) Milon",
@@ -60,7 +60,7 @@
     "minimatch": "^5.1.0",
     "prettier": "^2.7.1",
     "ts-jest": "^28.0.8",
-    "typescript": "^4.8.4"
+    "typescript": "^4.9.3"
   },
   "jest": {
     "clearMocks": true,
