@@ -151,7 +151,7 @@ _Defaults to:_
 # Changes to gas cost
 ```
 
-### `summaryQuantile` _{string}_
+### `summaryQuantile` _{number}_
 
 The quantile threshold to filter avg gas cost diffs to display in the summary top section.
 
