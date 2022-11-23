@@ -82,21 +82,21 @@ jobs:
         with:
           version: nightly
 
-      # Add any step generating a gas report to a temporary file named gasreport.ansi
-      # For example:
+      # Add any step generating a gas report to a temporary file named gasreport.ansi. For example:
       - name: Run tests
-        run: forge test --gas-report | tee gasreport.ansi # <- this file name should be unique in your repository!
+        run: forge test --gas-report > gasreport.ansi # <- this file name should be unique in your repository!
         env:
           # make fuzzing semi-deterministic to avoid noisy gas cost estimation
-          # due to non-deterministic fuzzing, but keep it not always deterministic
+          # due to non-deterministic fuzzing (but still use pseudo-random fuzzing seeds)
           FOUNDRY_FUZZ_SEED: 0x${{ github.event.pull_request.base.sha || github.sha }}
 
       - name: Compare gas reports
         uses: Rubilmax/foundry-gas-diff@v3.11
         with:
-          sortCriteria: avg,max # optionnally sort diff rows by criteria
+          summaryQuantile: 0.9 # only display the 10% most significant gas diffs in the summary (defaults to 20%)
+          sortCriteria: avg,max # sort diff rows by criteria
           sortOrders: desc,asc # and directions
-          ignore: test/**/* # optionally filter out gas reports from specific paths
+          ignore: test-foundry/**/* # filter out gas reports from specific paths (test/ is included by default)
         id: gas_diff
 
       - name: Add gas diff to sticky comment
