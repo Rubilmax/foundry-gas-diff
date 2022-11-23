@@ -173,6 +173,17 @@ export const formatMarkdownDiff = (
   refCommitHash?: string,
   summaryQuantile = 0.8
 ) => {
+  const diffReport = [
+    header,
+    "",
+    `> Generated at commit: [${commitHash}](/${repository}/commit/${commitHash})` +
+      (refCommitHash
+        ? `, compared to commit: [${refCommitHash}](/${repository}/commit/${refCommitHash})`
+        : ""),
+  ];
+  if (diffs.length === 0)
+    return diffReport.concat(["", "### There are no changes in gas cost"]).join("\n").trim();
+
   const summaryHeader = MARKDOWN_SUMMARY_COLS.map((entry) => entry.txt)
     .join(" | ")
     .trim();
@@ -196,73 +207,68 @@ export const formatMarkdownDiff = (
     "avg.prcnt"
   );
   const avgQuantile = Math.abs(
-    sortedMethods[Math.floor((sortedMethods.length - 1) * summaryQuantile)].avg.prcnt
+    sortedMethods[Math.floor((sortedMethods.length - 1) * summaryQuantile)]?.avg.prcnt ?? 0
   );
 
-  return [
-    header,
-    "",
-    `> Generated at commit: [${commitHash}](/${repository}/commit/${commitHash})` +
-      (refCommitHash
-        ? `, compared to commit: [${refCommitHash}](/${repository}/commit/${refCommitHash})`
-        : ""),
-    "",
-    `### 🧾 Summary (${Math.round((1 - summaryQuantile) * 100)}% most significant diffs)`,
-    "",
-    summaryHeader,
-    summaryHeaderSeparator,
-    diffs
-      .map(({ methods, ...diff }) => ({
-        ...diff,
-        methods: methods.filter(
-          (method) =>
-            method.min.current >= 500 &&
-            Math.abs(method.avg.prcnt) >= avgQuantile &&
-            (method.min.delta > 0 || method.median.delta > 0 || method.max.delta > 0)
-        ),
-      }))
-      .filter((diff) => diff.methods.length > 0)
-      .flatMap((diff) =>
-        [
-          "",
-          `**${diff.name}**`,
-          diff.methods.map((method) => `_${method.name}_`).join("<br />"),
-          ...formatMarkdownSummaryCell(diff.methods.map((method) => method.avg)),
-          "",
-        ]
-          .join(" | ")
-          .trim()
-      )
-      .join("\n"),
-    "---",
-    "",
-    "<details>",
-    "<summary><strong>Full diff report</strong> 👇</summary>",
-    "<br />",
-    "",
-    diffHeader,
-    diffHeaderSeparator,
-    diffs
-      .flatMap((diff) =>
-        [
-          "",
-          `**${diff.name}**`,
-          formatMarkdownFullCell([diff.deploymentCost])[0],
-          diff.methods.map((method) => `_${method.name}_`).join("<br />"),
-          ...formatMarkdownFullCell(diff.methods.map((method) => method.min)),
-          ...formatMarkdownFullCell(diff.methods.map((method) => method.avg)),
-          ...formatMarkdownFullCell(diff.methods.map((method) => method.median)),
-          ...formatMarkdownFullCell(diff.methods.map((method) => method.max)),
-          formatMarkdownFullCell(diff.methods.map((method) => method.calls))[0],
-          "",
-        ]
-          .join(" | ")
-          .trim()
-      )
-      .join("\n"),
-    "</details>",
-    "",
-  ]
+  return diffReport
+    .concat([
+      "",
+      `### 🧾 Summary (${Math.round((1 - summaryQuantile) * 100)}% most significant diffs)`,
+      "",
+      summaryHeader,
+      summaryHeaderSeparator,
+      diffs
+        .map(({ methods, ...diff }) => ({
+          ...diff,
+          methods: methods.filter(
+            (method) =>
+              method.min.current >= 500 &&
+              Math.abs(method.avg.prcnt) >= avgQuantile &&
+              (method.min.delta > 0 || method.median.delta > 0 || method.max.delta > 0)
+          ),
+        }))
+        .filter((diff) => diff.methods.length > 0)
+        .flatMap((diff) =>
+          [
+            "",
+            `**${diff.name}**`,
+            diff.methods.map((method) => `_${method.name}_`).join("<br />"),
+            ...formatMarkdownSummaryCell(diff.methods.map((method) => method.avg)),
+            "",
+          ]
+            .join(" | ")
+            .trim()
+        )
+        .join("\n"),
+      "---",
+      "",
+      "<details>",
+      "<summary><strong>Full diff report</strong> 👇</summary>",
+      "<br />",
+      "",
+      diffHeader,
+      diffHeaderSeparator,
+      diffs
+        .flatMap((diff) =>
+          [
+            "",
+            `**${diff.name}**`,
+            formatMarkdownFullCell([diff.deploymentCost])[0],
+            diff.methods.map((method) => `_${method.name}_`).join("<br />"),
+            ...formatMarkdownFullCell(diff.methods.map((method) => method.min)),
+            ...formatMarkdownFullCell(diff.methods.map((method) => method.avg)),
+            ...formatMarkdownFullCell(diff.methods.map((method) => method.median)),
+            ...formatMarkdownFullCell(diff.methods.map((method) => method.max)),
+            formatMarkdownFullCell(diff.methods.map((method) => method.calls))[0],
+            "",
+          ]
+            .join(" | ")
+            .trim()
+        )
+        .join("\n"),
+      "</details>",
+      "",
+    ])
     .join("\n")
     .trim();
 };
