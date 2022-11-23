@@ -149,6 +149,17 @@ const MARKDOWN_DIFF_COLS = [
     { txt: "" },
 ];
 const formatMarkdownDiff = (header, diffs, repository, commitHash, refCommitHash, summaryQuantile = 0.8) => {
+    var _a, _b;
+    const diffReport = [
+        header,
+        "",
+        `> Generated at commit: [${commitHash}](/${repository}/commit/${commitHash})` +
+            (refCommitHash
+                ? `, compared to commit: [${refCommitHash}](/${repository}/commit/${refCommitHash})`
+                : ""),
+    ];
+    if (diffs.length === 0)
+        return diffReport.concat(["", "### There are no changes in gas cost"]).join("\n").trim();
     const summaryHeader = MARKDOWN_SUMMARY_COLS.map((entry) => entry.txt)
         .join(" | ")
         .trim();
@@ -162,14 +173,9 @@ const formatMarkdownDiff = (header, diffs, repository, commitHash, refCommitHash
         .join("|")
         .trim();
     const sortedMethods = (0, sortBy_1.default)(diffs.flatMap((diff) => diff.methods), "avg.prcnt");
-    const avgQuantile = Math.abs(sortedMethods[Math.floor((sortedMethods.length - 1) * summaryQuantile)].avg.prcnt);
-    return [
-        header,
-        "",
-        `> Generated at commit: [${commitHash}](/${repository}/commit/${commitHash})` +
-            (refCommitHash
-                ? `, compared to commit: [${refCommitHash}](/${repository}/commit/${refCommitHash})`
-                : ""),
+    const avgQuantile = Math.abs((_b = (_a = sortedMethods[Math.floor((sortedMethods.length - 1) * summaryQuantile)]) === null || _a === void 0 ? void 0 : _a.avg.prcnt) !== null && _b !== void 0 ? _b : 0);
+    return diffReport
+        .concat([
         "",
         `### 🧾 Summary (${Math.round((1 - summaryQuantile) * 100)}% most significant diffs)`,
         "",
@@ -219,7 +225,7 @@ const formatMarkdownDiff = (header, diffs, repository, commitHash, refCommitHash
             .join("\n"),
         "</details>",
         "",
-    ]
+    ])
         .join("\n")
         .trim();
 };
