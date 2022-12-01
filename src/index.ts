@@ -68,17 +68,21 @@ async function run() {
       core.startGroup(
         `Searching artifact "${baseReport}" on repository "${repository}", on branch "${baseBranch}"`
       );
-      // Note that the artifacts are returned in most recent first order.
+
+      // Artifacts are returned in most recent first order.
       for await (const res of octokit.paginate.iterator(octokit.rest.actions.listArtifactsForRepo, {
         owner,
         repo,
       })) {
-        await new Promise((resolve) => setTimeout(resolve, 200)); // avoid reaching GitHub API rate limit
-
         const artifact = res.data.find(
           (artifact) => !artifact.expired && artifact.name === baseReport
         );
-        if (!artifact) continue;
+
+        if (!artifact) {
+          await new Promise((resolve) => setTimeout(resolve, 800)); // avoid reaching the API rate limit
+
+          continue;
+        }
 
         artifactId = artifact.id;
         refCommitHash = artifact.workflow_run?.head_sha;

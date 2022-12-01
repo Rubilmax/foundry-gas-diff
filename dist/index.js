@@ -341,7 +341,7 @@ function run() {
             try {
                 core.startGroup(`Searching artifact "${baseReport}" on repository "${repository}", on branch "${baseBranch}"`);
                 try {
-                    // Note that the artifacts are returned in most recent first order.
+                    // Artifacts are returned in most recent first order.
                     for (var _e = true, _f = __asyncValues(octokit.paginate.iterator(octokit.rest.actions.listArtifactsForRepo, {
                         owner,
                         repo,
@@ -350,10 +350,11 @@ function run() {
                         _e = false;
                         try {
                             const res = _c;
-                            yield new Promise((resolve) => setTimeout(resolve, 200)); // avoid reaching GitHub API rate limit
                             const artifact = res.data.find((artifact) => !artifact.expired && artifact.name === baseReport);
-                            if (!artifact)
+                            if (!artifact) {
+                                yield new Promise((resolve) => setTimeout(resolve, 800)); // avoid reaching the API rate limit
                                 continue;
+                            }
                             artifactId = artifact.id;
                             refCommitHash = (_d = artifact.workflow_run) === null || _d === void 0 ? void 0 : _d.head_sha;
                             core.info(`Found artifact named "${baseReport}" with ID "${artifactId}" from commit "${refCommitHash}"`);
