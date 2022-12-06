@@ -48,7 +48,7 @@
     "@types/jest": "^28.1.6",
     "@types/lodash": "^4.14.191",
     "@types/minimatch": "^5.1.2",
-    "@types/node": "^18.11.10",
+    "@types/node": "^18.11.11",
     "@typescript-eslint/parser": "^5.44.0",
     "@vercel/ncc": "^0.34.0",
     "adm-zip": "^0.5.9",
