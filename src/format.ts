@@ -224,7 +224,7 @@ export const formatMarkdownDiff = (
             (method) =>
               method.min.current >= 500 &&
               Math.abs(method.avg.prcnt) >= avgQuantile &&
-              (method.min.delta > 0 || method.median.delta > 0 || method.max.delta > 0)
+              (method.min.delta !== 0 || method.median.delta !== 0 || method.max.delta !== 0)
           ),
         }))
         .filter((diff) => diff.methods.length > 0)

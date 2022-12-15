@@ -186,7 +186,7 @@ const formatMarkdownDiff = (header, diffs, repository, commitHash, refCommitHash
             var { methods } = _a, diff = __rest(_a, ["methods"]);
             return (Object.assign(Object.assign({}, diff), { methods: methods.filter((method) => method.min.current >= 500 &&
                     Math.abs(method.avg.prcnt) >= avgQuantile &&
-                    (method.min.delta > 0 || method.median.delta > 0 || method.max.delta > 0)) }));
+                    (method.min.delta !== 0 || method.median.delta !== 0 || method.max.delta !== 0)) }));
         })
             .filter((diff) => diff.methods.length > 0)
             .flatMap((diff) => [
