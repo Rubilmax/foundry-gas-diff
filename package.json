@@ -1,6 +1,6 @@
 {
   "name": "foundry-gas-diff",
-  "version": "3.11",
+  "version": "3.13",
   "description": "Github Action reporting gas diff from Foundry gas reports",
   "author": {
     "name": "Romain (Rubilmax) Milon",
