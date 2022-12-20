@@ -53,7 +53,7 @@
     "@vercel/ncc": "^0.36.0",
     "adm-zip": "^0.5.9",
     "colors": "^1.4.0",
-    "eslint": "^8.29.0",
+    "eslint": "^8.30.0",
     "eslint-plugin-github": "^4.6.0",
     "eslint-plugin-jest": "^27.1.7",
     "jest": "^28.1.3",
