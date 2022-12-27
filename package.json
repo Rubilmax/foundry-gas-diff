@@ -51,7 +51,7 @@
     "@types/node": "^18.11.17",
     "@typescript-eslint/parser": "^5.47.1",
     "@vercel/ncc": "^0.36.0",
-    "adm-zip": "^0.5.9",
+    "adm-zip": "^0.5.10",
     "colors": "^1.4.0",
     "eslint": "^8.30.0",
     "eslint-plugin-github": "^4.6.0",
