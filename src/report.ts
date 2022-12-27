@@ -43,14 +43,14 @@ export const loadReports = (
       .map((reportHeaderIndex) =>
         lines.slice(
           reportHeaderIndex,
-          reportHeaderIndex + lines.slice(reportHeaderIndex).findIndex((line) => line === "")
+          reportHeaderIndex + lines.slice(reportHeaderIndex).findIndex((line) => line.trim() === "")
         )
       )
       .map((reportLines) => {
         const [filePath, name] = reportLines[0].split("|")[1].trim().split(":");
 
         return {
-          name,
+          name: name.replace(" contract", ""),
           filePath,
           reportLines: reportLines.slice(3),
         };
