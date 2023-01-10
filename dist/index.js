@@ -352,7 +352,7 @@ function run() {
                             const res = _c;
                             const artifact = res.data.find((artifact) => !artifact.expired && artifact.name === baseReport);
                             if (!artifact) {
-                                yield new Promise((resolve) => setTimeout(resolve, 800)); // avoid reaching the API rate limit
+                                yield new Promise((resolve) => setTimeout(resolve, 900)); // avoid reaching the API rate limit
                                 continue;
                             }
                             artifactId = artifact.id;
@@ -1352,6 +1352,13 @@ class DownloadHttpClient {
             };
             const resetDestinationStream = (fileDownloadPath) => __awaiter(this, void 0, void 0, function* () {
                 destinationStream.close();
+                // await until file is created at downloadpath; node15 and up fs.createWriteStream had not created a file yet
+                yield new Promise(resolve => {
+                    destinationStream.on('close', resolve);
+                    if (destinationStream.writableFinished) {
+                        resolve();
+                    }
+                });
                 yield utils_1.rmFile(fileDownloadPath);
                 destinationStream = fs.createWriteStream(fileDownloadPath);
             });
