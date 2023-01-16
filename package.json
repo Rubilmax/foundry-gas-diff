@@ -49,7 +49,7 @@
     "@types/lodash": "^4.14.191",
     "@types/minimatch": "^5.1.2",
     "@types/node": "^18.11.18",
-    "@typescript-eslint/parser": "^5.48.0",
+    "@typescript-eslint/parser": "^5.48.1",
     "@vercel/ncc": "^0.36.0",
     "adm-zip": "^0.5.10",
     "colors": "^1.4.0",
