@@ -19651,7 +19651,7 @@ class Minimatch {
     if (pattern === '') return ''
 
     let re = ''
-    let hasMagic = !!options.nocase
+    let hasMagic = false
     let escaping = false
     // ? => one single character
     const patternListStack = []
@@ -19953,7 +19953,8 @@ class Minimatch {
       }
       nlAfter = cleanAfter
 
-      const dollar = nlAfter === '' && isSub !== SUBPARSE ? '$' : ''
+      const dollar = nlAfter === '' && isSub !== SUBPARSE ? '(?:$|\\/)' : ''
+
       re = nlBefore + nlFirst + nlAfter + dollar + nlLast
     }
 
@@ -19971,6 +19972,11 @@ class Minimatch {
     // parsing just a piece of a larger pattern.
     if (isSub === SUBPARSE) {
       return [re, hasMagic]
+    }
+
+    // if it's nocase, and the lcase/uppercase don't match, it's magic
+    if (options.nocase && !hasMagic) {
+      hasMagic = pattern.toUpperCase() !== pattern.toLowerCase()
     }
 
     // skip the regexp for non-magical patterns
