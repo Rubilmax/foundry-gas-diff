@@ -51,7 +51,7 @@
     "@types/minimatch": "^5.1.2",
     "@types/node": "^18.11.18",
     "@typescript-eslint/parser": "^5.49.0",
-    "@vercel/ncc": "^0.36.0",
+    "@vercel/ncc": "^0.36.1",
     "adm-zip": "^0.5.10",
     "colors": "^1.4.0",
     "eslint": "^8.33.0",
