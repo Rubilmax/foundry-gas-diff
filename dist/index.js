@@ -172,7 +172,7 @@ const formatMarkdownDiff = (header, diffs, repository, commitHash, refCommitHash
     const diffHeaderSeparator = MARKDOWN_DIFF_COLS.map((entry) => entry.txt ? alignPattern(entry.align) : "")
         .join("|")
         .trim();
-    const sortedMethods = (0, sortBy_1.default)(diffs.flatMap((diff) => diff.methods), "avg.prcnt");
+    const sortedMethods = (0, sortBy_1.default)(diffs.flatMap((diff) => diff.methods), (method) => Math.abs(method.avg.prcnt));
     const avgQuantile = Math.abs((_b = (_a = sortedMethods[Math.floor((sortedMethods.length - 1) * summaryQuantile)]) === null || _a === void 0 ? void 0 : _a.avg.prcnt) !== null && _b !== void 0 ? _b : 0);
     return diffReport
         .concat([

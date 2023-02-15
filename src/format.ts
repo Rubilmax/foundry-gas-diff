@@ -204,7 +204,7 @@ export const formatMarkdownDiff = (
 
   const sortedMethods = _sortBy(
     diffs.flatMap((diff) => diff.methods),
-    "avg.prcnt"
+    (method) => Math.abs(method.avg.prcnt)
   );
   const avgQuantile = Math.abs(
     sortedMethods[Math.floor((sortedMethods.length - 1) * summaryQuantile)]?.avg.prcnt ?? 0
