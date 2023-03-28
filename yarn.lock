@@ -3218,10 +3218,10 @@ mimic-fn@^2.1.0:
   resolved "https://registry.yarnpkg.com/mimic-fn/-/mimic-fn-2.1.0.tgz#7ed2c2ccccaf84d3ffcb7a69b57711fc2083401b"
   integrity sha512-OqbOk5oEQeAZ8WXWydlu9HJjz9WVdEIvamMCcXmuqUYjTknH/sqsWvhQ3vgwKFRR1HpjvNBKQ37nbJgYzGqGcg==
 
-minimatch@7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-7.0.0.tgz#20a8df098715e228c918b2bd81f34d9543767a75"
-  integrity sha512-Wog4y1P2q/0sF+0vw+6dWgqVmo/XPJg+2OtVmR6IVvNGDhcfAPjFacjZCUlGCoU/tbzH6EOeSt2P3llRAqRNiA==
+minimatch@7.4.3:
+  version "7.4.3"
+  resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-7.4.3.tgz#012cbf110a65134bb354ae9773b55256cdb045a2"
+  integrity sha512-5UB4yYusDtkRPbRiy1cqZ1IpGNcJCGlEMG17RKzPddpyiPKoCdwohbED8g4QXT0ewCt8LTkQXuljsUfQ3FKM4A==
   dependencies:
     brace-expansion "^2.0.1"
 
