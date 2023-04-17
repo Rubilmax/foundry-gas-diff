@@ -441,7 +441,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.computeDiffs = exports.loadReports = exports.variation = void 0;
 const orderBy_1 = __importDefault(__nccwpck_require__(4791));
-const minimatch_1 = __nccwpck_require__(2002);
+const minimatch_1 = __nccwpck_require__(1953);
 const reportHeaderRegex = /^\| .+:.+ contract \|/;
 const variation = (current, previous) => {
     const delta = current - previous;
@@ -26376,20 +26376,6 @@ exports.escape = escape;
 
 /***/ }),
 
-/***/ 2002:
-/***/ (function(module, __unused_webpack_exports, __nccwpck_require__) {
-
-"use strict";
-
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-const index_js_1 = __importDefault(__nccwpck_require__(1953));
-module.exports = Object.assign(index_js_1.default, { default: index_js_1.default, minimatch: index_js_1.default });
-//# sourceMappingURL=index-cjs.js.map
-
-/***/ }),
-
 /***/ 1953:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
@@ -26414,7 +26400,6 @@ const minimatch = (p, pattern, options = {}) => {
     return new Minimatch(pattern, options).match(p);
 };
 exports.minimatch = minimatch;
-exports["default"] = exports.minimatch;
 // Optimized checking for the most common glob patterns.
 const starDotExtRE = /^\*+([^+@!?\*\[\(]*)$/;
 const starDotExtTest = (ext) => (f) => !f.startsWith('.') && f.endsWith(ext);
