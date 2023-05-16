@@ -142,7 +142,7 @@ async function run() {
       summaryQuantile
     );
     core.info(`Format shell of ${diffRows.length} diffs`);
-    const shell = formatShellDiff(diffRows);
+    const shell = formatShellDiff(diffRows, summaryQuantile);
     core.endGroup();
 
     console.log(shell);
