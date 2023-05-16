@@ -39,55 +39,100 @@ const formatShellCell = (cell, length = 10) => {
             format(("(" + (plusSign(cell.delta) + cell.delta.toLocaleString()) + ")").padEnd(length)),
         colors_1.default.bold(format((plusSign(cell.prcnt) +
             (cell.prcnt === Infinity ? "∞" : cell.prcnt.toFixed(2)) +
-            "%").padStart(8))),
+            "%").padStart(9))),
     ];
 };
 exports.formatShellCell = formatShellCell;
-const formatShellDiff = (diffs) => {
+const formatShellDiff = (diffs, summaryQuantile = 0.8) => {
+    var _a, _b;
     const maxContractLength = Math.max(8, ...diffs.map(({ name }) => name.length));
     const maxMethodLength = Math.max(7, ...diffs.flatMap(({ methods }) => methods.map(({ name }) => name.length)));
-    const COLS = [
+    const SHELL_SUMMARY_COLS = [
         { txt: "", length: 0 },
         { txt: "Contract", length: maxContractLength },
-        { txt: "Deployment Cost (+/-)", length: 32 },
         { txt: "Method", length: maxMethodLength },
-        { txt: "Min (+/-)", length: 32 },
-        { txt: "Avg (+/-)", length: 32 },
-        { txt: "Median (+/-)", length: 32 },
-        { txt: "Max (+/-)", length: 32 },
+        { txt: "Avg (+/-)", length: 33 },
+        { txt: "", length: 0 },
+    ];
+    const SHELL_DIFF_COLS = [
+        { txt: "", length: 0 },
+        { txt: "Contract", length: maxContractLength },
+        { txt: "Deployment Cost (+/-)", length: 33 },
+        { txt: "Method", length: maxMethodLength },
+        { txt: "Min (+/-)", length: 33 },
+        { txt: "Avg (+/-)", length: 33 },
+        { txt: "Median (+/-)", length: 33 },
+        { txt: "Max (+/-)", length: 33 },
         { txt: "# Calls (+/-)", length: 13 },
         { txt: "", length: 0 },
     ];
-    const header = COLS.map((entry) => colors_1.default.bold(center(entry.txt, entry.length || 0)))
+    const summaryHeader = SHELL_SUMMARY_COLS.map((entry) => colors_1.default.bold(center(entry.txt, entry.length || 0)))
         .join(" | ")
         .trim();
-    const contractSeparator = COLS.map(({ length }) => (length > 0 ? "-".repeat(length + 2) : ""))
+    const summarySeparator = SHELL_SUMMARY_COLS.map(({ length }) => length > 0 ? "-".repeat(length + 2) : "")
         .join("|")
         .trim();
-    return [
-        "",
-        header,
-        ...diffs.map((diff) => diff.methods
-            .map((method, methodIndex) => [
+    const diffHeader = SHELL_DIFF_COLS.map((entry) => colors_1.default.bold(center(entry.txt, entry.length || 0)))
+        .join(" | ")
+        .trim();
+    const diffSeparator = SHELL_DIFF_COLS.map(({ length }) => length > 0 ? "-".repeat(length + 2) : "")
+        .join("|")
+        .trim();
+    const sortedMethods = (0, sortBy_1.default)(diffs.flatMap((diff) => diff.methods), (method) => Math.abs(method.avg.prcnt));
+    const avgQuantile = Math.abs((_b = (_a = sortedMethods[Math.floor((sortedMethods.length - 1) * summaryQuantile)]) === null || _a === void 0 ? void 0 : _a.avg.prcnt) !== null && _b !== void 0 ? _b : 0);
+    return (colors_1.default.underline(colors_1.default.bold(colors_1.default.yellow(`🧾 Summary (${Math.round((1 - summaryQuantile) * 100)}% most significant diffs)\n\n`))) +
+        [
             "",
-            colors_1.default.bold(colors_1.default.grey((methodIndex === 0 ? diff.name : "").padEnd(maxContractLength))),
-            ...(methodIndex === 0 ? (0, exports.formatShellCell)(diff.deploymentCost) : ["".padEnd(32)]),
-            colors_1.default.italic(method.name.padEnd(maxMethodLength)),
-            ...(0, exports.formatShellCell)(method.min),
-            ...(0, exports.formatShellCell)(method.avg),
-            ...(0, exports.formatShellCell)(method.median),
-            ...(0, exports.formatShellCell)(method.max),
-            (0, exports.formatShellCell)(method.calls, 6)[0],
+            summaryHeader,
+            ...diffs
+                .map((_a) => {
+                var { methods } = _a, diff = __rest(_a, ["methods"]);
+                return (Object.assign(Object.assign({}, diff), { methods: methods.filter((method) => method.min.current >= 500 &&
+                        Math.abs(method.avg.prcnt) >= avgQuantile &&
+                        (method.min.delta !== 0 || method.median.delta !== 0 || method.max.delta !== 0)) }));
+            })
+                .filter((diff) => diff.methods.length > 0)
+                .flatMap((diff) => diff.methods
+                .map((method, methodIndex) => [
+                "",
+                colors_1.default.bold(colors_1.default.grey((methodIndex === 0 ? diff.name : "").padEnd(maxContractLength))),
+                colors_1.default.italic(method.name.padEnd(maxMethodLength)),
+                ...(0, exports.formatShellCell)(method.avg),
+                "",
+            ]
+                .join(" | ")
+                .trim())
+                .join("\n")
+                .trim()),
             "",
         ]
-            .join(" | ")
-            .trim())
-            .join("\n")
-            .trim()),
-        "",
-    ]
-        .join(`\n${contractSeparator}\n`)
-        .trim();
+            .join(`\n${summarySeparator}\n`)
+            .trim() +
+        colors_1.default.underline(colors_1.default.bold(colors_1.default.yellow("\n\nFull diff report 👇\n\n"))) +
+        [
+            "",
+            diffHeader,
+            ...diffs.map((diff) => diff.methods
+                .map((method, methodIndex) => [
+                "",
+                colors_1.default.bold(colors_1.default.grey((methodIndex === 0 ? diff.name : "").padEnd(maxContractLength))),
+                ...(methodIndex === 0 ? (0, exports.formatShellCell)(diff.deploymentCost) : ["".padEnd(33)]),
+                colors_1.default.italic(method.name.padEnd(maxMethodLength)),
+                ...(0, exports.formatShellCell)(method.min),
+                ...(0, exports.formatShellCell)(method.avg),
+                ...(0, exports.formatShellCell)(method.median),
+                ...(0, exports.formatShellCell)(method.max),
+                (0, exports.formatShellCell)(method.calls, 6)[0],
+                "",
+            ]
+                .join(" | ")
+                .trim())
+                .join("\n")
+                .trim()),
+            "",
+        ]
+            .join(`\n${diffSeparator}\n`)
+            .trim());
 };
 exports.formatShellDiff = formatShellDiff;
 const plusSign = (num) => (num > 0 ? "+" : "");
@@ -412,7 +457,7 @@ function run() {
             core.info(`Format markdown of ${diffRows.length} diffs`);
             const markdown = (0, format_1.formatMarkdownDiff)(header, diffRows, repository, github_1.context.sha, refCommitHash, summaryQuantile);
             core.info(`Format shell of ${diffRows.length} diffs`);
-            const shell = (0, format_1.formatShellDiff)(diffRows);
+            const shell = (0, format_1.formatShellDiff)(diffRows, summaryQuantile);
             core.endGroup();
             console.log(shell);
             if (diffRows.length > 0) {
