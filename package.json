@@ -13,7 +13,7 @@
     "build": "tsc --build tsconfig.build.json",
     "format": "prettier --write '**/*.ts'",
     "format:check": "prettier --check '**/*.ts'",
-    "package": "ncc build --source-map --license licenses.txt",
+    "package": "ncc build --source-map --license licenses.txt --external encoding",
     "release": "yarn build && yarn package",
     "test": "jest"
   },
