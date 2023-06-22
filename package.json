@@ -10,7 +10,7 @@
   "license": "UNLICENSED",
   "main": "lib/index.js",
   "scripts": {
-    "build": "tsc --build tsconfig.build.json",
+    "build": "rm -rf lib && tsc --build tsconfig.build.json",
     "format": "prettier --write '**/*.ts'",
     "format:check": "prettier --check '**/*.ts'",
     "package": "ncc build --source-map --license licenses.txt",

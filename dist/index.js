@@ -29,7 +29,7 @@ var TextAlign;
     TextAlign["LEFT"] = "left";
     TextAlign["RIGHT"] = "right";
     TextAlign["CENTER"] = "center";
-})(TextAlign = exports.TextAlign || (exports.TextAlign = {}));
+})(TextAlign || (exports.TextAlign = TextAlign = {}));
 const center = (text, length) => text.padStart((text.length + length) / 2).padEnd(length);
 const formatShellCell = (cell, length = 10) => {
     const format = colors_1.default[cell.delta > 0 ? "red" : cell.delta < 0 ? "green" : "reset"];
@@ -390,24 +390,19 @@ function run() {
                     for (var _e = true, _f = __asyncValues(octokit.paginate.iterator(octokit.rest.actions.listArtifactsForRepo, {
                         owner,
                         repo,
-                    })), _g; _g = yield _f.next(), _a = _g.done, !_a;) {
+                    })), _g; _g = yield _f.next(), _a = _g.done, !_a; _e = true) {
                         _c = _g.value;
                         _e = false;
-                        try {
-                            const res = _c;
-                            const artifact = res.data.find((artifact) => !artifact.expired && artifact.name === baseReport);
-                            if (!artifact) {
-                                yield new Promise((resolve) => setTimeout(resolve, 900)); // avoid reaching the API rate limit
-                                continue;
-                            }
-                            artifactId = artifact.id;
-                            refCommitHash = (_d = artifact.workflow_run) === null || _d === void 0 ? void 0 : _d.head_sha;
-                            core.info(`Found artifact named "${baseReport}" with ID "${artifactId}" from commit "${refCommitHash}"`);
-                            break;
+                        const res = _c;
+                        const artifact = res.data.find((artifact) => !artifact.expired && artifact.name === baseReport);
+                        if (!artifact) {
+                            yield new Promise((resolve) => setTimeout(resolve, 900)); // avoid reaching the API rate limit
+                            continue;
                         }
-                        finally {
-                            _e = true;
-                        }
+                        artifactId = artifact.id;
+                        refCommitHash = (_d = artifact.workflow_run) === null || _d === void 0 ? void 0 : _d.head_sha;
+                        core.info(`Found artifact named "${baseReport}" with ID "${artifactId}" from commit "${refCommitHash}"`);
+                        break;
                     }
                 }
                 catch (e_1_1) { e_1 = { error: e_1_1 }; }
