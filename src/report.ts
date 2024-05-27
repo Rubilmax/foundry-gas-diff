@@ -3,7 +3,7 @@ import { Minimatch } from "minimatch";
 
 import { DiffReport, GasReport, SortCriterion, SortOrder } from "./types";
 
-const reportHeaderRegex = /^\| .+:.+ contract \|/;
+const reportHeaderRegex = /^\| .+:.+ contract +\|/;
 
 export const variation = (current: number, previous: number) => {
   const delta = current - previous;
