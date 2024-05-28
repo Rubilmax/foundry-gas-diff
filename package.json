@@ -8,12 +8,12 @@
     "url": "https://github.com/rubilmax"
   },
   "license": "MIT",
-  "main": "dist/index.js",
+  "main": "lib/index.js",
   "scripts": {
     "build": "rm -rf lib && tsc --build tsconfig.build.json",
     "format": "prettier --write '**/*.ts'",
     "format:check": "prettier --check '**/*.ts'",
-    "package": "ncc build --source-map --license licenses.txt",
+    "package": " rm -rf dist && ncc build --source-map --no-cache --license licenses.txt",
     "release": "yarn build && yarn package",
     "test": "jest"
   },
