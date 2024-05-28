@@ -33,7 +33,7 @@ jobs:
   compare_gas_reports:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
 
@@ -51,7 +51,7 @@ jobs:
           FOUNDRY_FUZZ_SEED: 0x${{ github.event.pull_request.base.sha || github.sha }}
 
       - name: Compare gas reports
-        uses: Rubilmax/foundry-gas-diff@v3.16
+        uses: Rubilmax/foundry-gas-diff@v3.17
         with:
           summaryQuantile: 0.9 # only display the 10% most significant gas diffs in the summary (defaults to 20%)
           sortCriteria: avg,max # sort diff rows by criteria
@@ -71,8 +71,6 @@ jobs:
 > :information_source: **An error will appear at first run!**<br/>
 > 🔴 <em>**Error:** No workflow run found with an artifact named "main.gasreport.ansi"</em><br/>
 > As the action is expecting a comparative file stored on the base branch and cannot find it (because the action never ran on the target branch and thus has never uploaded any gas report)
-
-### ⚠️ v3.9+ is no longer working with the latest release of Foundry. Please use v3.10+ if a message displays "Is this a Foundry gas report?"
 
 ---
 

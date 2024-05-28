@@ -2,7 +2,7 @@ import Zip from "adm-zip";
 import * as fs from "fs";
 import { dirname, resolve } from "path";
 
-import * as artifact from "@actions/artifact";
+import artifactClient from "@actions/artifact";
 import * as core from "@actions/core";
 import { context, getOctokit } from "@actions/github";
 
@@ -25,7 +25,6 @@ const baseBranchEscaped = baseBranch.replace(/[/\\]/g, "-");
 const baseReport = `${baseBranchEscaped}.${report}`;
 
 const octokit = getOctokit(token);
-const artifactClient = artifact.create();
 const localReportPath = resolve(report);
 
 const { owner, repo } = context.repo;
@@ -46,15 +45,10 @@ async function run() {
     const uploadResponse = await artifactClient.uploadArtifact(
       outReport,
       [localReportPath],
-      dirname(localReportPath),
-      {
-        continueOnError: false,
-      }
+      dirname(localReportPath)
     );
 
-    if (uploadResponse.failedItems.length > 0) throw Error("Failed to upload gas report.");
-
-    core.info(`Artifact ${uploadResponse.artifactName} has been successfully uploaded!`);
+    core.info(`Artifact has been successfully uploaded with id: "${uploadResponse.id}"`);
   } catch (error: any) {
     return core.setFailed(error.message);
   }
