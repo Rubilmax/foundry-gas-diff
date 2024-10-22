@@ -53,5 +53,5 @@ outputs:
     description: The gas diff between the base gas report and the freshly generated gas report, specifically formatted for markdown display
 
 runs:
-  using: node16
+  using: node22
   main: dist/index.js
