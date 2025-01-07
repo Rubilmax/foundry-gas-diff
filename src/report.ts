@@ -3,7 +3,8 @@ import { Minimatch } from "minimatch";
 
 import { DiffReport, GasReport, SortCriterion, SortOrder } from "./types";
 
-const reportHeaderRegex = /^\| .+:.+ contract +\|/;
+const reportHeaderRegex = /^\| .+:.+ contract +\|/gi;
+const reportSeparatorRegex = /^[\|╭╰]---/;
 
 export const variation = (current: number, previous: number) => {
   const delta = current - previous;
@@ -47,12 +48,13 @@ export const loadReports = (
         )
       )
       .map((reportLines) => {
-        const [filePath, name] = reportLines[0].split("|")[1].trim().split(":");
+        const filteredReportLines = reportLines.filter((line) => !reportSeparatorRegex.test(line));
+        const [filePath, name] = filteredReportLines[0].split("|")[1].trim().split(":");
 
         return {
-          name: name.replace(" contract", ""),
+          name: name.replace(/ contract/gi, ""),
           filePath,
-          reportLines: reportLines.slice(3),
+          reportLines: filteredReportLines.slice(2),
         };
       })
       .filter(

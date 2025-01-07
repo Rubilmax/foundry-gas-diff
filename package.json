@@ -33,11 +33,11 @@
     "hardhat"
   ],
   "dependencies": {
-    "@actions/artifact": "^2.1.11",
+    "@actions/artifact": "^2.2.0",
     "@actions/core": "^1.11.1",
     "@actions/exec": "^1.1.1",
     "@actions/github": "^5.1.1",
-    "@octokit/core": "^6.1.2",
+    "@octokit/core": "^6.1.3",
     "adm-zip": "^0.5.16",
     "lodash": "^4.17.21",
     "minimatch": "^10.0.1"
