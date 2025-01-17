@@ -4,7 +4,7 @@ import { Minimatch } from "minimatch";
 import { DiffReport, GasReport, SortCriterion, SortOrder } from "./types";
 
 const reportHeaderRegex = /^\| .+:.+ contract +\|/gi;
-const reportSeparatorRegex = /^[\|╭╰]---/;
+const reportSeparatorRegex = /^(?:[\|╭╰+][-=]+|\|[\s|]+$)/;
 
 export const variation = (current: number, previous: number) => {
   const delta = current - previous;
