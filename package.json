@@ -9,6 +9,7 @@
   },
   "license": "MIT",
   "main": "lib/index.js",
+  "packageManager": "yarn@1.22.22",
   "scripts": {
     "build": "rm -rf lib && tsc --build tsconfig.build.json",
     "format": "prettier --write '**/*.ts'",
